@@ -38,6 +38,25 @@ Empty values are never rendered: buttons, lines and schema properties simply dis
 
 Other business facts (years in business, licenses, insurance, team) have `TODO(business)` comments in `src/content/pages/about.mdx`. Add them only once verified.
 
+## Where form leads go and what they contain
+
+Both forms (the quick form under every H1 and the full form on `/contact/`) POST to **`formEndpoint`** in `src/config/site.ts` as `multipart/form-data`. While it is empty, nothing is sent: the form validates and tells the visitor online requests are not connected yet. Set it to a Formspree/Basin/Make/Zapier webhook or your own serverless function, and every lead is delivered there (and from there to email, a Google Sheet or a CRM).
+
+Each lead contains:
+
+| Field | Meaning |
+|---|---|
+| `name`, `phone`, `service`, `zip` | What the visitor typed (the contact page form also sends `email` and `message`) |
+| `contact_method` | `Phone call` or `WhatsApp`: how the visitor wants to be contacted |
+| `form_name` | `quick-form` (top of a page) or `contact-page` |
+| `page_path`, `page_url`, `page_title` | The page the form was submitted on |
+| `landing_page` | First page of the visit, including its query string |
+| `referrer` | The external site that sent the visitor (empty = direct / typed / app) |
+| `utm_source`, `utm_medium`, `utm_campaign`, `utm_term`, `utm_content`, `gclid`, `fbclid` | Campaign and ad click tags from the landing URL, kept for the whole visit |
+| `submitted_at` | Browser timestamp (ISO 8601) |
+
+To see which pages produce leads, sort or filter your lead inbox/sheet by `page_path` and `landing_page`; to see which ads produce leads, use the `utm_*` and `gclid` fields. Tracking logic lives in `src/components/FormScript.astro`; the hidden fields are in `src/components/LeadFields.astro`.
+
 ## Project structure
 
 ```

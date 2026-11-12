@@ -1,0 +1,21 @@
+---
+/**
+ * Hidden lead-source fields, sent with every form submission so each lead shows
+ * where it came from. Server-rendered values are filled in at build time; the rest
+ * are filled in the browser by FormScript.astro:
+ *   form_name     which form was used (quick-form, contact-page)
+ *   page_url      full URL of the page the form was submitted on
+ *   page_title    <title> of that page
+ *   landing_page  first page of the visit (stored for the session)
+ *   referrer      the site that sent the visitor (Google, Facebook, another site, or empty = direct)
+ *   utm_source / utm_medium / utm_campaign / utm_term / utm_content, gclid, fbclid
+ *                 ad and campaign tags, kept from the landing page for the whole visit
+ *   submitted_at  browser time of submission (ISO 8601)
+ */
+interface Props { form: string }
+const { form } = Astro.props;
+const names = ['page_url', 'page_title', 'landing_page', 'referrer', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid', 'submitted_at'];
+---
+<input type="hidden" name="form_name" value={form} />
+<input type="hidden" name="page_path" value={Astro.url.pathname} />
+{names.map((n) => <input type="hidden" name={n} value="" data-lead={n} />)}

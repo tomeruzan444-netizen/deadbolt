@@ -1,11 +1,35 @@
 ---
-/** Shared validation + submit handler for every [data-form] (QuickForm, ContactForm). Loaded once per page. */
+/**
+ * Shared validation, lead-source tracking and submit handler for every [data-form]
+ * (QuickForm, ContactForm). Loaded once per page.
+ *
+ * Lead source: on the first page of a visit we store the landing page, the external
+ * referrer and any utm_* / gclid / fbclid parameters in sessionStorage, so a lead
+ * submitted three pages later still says where the visit started.
+ */
 ---
 <script is:inline>
   (() => {
+    const KEY = 'df_attribution';
+    const TAGS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid'];
+    let attr = null;
+    try { attr = JSON.parse(sessionStorage.getItem(KEY) || 'null'); } catch (e) { attr = null; }
+    const params = new URLSearchParams(location.search);
+    const hasTags = TAGS.some((t) => params.get(t));
+    if (!attr || hasTags) {
+      const ref = document.referrer && new URL(document.referrer).host !== location.host ? document.referrer : (attr && attr.referrer) || '';
+      attr = { landing_page: hasTags || !attr ? location.href : attr.landing_page, referrer: ref };
+      TAGS.forEach((t) => { attr[t] = params.get(t) || ''; });
+      try { sessionStorage.setItem(KEY, JSON.stringify(attr)); } catch (e) { /* storage blocked: still sent from this page */ }
+    }
+
     document.querySelectorAll('form[data-form]').forEach((form) => {
       const status = form.querySelector('[data-status]');
       const fields = [...form.querySelectorAll('[required]')];
+      const fillLead = () => {
+        const values = Object.assign({}, attr, { page_url: location.href, page_title: document.title, submitted_at: new Date().toISOString() });
+        form.querySelectorAll('[data-lead]').forEach((el) => { el.value = values[el.dataset.lead] || ''; });
+      };
       const show = (kind, msg) => { status.hidden = false; status.className = 'status ' + kind; status.textContent = msg; status.focus(); };
       const check = (el) => {
         let ok = el.checkValidity();
@@ -22,6 +46,7 @@
         fields.forEach((el) => { if (!check(el) && !firstBad) firstBad = el; });
         if (firstBad) { firstBad.focus(); show('error', 'Please fix the highlighted fields and try again.'); return; }
         if (form.elements.company && form.elements.company.value) return;
+        fillLead();
         const endpoint = form.dataset.endpoint;
         if (!endpoint) {
           show('info', 'Thanks. Online requests are not connected yet, so this message was not sent. Please check back soon or use the contact details on this site if they are listed.');
@@ -32,8 +57,11 @@
         try {
           const res = await fetch(endpoint, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
           if (!res.ok) throw new Error(String(res.status));
+          const via = new FormData(form).get('contact_method');
           form.reset();
-          show('success', 'Thank you. Your request was sent. We will reply as soon as we can.');
+          show('success', via === 'WhatsApp'
+            ? 'Thank you. Your request was sent. We will message you on WhatsApp as soon as we can.'
+            : 'Thank you. Your request was sent. We will call you back as soon as we can.');
         } catch (err) {
           show('error', 'Sorry, something went wrong and your request was not sent. Please try again in a moment.');
         } finally { btn.disabled = false; }
