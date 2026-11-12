@@ -252,9 +252,31 @@ Rules:
 
 ### Color register (fill in as pages are written)
 
-| Page | Angle | Opening | Ending |
-|---|---|---|---|
-| _(added during Phase 5)_ | | | |
+| Page | Angle / opening / ending |
+|---|---|
+| Deadbolt Grades | myth-busting: two rating scales on one box, corrected against BHMA's own summaries; opens with a quick answer plus the common Grade 1/2/3 misconception, ends with an in-store verification habit |
+| Deadbolt Installation Cost | insider breakdown: how a quote is assembled line by line; opens on a misconception (the box price), ends with a field tip on what to send for an accurate quote |
+| Deadbolt Won't Lock | problem-solution DIY diagnosis: opens with a direct instruction (the door-open test), works through a numbered check sequence and symptom table, ends with a field tip on noting when the problem happens |
+| Single vs Double Cylinder Deadbolt | decision guide: opens on the misconception that more keyholes means more security, compares attack paths, gives household-by-household verdicts, ends with a two-question decision rule |
+| Types of Deadbolts | field identification: sort every deadbolt by three questions (cylinders, mounting, operation), then a side-by-side table; opens with a quick answer plus the three-question framework, ends with a how-to-identify-yours field tip |
+| About | manifesto: why narrow focus makes better locksmiths |
+| Contact | practical: what to send so the first visit fixes it |
+| Deadbolt Guides | reading path: which guide to read first for your situation |
+| Home | brand manifesto + orientation: why one lock deserves a specialist |
+| Service Areas | how nationwide coverage works in practice, and what changes by state |
+| Services | decision guide: match the symptom to the service |
+| Broken Key in Deadbolt | mistakes to avoid, built around the first five minutes; opening: direct instruction; ending: field tip on retiring worn keys |
+| Commercial Deadbolt Locks | spec-sheet walk-through: opens with a direct instruction (start with the door, not the lock), follows the order we spec a commercial door, ends with a what-to-photograph-before-you-call tip |
+| Deadbolt Lock Installation | measure-first step-by-step: the door's numbers decide the lock; opening with the buy-before-measuring mistake; ending with a two-minute door check |
+| Deadbolt Lock Repair | insider symptom-by-symptom diagnosis; opening: surprising specific (the lock is often not the problem); ending: field tip on what to record before calling |
+| Deadbolt Lockout Service | problem-solution in the order a lockout unfolds; opening: direct instruction; ending: decision rule for after you're back inside |
+| Deadbolt Rekeying | insider: what physically changes inside the cylinder, then a clear rekey-or-replace decision |
+| Deadbolt Replacement | compatibility-first decision guide: what must match for a drop-in swap; opening with the 'any deadbolt fits' misconception; ending with a keep-rekey-replace rule |
+| Strike Plate Reinforcement | myth-busting problem-solution: the lock rarely breaks, the jamb does; opening with the 'buy a stronger lock' misconception; ending with a pull-one-screw check |
+| Double Cylinder Deadbolt Installation | problem-solution, code-first: opens on the sidelight-next-to-the-lock field scenario, walks through our pre-install code check, ends with a lights-off key drill |
+| High Security Deadbolt | myth-busting: opens on the 'heavy and expensive means high security' misconception, breaks a lock into three layers (hardware, cylinder, key), ends with a look-it-up-before-you-buy field tip |
+| Keyed Alike Deadbolts | decision guide: audit the locks, check keyways, pick the route, then keyed alike vs master keyed for landlords; opening: common misconception (any lock can match any key); ending: practical next step (photograph every cylinder face) |
+| Smart Deadbolt Installation | insider: the door decides whether a smart lock works, then a radio comparison; opening with Schlage's 'Lock Jammed' log; ending with the one-finger thumb turn test |
 
 ## 11. Pre-publish checklist
 
