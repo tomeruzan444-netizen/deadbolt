@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import MobileCtaBar from '../components/MobileCtaBar.astro';
+import FormScript from '../components/FormScript.astro';
 import { site, absUrl } from '../config/site';
 import { graph, siteWideNodes } from '../lib/schema';
 
@@ -34,7 +35,7 @@ const jsonld = graph([...siteWideNodes(), ...schema]);
     {robotsNoindex && <meta name="robots" content="noindex, follow" />}
     <script is:inline>document.documentElement.classList.add('js')</script>
     <link rel="preload" href="/fonts/archivo-display.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/sourceserif-var.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/assistant-var.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -68,6 +69,7 @@ const jsonld = graph([...siteWideNodes(), ...schema]);
     </main>
     <Footer />
     <MobileCtaBar />
+    <FormScript />
     <script is:inline>
       (() => {
         const header = document.querySelector('[data-header]');

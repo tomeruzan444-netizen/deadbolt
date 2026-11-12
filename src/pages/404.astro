@@ -2,10 +2,12 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ServiceGrid from '../components/ServiceGrid.astro';
 import GuideGrid from '../components/GuideGrid.astro';
+import QuickForm from '../components/QuickForm.astro';
 ---
 <BaseLayout title="Page Not Found | Deadbolt Fixers" description="The page you were looking for is not here. Find deadbolt installation, repair, lockout and rekeying services or our deadbolt guides instead." noindex>
   <section class="nf on-dark blueprint">
-    <div class="container">
+    <div class="container nf-grid">
+      <div>
       <p class="label code">Error 404 · Bolt not engaged</p>
       <h1>This page is not on our key ring</h1>
       <p class="lead-404">The link may be old or mistyped. Every deadbolt service and guide we publish is listed below, so the page you need is probably one click away.</p>
@@ -13,6 +15,8 @@ import GuideGrid from '../components/GuideGrid.astro';
         <a class="btn btn-primary" href="/">Go to the home page</a>
         <a class="btn btn-ghost" href="/contact/">Contact us</a>
       </div>
+      </div>
+      <QuickForm heading="Tell us what you need" />
     </div>
   </section>
   <div class="container nf-body">
@@ -23,7 +27,9 @@ import GuideGrid from '../components/GuideGrid.astro';
   </div>
 </BaseLayout>
 <style>
-  .nf { padding-block: 72px; }
+  .nf { padding-block: 56px; }
+  .nf-grid { display: grid; gap: 32px; align-items: start; }
+  @media (min-width: 1024px) { .nf-grid { grid-template-columns: minmax(0, 1fr) 420px; gap: 56px; } }
   .code { color: var(--brass); }
   h1 { margin-top: 12px; max-width: 18ch; }
   .lead-404 { margin-top: 16px; max-width: 56ch; color: #d6d1c6; font-size: var(--step-1); }

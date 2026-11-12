@@ -1,0 +1,89 @@
+---
+/**
+ * Short, prominent request form shown at the top of every page (except /contact/,
+ * which has the full form). Same endpoint and validation as ContactForm
+ * (shared script in FormScript.astro).
+ */
+import { getCollection } from 'astro:content';
+import { site, hasPhone, telHref } from '../config/site';
+import Icon from './Icon.astro';
+
+interface Props { heading?: string; tone?: 'dark' | 'light' }
+const { heading = 'Get a deadbolt quote', tone = 'dark' } = Astro.props;
+const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+const page = Astro.url.pathname;
+---
+<form class:list={['qform', tone]} novalidate data-form data-endpoint={site.formEndpoint} action={site.formEndpoint || undefined} method="post" aria-labelledby="qf-title">
+  <div class="qf-head">
+    <p class="qf-title" id="qf-title">{heading}</p>
+    <p class="qf-sub">Tell us the problem. We reply with the likely fix and a price before anything is booked.</p>
+  </div>
+  <input type="hidden" name="page" value={page} />
+  <div class="qf-grid">
+    <div class="qf-field">
+      <label for="qf-name">Name</label>
+      <input id="qf-name" name="name" type="text" autocomplete="name" required aria-describedby="qf-name-err" />
+      <p class="qf-err" id="qf-name-err" hidden>Please enter your name.</p>
+    </div>
+    <div class="qf-field">
+      <label for="qf-phone">Phone</label>
+      <input id="qf-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required aria-describedby="qf-phone-err" />
+      <p class="qf-err" id="qf-phone-err" hidden>Enter a phone number with area code.</p>
+    </div>
+    <div class="qf-field">
+      <label for="qf-service">Service needed</label>
+      <select id="qf-service" name="service" required aria-describedby="qf-service-err">
+        <option value="">Choose a service</option>
+        {services.map((s) => <option value={s.data.title}>{s.data.title}</option>)}
+        <option value="Not sure">Not sure, I need advice</option>
+      </select>
+      <p class="qf-err" id="qf-service-err" hidden>Please choose a service.</p>
+    </div>
+    <div class="qf-field">
+      <label for="qf-zip">ZIP code</label>
+      <input id="qf-zip" name="zip" type="text" inputmode="numeric" autocomplete="postal-code" required pattern="[0-9]{5}(-[0-9]{4})?" maxlength="10" aria-describedby="qf-zip-err" />
+      <p class="qf-err" id="qf-zip-err" hidden>Enter a 5-digit US ZIP code.</p>
+    </div>
+  </div>
+  <div class="hp" aria-hidden="true">
+    <label for="qf-company">Leave this field empty</label>
+    <input id="qf-company" name="company" type="text" tabindex="-1" autocomplete="off" />
+  </div>
+  <button class="btn btn-primary qf-btn" type="submit">Request my quote <Icon name="arrow" /></button>
+  <p class="qf-note">
+    {hasPhone() ? <span>Prefer to talk? <a href={telHref()}>Call {site.phoneDisplay}</a>. </span> : null}
+    By sending, you agree to our <a href="/privacy-policy/">privacy policy</a>.
+  </p>
+  <div class="status" role="status" aria-live="polite" tabindex="-1" data-status hidden></div>
+</form>
+
+<style>
+  .qform {
+    position: relative; display: grid; gap: 14px;
+    background: var(--white); color: var(--ink);
+    border: 1px solid var(--brass); border-top: 4px solid var(--brass-bright);
+    border-radius: var(--radius-lg); padding: clamp(18px, 3vw, 26px);
+    box-shadow: 0 24px 60px -24px rgba(0, 0, 0, 0.55), 0 0 0 6px rgba(201, 160, 78, 0.12);
+  }
+  .qf-title { font-family: var(--font-display); font-weight: 800; font-size: var(--step-2); line-height: 1.1; color: var(--ink); }
+  .qf-sub { margin-top: 6px; font-size: 0.98rem; line-height: 1.5; color: var(--text-muted); }
+  .qf-grid { display: grid; gap: 12px; grid-template-columns: 1fr; }
+  @media (min-width: 520px) { .qf-grid { grid-template-columns: 1fr 1fr; } }
+  .qf-field { display: grid; gap: 4px; }
+  label { font-family: var(--font-display); font-weight: 650; font-size: 0.86rem; color: var(--ink); }
+  input, select {
+    width: 100%; min-height: 48px; padding: 10px 12px; font-size: 1rem; line-height: 1.3;
+    border: 1.5px solid var(--steel-400); border-radius: var(--radius); background: #fff; color: var(--ink);
+  }
+  input:focus, select:focus { border-color: var(--ink); outline: 3px solid var(--brass-bright); outline-offset: 1px; }
+  [aria-invalid='true'] { border-color: var(--danger); }
+  .qf-err { font-size: 0.84rem; font-weight: 600; color: var(--danger); }
+  .qf-btn { width: 100%; min-height: 54px; font-size: 1.06rem; }
+  .qf-note { font-size: 0.84rem; color: var(--text-muted); line-height: 1.45; }
+  .qf-note a { color: var(--brass-ink); }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .status { padding: 10px 12px; border-radius: var(--radius); font-size: 0.94rem; line-height: 1.45; }
+  .status.success { background: #e6f1e7; color: var(--ok); border: 1px solid #b9d6bd; }
+  .status.error { background: #f8e7e3; color: var(--danger); border: 1px solid #e6bdb3; }
+  .status.info { background: var(--brass-soft); color: var(--ink); border: 1px solid #e0cc98; }
+</style>

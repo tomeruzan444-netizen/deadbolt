@@ -1,0 +1,43 @@
+---
+/** Shared validation + submit handler for every [data-form] (QuickForm, ContactForm). Loaded once per page. */
+---
+<script is:inline>
+  (() => {
+    document.querySelectorAll('form[data-form]').forEach((form) => {
+      const status = form.querySelector('[data-status]');
+      const fields = [...form.querySelectorAll('[required]')];
+      const show = (kind, msg) => { status.hidden = false; status.className = 'status ' + kind; status.textContent = msg; status.focus(); };
+      const check = (el) => {
+        let ok = el.checkValidity();
+        if (el.type === 'tel') ok = ok && el.value.replace(/\D/g, '').length >= 10;
+        el.setAttribute('aria-invalid', ok ? 'false' : 'true');
+        const err = document.getElementById(el.id + '-err');
+        if (err) err.hidden = ok;
+        return ok;
+      };
+      fields.forEach((el) => el.addEventListener('blur', () => { if (el.value) check(el); }));
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        let firstBad = null;
+        fields.forEach((el) => { if (!check(el) && !firstBad) firstBad = el; });
+        if (firstBad) { firstBad.focus(); show('error', 'Please fix the highlighted fields and try again.'); return; }
+        if (form.elements.company && form.elements.company.value) return;
+        const endpoint = form.dataset.endpoint;
+        if (!endpoint) {
+          show('info', 'Thanks. Online requests are not connected yet, so this message was not sent. Please check back soon or use the contact details on this site if they are listed.');
+          return;
+        }
+        const btn = form.querySelector('button[type=submit]');
+        btn.disabled = true;
+        try {
+          const res = await fetch(endpoint, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+          if (!res.ok) throw new Error(String(res.status));
+          form.reset();
+          show('success', 'Thank you. Your request was sent. We will reply as soon as we can.');
+        } catch (err) {
+          show('error', 'Sorry, something went wrong and your request was not sent. Please try again in a moment.');
+        } finally { btn.disabled = false; }
+      });
+    });
+  })();
+</script>

@@ -1,7 +1,7 @@
 ---
 import { getEntry, render } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import DeadboltExploded from '../components/graphics/DeadboltExploded.astro';
+import QuickForm from '../components/QuickForm.astro';
 import Faq from '../components/Faq.astro';
 import Cta from '../components/Cta.astro';
 import Icon from '../components/Icon.astro';
@@ -32,12 +32,8 @@ const schema = [webPage({ url: '/', name: d.metaTitle, description: d.metaDescri
           </ul>
         )}
       </div>
-      <div class="hero-art">
-        <div class="art-frame">
-          <span class="corner tl" aria-hidden="true"></span><span class="corner br" aria-hidden="true"></span>
-          <p class="art-label mono" aria-hidden="true">FIG. 01 · SINGLE CYLINDER DEADBOLT · EXPLODED VIEW</p>
-          <DeadboltExploded tone="dark" id="hero-xp" />
-        </div>
+      <div class="hero-form">
+        <QuickForm heading="Get a deadbolt quote" />
       </div>
     </div>
   </section>
@@ -55,7 +51,7 @@ const schema = [webPage({ url: '/', name: d.metaTitle, description: d.metaDescri
 <style>
   .hero { padding-block: clamp(40px, 7vw, 88px) clamp(48px, 7vw, 96px); border-bottom: 1px solid rgba(201,160,78,.2); overflow: hidden; }
   .hero-grid { display: grid; gap: 40px; align-items: center; }
-  @media (min-width: 1024px) { .hero-grid { grid-template-columns: 1fr 1.08fr; gap: 56px; } }
+  @media (min-width: 1024px) { .hero-grid { grid-template-columns: minmax(0, 1fr) 440px; gap: 64px; } }
   .eyebrow { color: var(--brass); display: inline-flex; align-items: center; gap: 10px; }
   .eyebrow::before { content: ''; width: 28px; height: 1px; background: currentColor; }
   .hero h1 { margin-top: 16px; max-width: 19ch; font-size: clamp(2.2rem, 1.5rem + 3.2vw, 4rem); }
@@ -64,11 +60,6 @@ const schema = [webPage({ url: '/', name: d.metaTitle, description: d.metaDescri
   .spec { list-style: none; padding: 0; margin-top: 32px; display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); border-top: 1px solid var(--graphite-2); padding-top: 20px; }
   .spec li { font-family: var(--font-mono); font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; color: #b9b3a6; line-height: 1.45; }
   .spec :global(strong) { display: block; font-family: var(--font-display); font-size: 1.35rem; letter-spacing: 0; text-transform: none; color: var(--brass-bright); font-weight: 750; margin-bottom: 2px; }
-  .art-frame { position: relative; padding: 36px 18px 18px; border: 1px solid rgba(201,160,78,.25); border-radius: var(--radius-lg); background: rgba(20,23,28,.5); }
-  .art-label { position: absolute; top: 12px; left: 18px; font-size: .64rem; letter-spacing: .14em; color: var(--steel-400); }
-  .corner { position: absolute; width: 18px; height: 18px; border-color: var(--brass); border-style: solid; }
-  .tl { top: -1px; left: -1px; border-width: 2px 0 0 2px; border-top-left-radius: var(--radius-lg); }
-  .br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; border-bottom-right-radius: var(--radius-lg); }
   .home-end { padding-bottom: 80px; }
   .home-end :global(.faq), .home-end :global(.cta) { margin-inline: auto; }
   .home-end :global(.faq) { max-width: 820px; }

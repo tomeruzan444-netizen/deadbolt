@@ -1,9 +1,9 @@
 ---
 import type { Crumb } from '../lib/urls';
-interface Props { crumbs: Crumb[] }
-const { crumbs } = Astro.props;
+interface Props { crumbs: Crumb[]; tone?: 'light' | 'dark' }
+const { crumbs, tone = 'light' } = Astro.props;
 ---
-<nav class="crumbs" aria-label="Breadcrumb">
+<nav class:list={['crumbs', tone]} aria-label="Breadcrumb">
   <ol>
     {crumbs.map((c, i) => (
       <li>
@@ -23,4 +23,9 @@ const { crumbs } = Astro.props;
   a { color: var(--brass-ink); text-decoration: none; display: inline-block; padding-block: 6px; }
   a:hover { text-decoration: underline; color: var(--ink); }
   [aria-current] { color: var(--ink); padding-block: 6px; }
+  .dark li { color: #b9b3a6; }
+  .dark li + li::before { color: var(--steel-500); }
+  .dark a { color: var(--brass-bright); }
+  .dark a:hover { color: var(--white); }
+  .dark [aria-current] { color: #e9e5dc; }
 </style>

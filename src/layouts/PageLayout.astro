@@ -12,6 +12,7 @@ import Faq from '../components/Faq.astro';
 import Cta from '../components/Cta.astro';
 import Sidebar from '../components/Sidebar.astro';
 import Sources from '../components/Sources.astro';
+import QuickForm from '../components/QuickForm.astro';
 import type { Crumb } from '../lib/urls';
 import { breadcrumbs, faqPage, webPage } from '../lib/schema';
 
@@ -37,6 +38,8 @@ interface Props {
   ctaHeading?: string;
   ctaText?: string;
   noindex?: boolean;
+  /** The contact page has its own full form at the top. */
+  hideQuickForm?: boolean;
 }
 const p = Astro.props;
 const url = Astro.url.pathname;
@@ -51,21 +54,32 @@ const fmt = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month:
 const tocExtra = faqs.length ? [{ slug: 'faq', text: 'Frequently asked questions' }] : [];
 ---
 <BaseLayout title={p.title} description={p.description} schema={nodes} ogType={p.ogType} published={p.published} modified={p.updated} noindex={p.noindex}>
-  <div class="container">
-    <Breadcrumbs crumbs={p.crumbs} />
-    <div class="page-grid">
-      <article class="main-col">
-        <header class="page-head">
+  <header class="page-hero on-dark blueprint">
+    <div class="container">
+      <Breadcrumbs crumbs={p.crumbs} tone="dark" />
+      <div class:list={['hero-grid', { 'no-form': p.hideQuickForm }]}>
+        <div class="hero-copy">
           {p.eyebrow && <p class="label eyebrow">{p.eyebrow}</p>}
           <h1>{p.h1}</h1>
           {p.intro && <p class="lead" data-intro set:html={p.intro} />}
           {p.showUpdated && p.updated && (
             <p class="meta-row mono">
               <span>Last updated <time datetime={p.updated.toISOString().slice(0, 10)}>{fmt(p.updated)}</time></span>
-              <span>By {`Deadbolt Fixers`}</span>
+              <span>By Deadbolt Fixers</span>
             </p>
           )}
-        </header>
+        </div>
+        {!p.hideQuickForm && (
+          <div class="hero-form">
+            <QuickForm />
+          </div>
+        )}
+      </div>
+    </div>
+  </header>
+  <div class="container">
+    <div class="page-grid">
+      <article class="main-col">
         {p.keyFacts && p.keyFacts.length > 0 && <KeyFacts facts={p.keyFacts} />}
         {p.toc && p.headings && <Toc headings={p.headings} extra={tocExtra} />}
         <div class="prose body" data-body>
@@ -81,8 +95,19 @@ const tocExtra = faqs.length ? [{ slug: 'faq', text: 'Frequently asked questions
 </BaseLayout>
 
 <style>
-  .main-col { min-width: 0; }
-  .eyebrow { color: var(--brass-ink); display: inline-flex; align-items: center; gap: 10px; }
+  .page-hero { padding-bottom: clamp(32px, 5vw, 56px); border-bottom: 1px solid rgba(201, 160, 78, 0.22); }
+  .hero-grid { display: grid; gap: 28px; align-items: start; padding-top: 12px; }
+  @media (min-width: 1024px) {
+    .hero-grid { grid-template-columns: minmax(0, 1fr) 420px; gap: 56px; padding-top: 20px; }
+    .hero-grid.no-form { grid-template-columns: minmax(0, 1fr); }
+  }
+  .eyebrow { color: var(--brass); display: inline-flex; align-items: center; gap: 10px; }
   .eyebrow::before { content: ''; width: 28px; height: 1px; background: currentColor; }
+  .hero-copy h1 { margin-top: 12px; max-width: 22ch; }
+  .hero-copy .lead { color: #dcd7cc; margin-top: 18px; max-width: 60ch; }
+  .hero-copy .meta-row { color: #b9b3a6; }
+  .main-col { min-width: 0; }
+  .page-grid { padding-top: 40px; }
   .body { margin-top: 36px; }
+  .main-col > :first-child { margin-top: 0; }
 </style>

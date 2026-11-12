@@ -4,8 +4,8 @@ import { getEntry, render } from 'astro:content';
 import PageLayout from '../layouts/PageLayout.astro';
 import { simpleCrumbs } from '../lib/urls';
 
-interface Props { id: string; url: string; relatedKey: string; eyebrow?: string; schema?: Record<string, unknown>[] }
-const { id, url, relatedKey, eyebrow, schema = [] } = Astro.props;
+interface Props { id: string; url: string; relatedKey: string; eyebrow?: string; schema?: Record<string, unknown>[]; hideQuickForm?: boolean }
+const { id, url, relatedKey, eyebrow, schema = [], hideQuickForm = false } = Astro.props;
 const entry = await getEntry('pages', id);
 if (!entry) throw new Error(`Missing src/content/pages/${id}.mdx`);
 const d = entry.data;
@@ -25,6 +25,7 @@ const { Content, headings } = await render(entry);
   faqs={d.faqs}
   relatedKey={relatedKey}
   schema={schema}
+  hideQuickForm={hideQuickForm}
 >
   <Content />
 </PageLayout>

@@ -190,9 +190,9 @@ Tokens (final values tuned for WCAG AA in Phase 4):
 
 Typography (all OFL, self-hosted):
 - Display: **Archivo** (variable, using the expanded width axis for headings: an engineered, machined feel).
-- Text: **Source Serif 4** (variable, optical sizing) for long reading; line-height 1.7, measure ~68ch.
+- Text: **Assistant** (variable, 400-700, Latin subset) for all body copy; line-height 1.7, measure ~68ch.
 - Spec labels: **IBM Plex Mono** 500 (small caps-style labels, step numbers, dimensions). Not preloaded.
-- Preload: Archivo (heading weight) and Source Serif 4 regular only.
+- Preload: Archivo (heading weight) and Assistant only.
 
 Signature elements: blueprint grid texture (CSS gradients, no image), dimension lines with arrowheads as section dividers, numbered circular callouts, "spec sheet" key-facts boxes with mono labels, exploded deadbolt hero SVG with annotated 1" throw.
 
