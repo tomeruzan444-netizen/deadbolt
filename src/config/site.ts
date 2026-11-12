@@ -54,6 +54,11 @@ export const site = {
     { name: 'Jack', role: 'Co-founder, certified deadbolt locksmith' },
   ],
 
+  // Search engine ownership verification (meta tags in <head>).
+  googleSiteVerification: 'wV7PMOvCHtgV6EE2mV4Bwj0jYYHhKA1-gOfUopBwR14',
+  // TODO(business): paste the Bing Webmaster Tools msvalidate.01 code here when available.
+  bingSiteVerification: '',
+
   locale: 'en-US',
   country: 'United States',
   ogImage: '/og-default.png',
