@@ -90,6 +90,8 @@ sources:
 ---
 import Steps from '../../components/Steps.astro';
 import Callout from '../../components/Callout.astro';
+import Photo from '../../components/Photo.astro';
+import boltOut from '../../assets/photos/deadbolt-bolt-extended.jpg';
 
 ## Open the door first: the test that splits the problem in two
 
@@ -112,6 +114,8 @@ Work through these checks in sequence. Each one rules out a cause, so you stop a
   { title: 'Check the key and cylinder', text: 'Try an original key. If it still sticks, consider cleaning and lubrication or a worn cylinder.' },
   { title: 'For smart locks, read the error', text: 'A jam alert or low battery warning points to the cause before you take anything apart.' },
 ]} />
+
+<Photo src={boltOut} alt="Round brushed nickel deadbolt on a white door, with the door open and the bolt fully thrown past the door edge" caption="Step one in practice: door open, bolt thrown. A residential bolt typically projects about 1 inch, which is why the pocket behind the strike has to be at least that deep." />
 
 ## What each symptom usually means
 
