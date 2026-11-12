@@ -189,7 +189,8 @@ for (const f of htmlFiles) {
 
   // Paragraphs (for duplicate detection) + style checks
   if (body) {
-    for (const p of body.querySelectorAll('p')) {
+    // Navigation cards (.svc-grid/.g-grid) repeat their blurbs by design; skip them.
+    for (const p of body.querySelectorAll('p').filter((el) => !el.closest('.svc-grid, .g-grid, .proc'))) {
       const t = norm(p.textContent);
       if (t.length < 60) continue;
       allParas.push({ url, text: t, sh: shingles(t) });

@@ -36,6 +36,7 @@ faqs:
 ---
 import ContactForm from '../../components/ContactForm.astro';
 import ContactDetails from '../../components/ContactDetails.astro';
+import Checklist from '../../components/Checklist.astro';
 import { hasAnyContact } from '../../config/site';
 
 ## Schedule deadbolt service online
@@ -55,10 +56,12 @@ Fill in the form and we reply with what the job involves. The more detail you gi
 
 A good request answers four questions. With these, a technician can arrive with the right parts instead of diagnosing on the doorstep and coming back.
 
-1. **Where is the door?** City, state and ZIP code, and whether it is a house, apartment or business.
-2. **What kind of door is it?** Wood, steel, fiberglass, or a door with glass near the lock.
-3. **What is the lock?** The brand if you can see it, and whether it is keyed, keypad or smart.
-4. **What is happening?** For example "bolt only goes in halfway", "key turns but nothing moves" or "we just moved in."
+<Checklist title="Your request checklist" items={[
+  '<strong>Where is the door?</strong> City, state and ZIP code, and whether it is a house, apartment or business.',
+  '<strong>What kind of door is it?</strong> Wood, steel, fiberglass, or a door with glass near the lock.',
+  '<strong>What is the lock?</strong> The brand if you can see it, and whether it is keyed, keypad or smart.',
+  '<strong>What is happening?</strong> For example "bolt only goes in halfway", "key turns but nothing moves" or "we just moved in."',
+]} />
 
 Not sure which job you need? The [list of every deadbolt service](/services/) matches common symptoms to the right visit.
 
