@@ -1,0 +1,32 @@
+---
+/**
+ * Responsive photo with a visible caption. Astro optimizes the source into AVIF and WebP
+ * at several widths and lazy-loads it, so photos do not slow the page down.
+ * Usage in MDX:
+ *   import Photo from '../../components/Photo.astro';
+ *   import frontDoor from '../../assets/photos/front-door-deadbolt.jpg';
+ *   <Photo src={frontDoor} alt="..." caption="..." />
+ */
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+interface Props { src: ImageMetadata; alt: string; caption?: string; eager?: boolean }
+const { src, alt, caption, eager = false } = Astro.props;
+---
+<figure class="photo">
+  <Picture
+    src={src}
+    alt={alt}
+    formats={['avif', 'webp']}
+    widths={[480, 800, 1200, src.width]}
+    sizes="(min-width: 1100px) 760px, calc(100vw - 32px)"
+    loading={eager ? 'eager' : 'lazy'}
+    decoding="async"
+  />
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+  .photo { margin-block: 1.8em; max-width: none; }
+  .photo :global(img) { display: block; width: 100%; height: auto; border-radius: var(--radius-lg); border: 1px solid var(--line); background: var(--paper, #f4f1ea); }
+  .photo figcaption { margin-top: 10px; font-size: 0.9rem; line-height: 1.5; color: var(--text-muted); }
+</style>
