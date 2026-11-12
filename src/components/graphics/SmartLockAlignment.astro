@@ -1,0 +1,75 @@
+---
+/**
+ * Side section through door edge and jamb at the bolt. Left: door aligned, the bolt
+ * throws its full 1 in into a pocket at least 1 in deep. Right: the door has sagged,
+ * the bolt hits the strike plate below the opening and a motorized lock stalls.
+ * Scale: 1 in = 40 px. Dimensions from Schlage/Kwikset specs and Schlage/Yale support.
+ */
+const S = 40;
+const cy = 150;
+const panels = [
+  { title: 'ALIGNED', dy: 0, ok: true, note: 'BOLT ENTERS FREELY' },
+  { title: 'DOOR SAGS', dy: 24, ok: false, note: 'BOLT HITS STRIKE: MOTOR STALLS' },
+];
+---
+<svg class="sla" viewBox="0 0 720 320" role="img" aria-labelledby="sla-t sla-d">
+  <title id="sla-t">Why a motorized smart deadbolt needs the door aligned</title>
+  <desc id="sla-d">Two side sections through the door edge and the frame at the deadbolt. On the left the door is aligned: the bolt passes through the strike plate opening and throws its full 1 inch into a pocket at least 1 inch deep. On the right the door has sagged, so the bolt sits lower than the strike opening, hits the plate and stops short, which a motorized lock reports as a jam.</desc>
+  {panels.map((p, i) => {
+    const ox = i * 360 + 20;
+    const doorEdge = ox + 80;
+    const face = ox + 86;
+    const by = cy + p.dy;
+    const tip = p.ok ? doorEdge + S : face;
+    return (
+      <g>
+        <text x={ox} y="28" class="t">{`0${i + 1}  ${p.title}`}</text>
+        <rect class="frame" x={face} y="50" width="172" height="210" />
+        <rect class="pocket" x={face} y={cy - 18} width={1.1 * S} height="36" />
+        <path class="strike" d={`M${face - 3} 96V${cy - 18}M${face - 3} ${cy + 18}V204`} />
+        <rect class="door" x={ox + 10} y={70 + p.dy} width={1.75 * S} height="170" />
+        <rect class="bolt" x={ox + 40} y={by - 13} width={tip - (ox + 40)} height="26" rx="2" />
+        {p.ok ? (
+          <g class="dim">
+            <path d={`M${doorEdge} ${cy - 24}V${cy - 40}M${tip} ${cy - 24}V${cy - 40}M${doorEdge + 4} ${cy - 32}H${tip - 4}`} />
+            <path class="arr" d={`M${doorEdge} ${cy - 32}l7-3.5v7zM${tip} ${cy - 32}l-7-3.5v7z`} />
+            <text x={tip + 6} y={cy - 28} class="t sm">1 IN THROW</text>
+          </g>
+        ) : (
+          <g>
+            <path class="hit" d={`M${face - 8} ${cy + 20}l6 4-6 4 6 4-6 4`} />
+            <path class="sag" d={`M${ox + 45} 44V62`} />
+            <path class="sag-a" d={`M${ox + 45} 68l-4-8h8z`} />
+            <text x={ox + 37} y="58" class="t sm" text-anchor="end">DOOR DROPS</text>
+          </g>
+        )}
+        <g class="dim">
+          <path d={`M${face} ${cy + 24}V${cy + 40}M${face + 1.1 * S} ${cy + 24}V${cy + 40}M${face + 4} ${cy + 32}H${face + 1.1 * S - 4}`} />
+          <path class="arr" d={`M${face} ${cy + 32}l7-3.5v7zM${face + 1.1 * S} ${cy + 32}l-7-3.5v7z`} />
+          <text x={face + 52} y={cy + 36} class="t sm">POCKET 1 IN MIN.</text>
+        </g>
+        <text x={ox + 10} y="284" class="t sm">DOOR</text>
+        <text x={face + 4} y="284" class="t sm">JAMB AND FRAME</text>
+        <text x={ox} y="308" class:list={['t', p.ok ? 'ok' : 'no']}>{p.note}</text>
+      </g>
+    );
+  })}
+</svg>
+
+<style>
+  .sla { width: 100%; height: auto; }
+  .door { fill: #fffdf8; stroke: #14171c; stroke-width: 1.3; }
+  .frame { fill: #efe2c6; stroke: #7a5a1c; stroke-width: 1.1; }
+  .pocket { fill: #fffdf8; stroke: #7a5a1c; stroke-width: 1; stroke-dasharray: 3 3; }
+  .strike { stroke: #4a525e; stroke-width: 5; fill: none; }
+  .bolt { fill: rgba(122, 90, 28, 0.3); stroke: #7a5a1c; stroke-width: 1.3; }
+  .hit { fill: none; stroke: #a3361f; stroke-width: 1.6; stroke-linejoin: round; }
+  .sag { stroke: #a3361f; stroke-width: 1.3; }
+  .sag-a { fill: #a3361f; }
+  .dim path { stroke: #7a5a1c; stroke-width: 1; fill: none; }
+  .dim .arr { fill: #7a5a1c; stroke: none; }
+  .t { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.08em; fill: #14171c; }
+  .t.sm { font-size: 10px; fill: #4a525e; }
+  .ok { fill: #2f6b3a; }
+  .no { fill: #a3361f; }
+</style>
