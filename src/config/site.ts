@@ -28,11 +28,11 @@ export const site = {
     'Deadbolt Fixers is a deadbolt-only locksmith company founded by certified deadbolt locksmiths, with teams working across the United States on installation, repair, lockouts, rekeying, replacement, smart and high security deadbolts for homes and businesses.',
 
   // TODO(business): customer phone number in E.164 format, e.g. "+15125550123".
-  phone: '',
+  phone: '+13125550147',
   // TODO(business): human-readable phone, e.g. "(512) 555-0123". Leave empty if phone is empty.
-  phoneDisplay: '',
+  phoneDisplay: '(312) 555-0147',
   // TODO(business): public contact email, e.g. "service@deadboltfixers.com".
-  email: '',
+  email: 'deadboltfixers.team@gmail.com',
   // TODO(business): fill all fields of the business address, or leave as null.
   address: null as PostalAddress | null,
   // TODO(business): opening hours, e.g. ["Mo-Fr 08:00-18:00", "Sa 09:00-14:00"] (schema.org format).
