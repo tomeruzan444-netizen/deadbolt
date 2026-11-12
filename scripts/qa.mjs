@@ -77,6 +77,9 @@ const allParas = []; // { url, text, sh }
 const allFaqs = []; // { url, q, sig }
 const linkGraph = new Map();
 let peaceCount = 0;
+const MAX_CTX_LINKS = 5;
+const ctxAnchors = []; // { url, href, text }
+const topicOf = new Map(); // url -> significant words of the page's H1 + keyword
 const report = [];
 
 const htmlFiles = fs.readdirSync(DIST, { recursive: true }).map(String).filter((f) => f.endsWith('.html'));
@@ -156,6 +159,7 @@ for (const f of htmlFiles) {
   const h1Text = norm(h1s[0]?.textContent ?? '');
   const kwBody = countExact(bodyText, kw);
   const wc = words(bodyText).length + words(intro ? intro.textContent : '').length;
+  topicOf.set(url, `${h1Text} ${kw} ${fm.cardTitle ?? ''} ${fm.title ?? ''}`);
   if (!lower(h1Text).includes(lower(kw))) err(url, `H1 missing exact keyword "${kw}"`);
   if (kwBody < 5) err(url, `keyword "${kw}" appears ${kwBody}x in body (need 5+)`);
   if (wc && kwBody > Math.ceil(wc / 100)) warn(url, `keyword density high: ${kwBody} in ${wc} words`);
@@ -171,8 +175,13 @@ for (const f of htmlFiles) {
   if (range && (wc < range[0] * 0.95 || wc > range[1] * 1.1)) warn(url, `word count ${wc} (target ${range[0]}-${range[1]})`);
 
   // Internal links in body
-  const bodyLinks = body ? new Set(body.querySelectorAll('a[href^="/"]').map((a) => a.getAttribute('href').split('#')[0]).filter((h) => h !== url)) : new Set();
-  if (bodyLinks.size < 4) err(url, `only ${bodyLinks.size} contextual internal links in body (need 4+)`);
+  // Contextual links = links inside the prose. Card grids, forms and CTA boxes are navigation, not context.
+  const ctx = body ? body.querySelectorAll('a[href^="/"]').filter((a) => !a.closest('.svc-grid, .g-grid, form, .cta, .faq, nav')) : [];
+  const bodyLinks = new Set(ctx.map((a) => a.getAttribute('href').split('#')[0]).filter((h) => h !== url));
+  if (ctx.length > MAX_CTX_LINKS) err(url, `${ctx.length} contextual internal links in body (max ${MAX_CTX_LINKS})`);
+  if (bodyLinks.size < 2) warn(url, `only ${bodyLinks.size} contextual internal links in body (aim for 3-${MAX_CTX_LINKS})`);
+  if (bodyLinks.size < ctx.length) err(url, 'the same page is linked more than once in the body');
+  for (const a of ctx) ctxAnchors.push({ url, href: a.getAttribute('href').split('#')[0], text: norm(a.textContent) });
   const anchors = body ? body.querySelectorAll('a').map((a) => lower(a.textContent)) : [];
   for (const a of anchors) if (/^(here|read more|learn more|this page|this)$/.test(a)) err(url, `weak anchor text "${a}"`);
 
@@ -222,6 +231,20 @@ for (let i = 0; i < allFaqs.length; i++) {
     else if (s >= 0.6 && a.sig.size > 2) warnings.push(`similar FAQ (${s.toFixed(2)}): "${a.q}" (${a.url}) vs "${b.q}" (${b.url})`);
   }
 }
+// Anchor relevance: the linked phrase must share a topic word with the page it points to.
+const GENERIC = new Set(['deadbolt', 'deadbolts', 'lock', 'locks', 'locksmith', 'our', 'we', 'us', 'guide', 'page', 'service', 'services', 'here', 'more']);
+const SYN = { business: 'commercial', businesses: 'commercial', office: 'commercial', contact: 'contact', message: 'contact', reach: 'contact', call: 'contact', touch: 'contact' };
+const stem = (w) => SYN[w] ?? w.replace(/ment$/, '').replace(/(ing|ed|es|s|e)$/, '');
+const topicSet = (s) => new Set([...sig(s)].filter((w) => !GENERIC.has(w)).map(stem));
+for (const a of ctxAnchors) {
+  const HUB = { '/services/': /servic/i, '/deadbolt-guides/': /guides?/i, '/service-areas/': /areas?/i };
+  if (HUB[a.href]) { if (!HUB[a.href].test(a.text)) errors.push(`${a.url}: anchor "${a.text}" does not describe its target ${a.href}`); continue; }
+  const topic = topicOf.get(a.href);
+  if (!topic) continue;
+  const aw = topicSet(a.text), tw = topicSet(topic);
+  if (![...aw].some((w) => tw.has(w))) errors.push(`${a.url}: anchor "${a.text}" does not describe its target ${a.href}`);
+}
+
 // Unique keywords
 const kwSeen = new Map();
 for (const p of pages) if (p.fm.keyword) { const k = lower(p.fm.keyword); if (kwSeen.has(k)) errors.push(`keyword "${k}" owned by ${kwSeen.get(k)} and ${p.url}`); kwSeen.set(k, p.url); }

@@ -151,10 +151,15 @@ The QA script (`npm run qa`) scans for these. Any hit fails the build check.
 
 ## 7. Internal linking rules
 
-- Every page links to **4-8 other relevant pages within the body text** (sidebar, nav and footer links do not count).
+- **Maximum 5 contextual internal links per page** (owner rule, 2026-11-12). Aim for 3-5. Count every link inside the body text; links in the nav, header, footer, sidebar, breadcrumbs, service/guide card grids, forms and CTA boxes do not count.
+- **Every link must point to a different, genuinely relevant page.** Never link the same page twice in one body, and never link just to fill a quota.
+- **Every link must come out of a sentence where it makes sense.** Link only when the surrounding sentence is actually about the target's topic, at the point where the reader would want that page.
+- **The anchor text must be a phrase about the target page.** It contains the target's topic words (for example "rekeying the existing cylinders" -> `/deadbolt-rekeying/`, "high security deadbolt" -> `/high-security-deadbolt/`, "contact us" -> `/contact/`). A phrase that does not describe the target ("swapping in a certified deadbolt" -> replacement, "tell us about it" -> contact) is not allowed.
+- When a page would need more than 5 links, keep the required cross-link pairs (below) first, then the links most useful to the reader at that point, and leave the rest as plain text. The sidebar's curated related pages cover the rest.
+- Hub pages list their children in card grids, not in linked text or linked tables.
 - Anchor text is descriptive and varied: the target's topic in natural words ("rekeying the existing cylinders", "our guide to ANSI deadbolt grades"). Never "click here". Don't use the exact same anchor for the same target twice on one page.
 - Service pages link to their related guides; guides link to the matching service where a pro is needed.
-- Hubs link to every child.
+- Hubs link to every child through their card grids (these do not count toward the 5).
 - Always link the cross-link pairs listed at the bottom of `KEYWORD-MAP.md`.
 - Every page must be reachable within 3 clicks from home (it is, via nav and hubs; QA verifies).
 - Use trailing slashes in every internal URL: `/deadbolt-rekeying/`.
@@ -286,7 +291,7 @@ Rules:
 - [ ] Title 50-60 chars, keyword near start; meta description 140-160 chars with keyword
 - [ ] Answer-first intro, 2-4 sentences, does not restate the title
 - [ ] Word count within range for the page type
-- [ ] 4-8 contextual internal links in body, descriptive anchors, trailing slashes
+- [ ] Max 5 contextual internal links in body, each to a different relevant page, from a sentence about that topic, with an anchor that describes the target; trailing slashes
 - [ ] `related.ts` entry added and reciprocal links added
 - [ ] At least one visual with `<title>`/`<desc>`/text equivalent
 - [ ] 10-15 FAQs, none in `FAQ-REGISTER.md` already
@@ -344,7 +349,7 @@ The owner's general article guidelines (used across projects) differ from this s
 |---|---|---|
 | Keyword in H1/title | Title must NOT contain the keyword | H1 and title tag MUST contain the exact keyword |
 | Length | 700-1,000 words | Services 1,000-1,800; guides 1,500-2,500 |
-| Internal links | Max 2-3 | 4-8 contextual links per page |
+| Internal links | Max 2-3 | Max 5 contextual links per page, anchors describe the target |
 | FAQ | Optional, 3-4 | Required, 10-15, site-wide unique |
 | Banned "unlock" | Banned | Figurative use banned; literal lock use allowed |
 

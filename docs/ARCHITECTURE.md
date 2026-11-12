@@ -216,7 +216,7 @@ Motion: hover/focus transitions under 200 ms, FAQ chevron rotation, header shrin
 - One H1; H1 contains exact keyword
 - Exact keyword count in body prose ≥ 5 (scope per `CONTENT-GUIDE.md` §4), in first paragraph, in an H2
 - FAQ count 10-15; FAQ duplicates (exact + near-duplicate via token similarity) across pages; writes `docs/FAQ-REGISTER.md`
-- Body internal links ≥ 4; broken internal links (every href resolves to a file in `dist/`)
+- Body contextual internal links ≤ 5 (grids, forms and CTA boxes excluded), no target linked twice, every anchor shares a topic word with its target page; broken internal links (every href resolves to a file in `dist/`)
 - Title 50-60, meta description 140-160
 - Heading levels never skip
 - Banned words/patterns, em/en dashes, site-wide "peace of mind" ≤ 1

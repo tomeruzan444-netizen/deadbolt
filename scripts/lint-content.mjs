@@ -70,7 +70,8 @@ for (const file of files) {
   const nf = (fm.faqs ?? []).length;
   if (nf < 10 || nf > 15) bad(`${nf} FAQs (need 10-15)`);
   for (const f of fm.faqs ?? []) if (f.a.split(/(?<=[.!?])\s+/).length > 3) note(`FAQ answer over 3 sentences: "${f.q}"`);
-  if (links.size < 4) bad(`${links.size} internal links in body (need 4+)`);
+  const mdLinks = [...text.matchAll(/\]\((\/[^)#\s]*)/g)].length;
+  if (mdLinks > 5) bad(`${mdLinks} contextual internal links in body (max 5)`);
   for (const l of links) if (!l.endsWith('/')) bad(`link without trailing slash: ${l}`);
   if (!/<(svg|[A-Z]\w+)|\n\|.+\|\n/.test(text)) bad('no visual (component, svg or table)');
   const range = { service: [1000, 1800], guide: [1500, 2500] }[kind];

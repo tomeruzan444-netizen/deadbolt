@@ -73,6 +73,8 @@ Columns:
 
 ## Cross-link pairs (always link both ways)
 
+These pairs come first when choosing a page's links. Each page may have at most 5 contextual links in total (see CONTENT-GUIDE §7), so the pairs below use up to 3 of them.
+
 - Installation ↔ Installation cost guide
 - Repair ↔ Deadbolt won't lock guide
 - Rekeying ↔ Keyed alike ↔ Replacement
