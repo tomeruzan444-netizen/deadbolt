@@ -115,3 +115,8 @@ Navigation, footer, hub cards, sitemap, `llms.txt` and JSON-LD update automatica
 ## Content sources
 
 All technical facts come from `docs/RESEARCH.md` (standards bodies, codes, manufacturer documentation, consumer agencies), and each page lists its sources in frontmatter. Do not add facts that are not traceable to a reliable source.
+
+## Bing and IndexNow
+
+- Bing Webmaster Tools: import the site from Google Search Console, or paste Bing's `msvalidate.01` code into `bingSiteVerification` in `src/config/site.ts` and redeploy.
+- IndexNow (Bing, Yandex, Seznam, Naver) is set up. The key file is `public/56f8a12f7dfcdc3f1d2e49b0a8cdf240.txt`. After every production deploy run `npm run indexnow` to submit all sitemap URLs. The script refuses to run on a staging build.
