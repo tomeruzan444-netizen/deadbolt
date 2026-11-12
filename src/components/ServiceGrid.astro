@@ -1,44 +1,172 @@
 ---
-/** Card grid of every service, from the collection. Uses each entry's unique cardBlurb. */
+/**
+ * Service tiles, from the services collection (uses each entry's unique cardBlurb).
+ * Design: custom duotone icons on a brass "rose" plate, a category tag per service,
+ * a featured urgent tile for lockouts, and a small deadbolt in each footer that
+ * "throws" on hover. Ends with a help tile that sends unsure visitors to /contact/.
+ */
 import { getCollection } from 'astro:content';
-import Icon from './Icon.astro';
+import ServiceIcon from './ServiceIcon.astro';
 import { serviceUrl } from '../lib/urls';
-interface Props { tone?: 'light' | 'dark'; headingLevel?: 'h3' | 'h2' }
-const { tone = 'light', headingLevel = 'h3' } = Astro.props;
+interface Props { tone?: 'light' | 'dark'; headingLevel?: 'h3' | 'h2'; help?: boolean }
+const { tone = 'light', headingLevel = 'h3', help = true } = Astro.props;
 const H = headingLevel;
 const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+
+const CATEGORY: Record<string, { key: string; label: string }> = {
+  'deadbolt-lockout-service': { key: 'urgent', label: 'Urgent' },
+  'broken-key-in-deadbolt': { key: 'urgent', label: 'Urgent' },
+  'deadbolt-lock-installation': { key: 'install', label: 'Install' },
+  'deadbolt-replacement': { key: 'install', label: 'Install' },
+  'smart-deadbolt-installation': { key: 'install', label: 'Install' },
+  'double-cylinder-deadbolt-installation': { key: 'install', label: 'Install' },
+  'deadbolt-lock-repair': { key: 'fix', label: 'Fix' },
+  'deadbolt-strike-plate-reinforcement': { key: 'fix', label: 'Fix' },
+  'deadbolt-rekeying': { key: 'keys', label: 'Keys & security' },
+  'keyed-alike-deadbolts': { key: 'keys', label: 'Keys & security' },
+  'high-security-deadbolt': { key: 'keys', label: 'Keys & security' },
+  'commercial-deadbolt-locks': { key: 'keys', label: 'Keys & security' },
+};
+const FEATURED = 'deadbolt-lockout-service';
+const WIDE = 'deadbolt-lock-installation';
 ---
 <ul class:list={['svc-grid', tone]}>
-  {services.map((s, i) => (
-    <li>
-      <a href={serviceUrl(s.id)} class="svc">
-        <span class="top">
-          <Icon name={s.data.icon ?? 'install'} size={28} />
-          <span class="idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+  {services.map((s) => {
+    const cat = CATEGORY[s.id] ?? { key: 'install', label: 'Service' };
+    return (
+      <li class:list={[{ feat: s.id === FEATURED, wide: s.id === WIDE }]}>
+        <a href={serviceUrl(s.id)} class:list={['svc', `c-${cat.key}`]}>
+          <span class="plate"><ServiceIcon name={s.data.icon ?? 'install'} size={s.id === FEATURED ? 54 : 46} /></span>
+          <span class="txt">
+            <span class="tag"><i aria-hidden="true"></i>{cat.label}</span>
+            <H class="t">{s.data.title}</H>
+            <p class="b">{s.data.cardBlurb}</p>
+            <span class="more" aria-hidden="true">
+              View service
+              <span class="throw"><span class="rose"></span><span class="bolt"></span><span class="strike"></span></span>
+            </span>
+          </span>
+        </a>
+      </li>
+    );
+  })}
+  {help && (
+    <li class="wide helpcell">
+      <a href="/contact/" class="svc helptile">
+        <span class="plate"><ServiceIcon name="help" size={46} /></span>
+        <span class="txt">
+          <span class="tag"><i aria-hidden="true"></i>Not sure?</span>
+          <span class="t">Tell us what the lock is doing</span>
+          <p class="b">Describe the problem or send a photo of both sides of the door, and we will tell you which deadbolt service fits before anything is booked.</p>
+          <span class="more" aria-hidden="true">
+            Describe your lock
+            <span class="throw"><span class="rose"></span><span class="bolt"></span><span class="strike"></span></span>
+          </span>
         </span>
-        <H class="t">{s.data.title}</H>
-        <p class="b">{s.data.cardBlurb}</p>
-        <span class="more" aria-hidden="true">View service <Icon name="arrow" size={16} /></span>
       </a>
     </li>
-  ))}
+  )}
 </ul>
 
 <style>
-  .svc-grid { list-style: none; padding: 0 !important; display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); margin-block: 1.6em !important; max-width: none; }
+  .svc-grid {
+    list-style: none; padding: 0 !important; margin-block: 1.8em !important; max-width: none;
+    display: grid; gap: 16px; grid-template-columns: 1fr;
+  }
+  @media (min-width: 640px) { .svc-grid { grid-template-columns: repeat(2, 1fr); } .svc-grid .feat, .svc-grid .wide { grid-column: span 2; } }
+  @media (min-width: 1100px) { .svc-grid { grid-template-columns: repeat(4, 1fr); } }
   .svc-grid li { margin: 0 !important; }
-  .svc { height: 100%; display: flex; flex-direction: column; gap: 10px; padding: 20px; border-radius: var(--radius-lg); text-decoration: none; border: 1px solid var(--line); background: var(--white); color: var(--ink); transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease; }
-  .svc:hover { border-color: var(--brass); box-shadow: var(--shadow); color: var(--ink); }
-  @media (prefers-reduced-motion: no-preference) { .svc:hover { transform: translateY(-2px); } }
-  .top { display: flex; justify-content: space-between; align-items: center; color: var(--brass-ink); }
-  .idx { font-family: var(--font-mono); font-size: .72rem; color: var(--steel-500); letter-spacing: .1em; }
-  .t { font-family: var(--font-display); font-size: 1.12rem; font-weight: 700; line-height: 1.25; margin: 0 !important; }
+
+  /* ---- tile ---- */
+  .svc {
+    --accent: var(--brass-ink); --accent-soft: var(--brass-soft);
+    position: relative; height: 100%; display: flex; flex-direction: column; gap: 16px;
+    padding: 22px 22px 20px; border-radius: 14px; text-decoration: none; color: var(--ink);
+    background: linear-gradient(180deg, var(--white), #fbf8f1);
+    border: 1px solid var(--line);
+    box-shadow: 0 1px 0 rgba(20, 23, 28, 0.04);
+    overflow: hidden; isolation: isolate;
+    transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+  }
+  .svc::before {
+    /* machined top edge in the category colour */
+    content: ''; position: absolute; inset: 0 0 auto 0; height: 3px; background: var(--accent);
+    transform: scaleX(0.18); transform-origin: left; transition: transform .35s ease; opacity: .9;
+  }
+  .svc:hover, .svc:focus-visible { border-color: color-mix(in srgb, var(--accent) 55%, var(--line)); box-shadow: 0 1px 0 rgba(20,23,28,.05), 0 18px 34px -22px rgba(20, 23, 28, 0.45); color: var(--ink); }
+  .svc:hover::before, .svc:focus-visible::before { transform: scaleX(1); }
+  @media (prefers-reduced-motion: no-preference) { .svc:hover { transform: translateY(-3px); } }
+
+  .c-urgent { --accent: var(--danger); --accent-soft: #f6dfd8; }
+  .c-install { --accent: var(--brass-ink); --accent-soft: var(--brass-soft); }
+  .c-fix { --accent: var(--steel-700); --accent-soft: var(--steel-100); }
+  .c-keys { --accent: var(--ok); --accent-soft: #dfeadf; }
+
+  /* ---- icon plate: a deadbolt rose ---- */
+  .plate {
+    --si-accent: color-mix(in srgb, var(--accent) 26%, transparent);
+    position: relative; width: 66px; height: 66px; border-radius: 50%; display: grid; place-items: center; flex: none;
+    color: var(--ink);
+    background: radial-gradient(circle at 32% 28%, #fff 0%, var(--accent-soft) 70%);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent), inset 0 0 0 6px rgba(255,255,255,.55), inset 0 0 0 7px color-mix(in srgb, var(--accent) 18%, transparent), 0 6px 14px -10px rgba(20,23,28,.5);
+    transition: transform .4s cubic-bezier(.2,.8,.2,1);
+  }
+  @media (prefers-reduced-motion: no-preference) { .svc:hover .plate { transform: rotate(-12deg); } }
+
+  .txt { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .tag { display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-mono); font-size: .66rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+  .tag i { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent); }
+  .t { font-family: var(--font-display); font-size: 1.14rem; font-weight: 750; line-height: 1.22; margin: 0 !important; color: inherit; }
   .t::before { display: none !important; }
-  .b { font-size: .96rem; line-height: 1.55; color: var(--text-muted); margin: 0 !important; flex: 1; }
-  .more { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--brass-ink); }
-  .dark .svc { background: var(--graphite); border-color: var(--graphite-2); color: var(--white); }
-  .dark .svc:hover { border-color: var(--brass); color: var(--white); }
-  .dark .top, .dark .more { color: var(--brass); }
+  .b { font-size: .95rem; line-height: 1.55; color: var(--text-muted); margin: 0 !important; flex: 1; }
+
+  /* ---- footer with the deadbolt that throws on hover ---- */
+  .more { margin-top: 6px; padding-top: 14px; border-top: 1px dashed color-mix(in srgb, var(--accent) 30%, var(--line)); display: flex; align-items: center; justify-content: space-between; gap: 10px; font-family: var(--font-mono); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+  .throw { position: relative; width: 46px; height: 14px; flex: none; }
+  .rose { position: absolute; left: 0; top: 0; width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid currentColor; background: var(--white); z-index: 2; }
+  .rose::after { content: ''; position: absolute; left: 50%; top: 2px; width: 1.5px; height: 7px; background: currentColor; transform: translateX(-50%); transition: transform .35s ease; transform-origin: 50% 70%; }
+  .bolt { position: absolute; left: 8px; top: 4px; height: 6px; width: 14px; border-radius: 1.5px; background: currentColor; opacity: .85; transition: width .35s cubic-bezier(.2,.8,.2,1); }
+  .strike { position: absolute; right: 0; top: 0; width: 6px; height: 14px; border: 1.5px solid currentColor; border-left-color: transparent; border-radius: 0 2px 2px 0; opacity: .55; }
+  .svc:hover .bolt, .svc:focus-visible .bolt { width: 33px; }
+  .svc:hover .rose::after, .svc:focus-visible .rose::after { transform: translateX(-50%) rotate(90deg); }
+
+  /* ---- featured: lockouts ---- */
+  .feat .svc { flex-direction: row; align-items: flex-start; gap: 22px; padding: 28px; color: var(--white); border-color: var(--graphite-2);
+    background:
+      radial-gradient(120% 140% at 100% 0%, rgba(201,160,78,.16), transparent 55%),
+      radial-gradient(90% 120% at 0% 100%, rgba(163,54,31,.22), transparent 60%),
+      linear-gradient(160deg, #262c34, var(--graphite) 60%, #181c22);
+  }
+  .feat .svc:hover { color: var(--white); border-color: #e0806a; }
+  .feat .c-urgent { --accent: #ee8f78; --accent-soft: #3a2a27; }
+  .feat .plate { width: 86px; height: 86px; color: var(--white); background: radial-gradient(circle at 32% 28%, #4a3a35, #2b2522 75%); --si-accent: rgba(238, 143, 120, .35); }
+  .feat .t { font-size: clamp(1.35rem, 1.1rem + .8vw, 1.7rem); }
+  .feat .b { color: #d9d3c7; font-size: 1rem; max-width: 52ch; }
+  .feat .rose { background: var(--graphite); }
+
+  /* ---- wide tile: horizontal layout ---- */
+  @media (min-width: 640px) {
+    .wide .svc { flex-direction: row; align-items: flex-start; gap: 22px; }
+    .wide .b { max-width: 56ch; }
+  }
+
+  /* ---- help tile ---- */
+  .helptile { --accent: var(--brass-ink); --accent-soft: var(--brass-soft); background: repeating-linear-gradient(135deg, transparent 0 10px, rgba(201,160,78,.06) 10px 20px), var(--paper); border-style: dashed; border-color: color-mix(in srgb, var(--brass) 60%, var(--line)); }
+
+  /* ---- phones: compact horizontal tiles ---- */
+  @media (max-width: 639px) {
+    .svc { flex-direction: row; align-items: flex-start; gap: 14px; padding: 18px 16px 16px; }
+    .plate { width: 54px; height: 54px; }
+    .plate :global(.si) { width: 38px; height: 38px; }
+    .feat .svc { flex-direction: column; gap: 16px; padding: 22px 18px; }
+    .feat .plate { width: 70px; height: 70px; }
+    .feat .plate :global(.si) { width: 46px; height: 46px; }
+    .b { font-size: .93rem; }
+  }
+
+  /* ---- dark sections ---- */
+  .dark .svc:not(.feat .svc) { background: var(--graphite); border-color: var(--graphite-2); color: var(--white); }
   .dark .b { color: #c9c4b8; }
-  .dark .idx { color: var(--steel-400); }
+  .dark .plate { color: var(--ink); }
+  .dark .rose { background: var(--graphite); }
 </style>
