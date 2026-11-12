@@ -18,6 +18,8 @@ interface Props {
 }
 const { title, description, schema = [], ogType = 'website', noindex = false, published, modified } = Astro.props;
 const canonical = absUrl(Astro.url.pathname);
+// Staging builds (NOINDEX=1) keep the temporary domain out of search results.
+const robotsNoindex = noindex || process.env.NOINDEX === '1';
 const ogImage = absUrl(site.ogImage);
 const jsonld = graph([...siteWideNodes(), ...schema]);
 ---
@@ -29,7 +31,7 @@ const jsonld = graph([...siteWideNodes(), ...schema]);
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    {noindex && <meta name="robots" content="noindex, follow" />}
+    {robotsNoindex && <meta name="robots" content="noindex, follow" />}
     <script is:inline>document.documentElement.classList.add('js')</script>
     <link rel="preload" href="/fonts/archivo-display.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/sourceserif-var.woff2" as="font" type="font/woff2" crossorigin />
