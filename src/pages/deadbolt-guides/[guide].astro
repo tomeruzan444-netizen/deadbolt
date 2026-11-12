@@ -1,0 +1,38 @@
+---
+import { getCollection, render } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import { guideCrumbs, guideUrl } from '../../lib/urls';
+import { article } from '../../lib/schema';
+
+export async function getStaticPaths() {
+  const guides = await getCollection('guides');
+  return guides.map((entry) => ({ params: { guide: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+const { Content, headings } = await render(entry);
+const crumbs = guideCrumbs(d.title, entry.id);
+---
+<PageLayout
+  title={d.metaTitle}
+  description={d.metaDescription}
+  crumbs={crumbs}
+  h1={d.h1}
+  eyebrow="Deadbolt guide"
+  intro={d.intro}
+  keyFacts={d.keyFacts}
+  updated={d.updated}
+  published={d.published}
+  showUpdated
+  headings={headings}
+  toc={d.toc}
+  faqs={d.faqs}
+  sources={d.sources}
+  showSources
+  relatedKey={entry.id}
+  ogType="article"
+  schema={[article({ url: guideUrl(entry.id), headline: d.h1, description: d.metaDescription, published: d.published, modified: d.updated })]}
+>
+  <Content />
+</PageLayout>

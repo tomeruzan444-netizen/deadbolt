@@ -1,0 +1,32 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Sidebar from '../components/Sidebar.astro';
+import { simpleCrumbs } from '../lib/urls';
+import { breadcrumbs, webPage } from '../lib/schema';
+interface Props { title: string; metaTitle: string; description: string; updated: Date }
+const { title, metaTitle, description, updated } = Astro.props;
+const url = Astro.url.pathname;
+const crumbs = simpleCrumbs(title, url);
+const fmt = updated.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+---
+<BaseLayout title={metaTitle} description={description} schema={[webPage({ url, name: metaTitle, description, crumbs, dateModified: updated }), breadcrumbs(url, crumbs)]}>
+  <div class="container">
+    <Breadcrumbs crumbs={crumbs} />
+    <div class="page-grid">
+      <article class="main-col">
+        <header class="page-head">
+          <h1>{title}</h1>
+          <p class="meta-row mono">Last updated <time datetime={updated.toISOString().slice(0, 10)}>{fmt}</time></p>
+        </header>
+        <div class="prose legal" data-body><slot /></div>
+      </article>
+      <Sidebar relatedKey="legal" />
+    </div>
+  </div>
+</BaseLayout>
+<style>
+  .main-col { min-width: 0; }
+  .legal { margin-top: 32px; }
+  .legal :global(h2) { font-size: var(--step-2); }
+</style>

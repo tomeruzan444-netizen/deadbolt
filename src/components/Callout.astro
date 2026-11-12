@@ -1,0 +1,23 @@
+---
+/** Field tip / warning / code note inside prose. */
+import Icon from './Icon.astro';
+interface Props { type?: 'tip' | 'warning' | 'code'; title?: string }
+const { type = 'tip', title } = Astro.props;
+const defaults = { tip: 'From the field', warning: 'Before you do this', code: 'Check local code' };
+const icon = { tip: 'check', warning: 'alert', code: 'shield' }[type];
+---
+<aside class:list={['callout', type]}>
+  <p class="label"><Icon name={icon} size={16} /> {title ?? defaults[type]}</p>
+  <div class="c-body"><slot /></div>
+</aside>
+
+<style>
+  .callout { border: 1px solid var(--line); border-left: 4px solid var(--brass); background: var(--white); border-radius: var(--radius); padding: 14px 18px; margin-block: 1.6em !important; }
+  .callout.warning { border-left-color: var(--danger); }
+  .callout.code { border-left-color: var(--steel-700); }
+  .label { display: flex; align-items: center; gap: 8px; color: var(--brass-ink); margin-bottom: 4px; }
+  .warning .label { color: var(--danger); }
+  .code .label { color: var(--steel-700); }
+  .c-body :global(> * + *) { margin-top: 0.6em; }
+  .c-body { font-size: 0.98rem; }
+</style>

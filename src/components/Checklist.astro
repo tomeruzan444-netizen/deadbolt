@@ -1,0 +1,23 @@
+---
+interface Props { items: string[]; title?: string }
+const { items, title } = Astro.props;
+---
+<div class="checklist">
+  {title && <p class="label">{title}</p>}
+  <ul>
+    {items.map((i) => (
+      <li>
+        <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><rect x="1.5" y="1.5" width="17" height="17" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="m5.5 10.5 3 3 6-7" fill="none" stroke="#7A5A1C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span set:html={i} />
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .checklist { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 18px 20px; margin-block: 1.6em !important; }
+  .label { color: var(--brass-ink); margin-bottom: 10px; }
+  ul { list-style: none; padding: 0 !important; display: grid; gap: 10px; }
+  li { display: grid; grid-template-columns: 22px 1fr; gap: 10px; margin: 0 !important; line-height: 1.5; }
+  svg { margin-top: 4px; color: var(--steel-500); }
+</style>

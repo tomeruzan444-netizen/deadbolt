@@ -1,0 +1,22 @@
+---
+interface Props { facts: string[]; title?: string }
+const { facts, title = 'Key facts' } = Astro.props;
+---
+<aside class="keyfacts" aria-label={title}>
+  <p class="label">{title}</p>
+  <ul>
+    {facts.map((f, i) => (
+      <li><span class="n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span><span set:html={f} /></li>
+    ))}
+  </ul>
+</aside>
+
+<style>
+  .keyfacts { margin-top: 28px; max-width: var(--measure); background: var(--ink); color: #e9e5dc; border-radius: var(--radius-lg); padding: 20px 22px; position: relative; overflow: hidden; }
+  .keyfacts::after { content: ''; position: absolute; right: -40px; top: -40px; width: 140px; height: 140px; border: 1px solid rgba(201,160,78,0.25); border-radius: 50%; box-shadow: 0 0 0 18px rgba(201,160,78,0.05); }
+  .label { color: var(--brass); margin-bottom: 10px; }
+  ul { list-style: none; padding: 0; display: grid; gap: 10px; }
+  li { display: grid; grid-template-columns: 30px 1fr; gap: 8px; line-height: 1.5; font-size: 0.98rem; }
+  .n { font-family: var(--font-mono); font-size: 0.75rem; color: var(--brass); padding-top: 4px; }
+  li :global(strong) { color: var(--white); }
+</style>

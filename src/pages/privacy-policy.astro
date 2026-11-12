@@ -1,0 +1,10 @@
+---
+import { getEntry, render } from 'astro:content';
+import LegalLayout from '../layouts/LegalLayout.astro';
+const entry = await getEntry('legal', 'privacy-policy');
+if (!entry) throw new Error('Missing legal/privacy-policy.mdx');
+const { Content } = await render(entry);
+---
+<LegalLayout title={entry.data.title} metaTitle={entry.data.metaTitle} description={entry.data.metaDescription} updated={entry.data.updated}>
+  <Content />
+</LegalLayout>

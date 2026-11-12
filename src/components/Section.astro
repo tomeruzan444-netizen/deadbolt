@@ -1,0 +1,31 @@
+---
+/** Home-page section band. Headings are written in MDX inside the slot. */
+interface Props { tone?: 'paper' | 'dark' | 'white'; eyebrow?: string; id?: string; wide?: boolean }
+const { tone = 'paper', eyebrow, id, wide = false } = Astro.props;
+---
+<section class:list={['band', tone, { 'on-dark': tone === 'dark', blueprint: tone === 'dark' }]} id={id}>
+  <div class="container">
+    <div class:list={['band-inner', { wide }]}>
+      {eyebrow && <p class="label eyebrow">{eyebrow}</p>}
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .band { padding-block: clamp(56px, 8vw, 100px); }
+  .band.white { background: var(--white); border-block: 1px solid var(--line); }
+  .band-inner { max-width: 72ch; }
+  .band-inner.wide { max-width: none; }
+  .band-inner :global(> * + *) { margin-top: 1em; }
+  .band-inner :global(> h2) { margin-top: 0.35em; max-width: 24ch; }
+  .band-inner :global(> p) { max-width: 68ch; }
+  .band-inner :global(h3) { margin-top: 1.6em; }
+  .band-inner :global(ul:not([class])), .band-inner :global(ol:not([class])) { padding-left: 1.3em; max-width: 68ch; }
+  .band-inner :global(li + li) { margin-top: 0.4em; }
+  .eyebrow { color: var(--brass-ink); display: inline-flex; align-items: center; gap: 10px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: currentColor; }
+  .dark .eyebrow { color: var(--brass); }
+  .dark :global(p), .dark :global(li) { color: #d6d1c6; }
+  .dark :global(strong) { color: var(--white); }
+</style>

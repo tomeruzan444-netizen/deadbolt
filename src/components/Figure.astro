@@ -1,0 +1,26 @@
+---
+/**
+ * Wrapper for inline SVG infographics. `caption` is visible; `textEquivalent`
+ * (slot "text") gives the full information in text for screen readers and
+ * anyone who prefers it.
+ */
+interface Props { label?: string; caption: string }
+const { label = 'Diagram', caption } = Astro.props;
+const hasText = Astro.slots.has('text');
+---
+<figure class="diagram">
+  <slot />
+  <figcaption><span class="label">{label}</span>{caption}</figcaption>
+  {hasText && (
+    <details class="diagram-text">
+      <summary>Text version of this diagram</summary>
+      <div class="dt-body"><slot name="text" /></div>
+    </details>
+  )}
+</figure>
+
+<style>
+  .dt-body { padding-top: 8px; }
+  .dt-body :global(> * + *) { margin-top: 0.5em; }
+  .diagram-text { margin-top: 8px; }
+</style>

@@ -1,0 +1,115 @@
+---
+/**
+ * Contact form. Posts to site.formEndpoint (Formspree/Basin/serverless) as FormData via fetch.
+ * While formEndpoint is empty, it validates and then shows an honest "not live yet" message.
+ */
+import { getCollection } from 'astro:content';
+import { site } from '../config/site';
+const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+const endpoint = site.formEndpoint;
+---
+<form class="cform" novalidate data-form data-endpoint={endpoint} action={endpoint || undefined} method="post">
+  <div class="row two">
+    <div class="field">
+      <label for="cf-name">Full name <span class="req" aria-hidden="true">*</span></label>
+      <input id="cf-name" name="name" type="text" autocomplete="name" required aria-describedby="cf-name-err" />
+      <p class="err" id="cf-name-err" hidden>Please enter your name.</p>
+    </div>
+    <div class="field">
+      <label for="cf-phone">Phone <span class="req" aria-hidden="true">*</span></label>
+      <input id="cf-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required pattern="[0-9()+.\- ]{10,20}" aria-describedby="cf-phone-hint cf-phone-err" />
+      <p class="hint" id="cf-phone-hint">US number, including area code.</p>
+      <p class="err" id="cf-phone-err" hidden>Please enter a phone number with area code, for example 512 555 0100.</p>
+    </div>
+  </div>
+  <div class="field">
+    <label for="cf-email">Email <span class="req" aria-hidden="true">*</span></label>
+    <input id="cf-email" name="email" type="email" autocomplete="email" required aria-describedby="cf-email-err" />
+    <p class="err" id="cf-email-err" hidden>Please enter a valid email address.</p>
+  </div>
+  <div class="field">
+    <label for="cf-service">Service needed <span class="req" aria-hidden="true">*</span></label>
+    <select id="cf-service" name="service" required aria-describedby="cf-service-err">
+      <option value="">Choose a service</option>
+      {services.map((s) => <option value={s.data.title}>{s.data.title}</option>)}
+      <option value="Not sure">Not sure, I need advice</option>
+    </select>
+    <p class="err" id="cf-service-err" hidden>Please choose a service, or pick "Not sure".</p>
+  </div>
+  <div class="field">
+    <label for="cf-msg">Message <span class="req" aria-hidden="true">*</span></label>
+    <textarea id="cf-msg" name="message" rows="5" required minlength="10" aria-describedby="cf-msg-hint cf-msg-err"></textarea>
+    <p class="hint" id="cf-msg-hint">The door type, the lock brand if you know it, your city and state, and what is happening.</p>
+    <p class="err" id="cf-msg-err" hidden>Please add a short description (at least 10 characters).</p>
+  </div>
+  <div class="hp" aria-hidden="true">
+    <label for="cf-company">Leave this field empty</label>
+    <input id="cf-company" name="company" type="text" tabindex="-1" autocomplete="off" />
+  </div>
+  <p class="small">Fields marked <span aria-hidden="true">*</span><span class="visually-hidden">with an asterisk</span> are required. By sending this form you agree to our <a href="/privacy-policy/">privacy policy</a>.</p>
+  <button class="btn btn-primary" type="submit">Send request</button>
+  <div class="status" role="status" aria-live="polite" tabindex="-1" data-status hidden></div>
+</form>
+
+<script is:inline>
+  (() => {
+    const form = document.querySelector('[data-form]');
+    if (!form) return;
+    const status = form.querySelector('[data-status]');
+    const fields = ['name', 'phone', 'email', 'service', 'message'];
+    const show = (kind, msg) => { status.hidden = false; status.className = 'status ' + kind; status.textContent = msg; status.focus(); };
+    const check = (el) => {
+      let ok = el.checkValidity();
+      if (el.name === 'phone') ok = ok && el.value.replace(/\D/g, '').length >= 10;
+      const err = document.getElementById(el.id + '-err');
+      el.setAttribute('aria-invalid', ok ? 'false' : 'true');
+      if (err) err.hidden = ok;
+      return ok;
+    };
+    fields.forEach((n) => form.elements[n].addEventListener('blur', (e) => { if (e.target.value) check(e.target); }));
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      let firstBad = null;
+      fields.forEach((n) => { const el = form.elements[n]; if (!check(el) && !firstBad) firstBad = el; });
+      if (firstBad) { firstBad.focus(); show('error', 'Please fix the highlighted fields and try again.'); return; }
+      if (form.elements.company.value) return;
+      const endpoint = form.dataset.endpoint;
+      if (!endpoint) {
+        show('info', 'Thanks. Online requests are not connected yet, so this message was not sent. Please check back soon or use the contact details on this page if they are listed.');
+        return;
+      }
+      const btn = form.querySelector('button[type=submit]');
+      btn.disabled = true;
+      try {
+        const res = await fetch(endpoint, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+        if (!res.ok) throw new Error(String(res.status));
+        form.reset();
+        show('success', 'Thank you. Your request was sent. We will reply as soon as we can.');
+      } catch (err) {
+        show('error', 'Sorry, something went wrong and your request was not sent. Please try again in a moment.');
+      } finally { btn.disabled = false; }
+    });
+  })();
+</script>
+
+<style>
+  .cform { display: grid; gap: 18px; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: clamp(18px, 3vw, 28px); margin-block: 1.6em !important; max-width: 720px; }
+  .row.two { display: grid; gap: 18px; }
+  @media (min-width: 640px) { .row.two { grid-template-columns: 1fr 1fr; } }
+  .field { display: grid; gap: 6px; margin: 0 !important; }
+  label { font-family: var(--font-display); font-weight: 650; font-size: .95rem; }
+  .req { color: var(--danger); }
+  input, select, textarea { width: 100%; min-height: 48px; padding: 10px 12px; border: 1.5px solid var(--steel-400); border-radius: var(--radius); background: #fff; font-size: 1rem; line-height: 1.4; }
+  textarea { resize: vertical; min-height: 130px; }
+  input:focus, select:focus, textarea:focus { border-color: var(--ink); outline: 3px solid var(--brass-bright); outline-offset: 1px; }
+  [aria-invalid='true'] { border-color: var(--danger); }
+  .hint { font-size: .86rem; color: var(--text-muted); margin: 0 !important; }
+  .err { font-size: .88rem; color: var(--danger); font-weight: 600; margin: 0 !important; }
+  .small { font-size: .88rem; color: var(--text-muted); margin: 0 !important; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .cform button { justify-self: start; }
+  .status { padding: 12px 14px; border-radius: var(--radius); font-size: .96rem; margin: 0 !important; }
+  .status.success { background: #e6f1e7; color: var(--ok); border: 1px solid #b9d6bd; }
+  .status.error { background: #f8e7e3; color: var(--danger); border: 1px solid #e6bdb3; }
+  .status.info { background: var(--brass-soft); color: var(--ink); border: 1px solid #e0cc98; }
+</style>

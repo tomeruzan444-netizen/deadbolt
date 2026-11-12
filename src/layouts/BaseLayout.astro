@@ -1,0 +1,102 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import MobileCtaBar from '../components/MobileCtaBar.astro';
+import { site, absUrl } from '../config/site';
+import { graph, siteWideNodes } from '../lib/schema';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Page-specific JSON-LD nodes; site-wide Organization/WebSite/Locksmith are added automatically. */
+  schema?: Record<string, unknown>[];
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
+  published?: Date;
+  modified?: Date;
+}
+const { title, description, schema = [], ogType = 'website', noindex = false, published, modified } = Astro.props;
+const canonical = absUrl(Astro.url.pathname);
+const ogImage = absUrl(site.ogImage);
+const jsonld = graph([...siteWideNodes(), ...schema]);
+---
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <script is:inline>document.documentElement.classList.add('js')</script>
+    <link rel="preload" href="/fonts/archivo-display.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/sourceserif-var.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#14171C" />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${site.name}: the deadbolt specialists`} />
+    {published && <meta property="article:published_time" content={published.toISOString()} />}
+    {modified && <meta property="article:modified_time" content={modified.toISOString()} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <script type="application/ld+json" set:html={jsonld} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+    <MobileCtaBar />
+    <script is:inline>
+      (() => {
+        const header = document.querySelector('[data-header]');
+        const toggle = document.querySelector('[data-menu-toggle]');
+        const nav = document.getElementById('primary-nav');
+        const ddBtn = document.querySelector('[data-dd-btn]');
+        const dd = document.querySelector('[data-dd]');
+        const setMenu = (open) => {
+          toggle.setAttribute('aria-expanded', String(open));
+          nav.classList.toggle('is-open', open);
+        };
+        const setDd = (open) => {
+          ddBtn.setAttribute('aria-expanded', String(open));
+          dd.classList.toggle('is-open', open);
+        };
+        toggle && toggle.addEventListener('click', () => setMenu(toggle.getAttribute('aria-expanded') !== 'true'));
+        ddBtn && ddBtn.addEventListener('click', (e) => { e.stopPropagation(); setDd(ddBtn.getAttribute('aria-expanded') !== 'true'); });
+        document.addEventListener('keydown', (e) => {
+          if (e.key !== 'Escape') return;
+          if (dd && dd.classList.contains('is-open')) { setDd(false); ddBtn.focus(); }
+          else if (nav && nav.classList.contains('is-open')) { setMenu(false); toggle.focus(); }
+        });
+        document.addEventListener('click', (e) => { if (dd && !dd.contains(e.target)) setDd(false); });
+        dd && dd.addEventListener('focusout', (e) => { if (!dd.contains(e.relatedTarget) && window.innerWidth > 1024) setDd(false); });
+        let ticking = false;
+        const onScroll = () => {
+          if (ticking) return; ticking = true;
+          requestAnimationFrame(() => { header.classList.toggle('is-compact', window.scrollY > 24); ticking = false; });
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+      })();
+    </script>
+  </body>
+</html>

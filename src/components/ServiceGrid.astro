@@ -1,0 +1,44 @@
+---
+/** Card grid of every service, from the collection. Uses each entry's unique cardBlurb. */
+import { getCollection } from 'astro:content';
+import Icon from './Icon.astro';
+import { serviceUrl } from '../lib/urls';
+interface Props { tone?: 'light' | 'dark'; headingLevel?: 'h3' | 'h2' }
+const { tone = 'light', headingLevel = 'h3' } = Astro.props;
+const H = headingLevel;
+const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+---
+<ul class:list={['svc-grid', tone]}>
+  {services.map((s, i) => (
+    <li>
+      <a href={serviceUrl(s.id)} class="svc">
+        <span class="top">
+          <Icon name={s.data.icon ?? 'install'} size={28} />
+          <span class="idx" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+        </span>
+        <H class="t">{s.data.title}</H>
+        <p class="b">{s.data.cardBlurb}</p>
+        <span class="more" aria-hidden="true">View service <Icon name="arrow" size={16} /></span>
+      </a>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .svc-grid { list-style: none; padding: 0 !important; display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); margin-block: 1.6em !important; max-width: none; }
+  .svc-grid li { margin: 0 !important; }
+  .svc { height: 100%; display: flex; flex-direction: column; gap: 10px; padding: 20px; border-radius: var(--radius-lg); text-decoration: none; border: 1px solid var(--line); background: var(--white); color: var(--ink); transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease; }
+  .svc:hover { border-color: var(--brass); box-shadow: var(--shadow); color: var(--ink); }
+  @media (prefers-reduced-motion: no-preference) { .svc:hover { transform: translateY(-2px); } }
+  .top { display: flex; justify-content: space-between; align-items: center; color: var(--brass-ink); }
+  .idx { font-family: var(--font-mono); font-size: .72rem; color: var(--steel-500); letter-spacing: .1em; }
+  .t { font-family: var(--font-display); font-size: 1.12rem; font-weight: 700; line-height: 1.25; margin: 0 !important; }
+  .t::before { display: none !important; }
+  .b { font-size: .96rem; line-height: 1.55; color: var(--text-muted); margin: 0 !important; flex: 1; }
+  .more { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--brass-ink); }
+  .dark .svc { background: var(--graphite); border-color: var(--graphite-2); color: var(--white); }
+  .dark .svc:hover { border-color: var(--brass); color: var(--white); }
+  .dark .top, .dark .more { color: var(--brass); }
+  .dark .b { color: #c9c4b8; }
+  .dark .idx { color: var(--steel-400); }
+</style>

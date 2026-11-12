@@ -1,0 +1,77 @@
+---
+import { getCollection } from 'astro:content';
+import Logo from './Logo.astro';
+import ContactDetails from './ContactDetails.astro';
+import { site, hasAnyContact } from '../config/site';
+import { serviceUrl, guideUrl } from '../lib/urls';
+
+const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
+const guides = (await getCollection('guides')).sort((a, b) => a.data.order - b.data.order);
+const year = new Date().getFullYear();
+---
+<footer class="site-footer on-dark blueprint">
+  <div class="container">
+    <div class="top">
+      <div class="about">
+        <Logo />
+        <p>
+          {site.name} works on one thing: deadbolt locks. We install, repair, rekey, replace and open
+          deadbolts for homes, rentals and small businesses across the United States.
+        </p>
+        {hasAnyContact() && <ContactDetails />}
+      </div>
+
+      <nav class="cols" aria-label="Footer">
+        <div>
+          <h2 class="label">Services</h2>
+          <ul>
+            {services.map((s) => <li><a href={serviceUrl(s.id)}>{s.data.title}</a></li>)}
+            <li><a href="/services/">All deadbolt lock services</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2 class="label">Deadbolt Guides</h2>
+          <ul>
+            {guides.map((g) => <li><a href={guideUrl(g.id)}>{g.data.title}</a></li>)}
+            <li><a href="/deadbolt-guides/">All deadbolt guides</a></li>
+          </ul>
+          <h2 class="label second">Company</h2>
+          <ul>
+            <li><a href="/service-areas/">Service Areas</a></li>
+            <li><a href="/about/">About</a></li>
+            <li><a href="/contact/">Contact</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+    <div class="bottom">
+      <p>© {year} {site.legalName || site.name}. All rights reserved.</p>
+      <ul>
+        <li><a href="/privacy-policy/">Privacy Policy</a></li>
+        <li><a href="/accessibility-statement/">Accessibility Statement</a></li>
+        <li><a href="/sitemap-index.xml">Sitemap</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer { padding-block: 64px 28px; font-size: 0.96rem; }
+  .top { display: grid; gap: 48px; }
+  @media (min-width: 900px) { .top { grid-template-columns: 1fr 1.5fr; gap: 72px; } }
+  .about p { margin-block: 18px 22px; color: #c9c4b8; max-width: 46ch; line-height: 1.65; }
+  .cols { display: grid; gap: 32px; grid-template-columns: 1fr; }
+  @media (min-width: 560px) { .cols { grid-template-columns: 1fr 1fr; } }
+  .label { color: var(--brass); margin-bottom: 12px; font-family: var(--font-mono); font-size: 0.74rem; }
+  .label.second { margin-top: 28px; }
+  ul { list-style: none; padding: 0; }
+  .cols li a { display: inline-block; padding-block: 5px; color: #e9e5dc; text-decoration: none; line-height: 1.35; }
+  .cols li a:hover { color: var(--brass-bright); text-decoration: underline; }
+  .bottom {
+    margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--graphite-2);
+    display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; color: #a9a397; font-size: 0.86rem;
+  }
+  .bottom ul { display: flex; flex-wrap: wrap; gap: 4px 18px; }
+  .bottom a { color: #c9c4b8; display: inline-block; padding-block: 4px; }
+</style>

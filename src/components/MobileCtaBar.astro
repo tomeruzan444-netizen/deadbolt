@@ -1,0 +1,27 @@
+---
+/** Sticky bottom bar on small screens. Renders only when a phone or email exists. */
+import Icon from './Icon.astro';
+import { hasPhone, hasEmail, telHref } from '../config/site';
+const show = hasPhone() || hasEmail();
+---
+{show && (
+  <div class="mobile-cta" role="region" aria-label="Quick contact">
+    {hasPhone() && (
+      <a class="btn btn-primary" href={telHref()}><Icon name="phone" /> Call now</a>
+    )}
+    <a class="btn btn-ghost" href="/contact/"><Icon name="mail" /> Request service</a>
+  </div>
+)}
+
+<style>
+  .mobile-cta {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+    display: flex; gap: 8px; padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+    background: var(--ink); border-top: 1px solid rgba(201, 160, 78, 0.3);
+  }
+  .mobile-cta .btn { flex: 1; min-height: 48px; font-size: 0.95rem; }
+  .mobile-cta .btn-ghost { color: var(--paper); border-color: var(--steel-500); }
+  @media (min-width: 900px) { .mobile-cta { display: none; } }
+  :global(body:has(.mobile-cta)) { padding-bottom: 76px; }
+  @media (min-width: 900px) { :global(body:has(.mobile-cta)) { padding-bottom: 0; } }
+</style>

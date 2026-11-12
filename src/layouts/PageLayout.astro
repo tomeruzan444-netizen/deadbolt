@@ -1,0 +1,88 @@
+---
+/**
+ * Layout for every page except home: breadcrumbs, page head, body + sidebar grid,
+ * CTA and FAQ. The [data-body] wrapper marks the prose that QA counts keywords in.
+ */
+import type { MarkdownHeading } from 'astro';
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import KeyFacts from '../components/KeyFacts.astro';
+import Toc from '../components/Toc.astro';
+import Faq from '../components/Faq.astro';
+import Cta from '../components/Cta.astro';
+import Sidebar from '../components/Sidebar.astro';
+import Sources from '../components/Sources.astro';
+import type { Crumb } from '../lib/urls';
+import { breadcrumbs, faqPage, webPage } from '../lib/schema';
+
+interface Props {
+  title: string;
+  description: string;
+  crumbs: Crumb[];
+  h1: string;
+  eyebrow?: string;
+  intro?: string;
+  keyFacts?: string[];
+  updated?: Date;
+  published?: Date;
+  showUpdated?: boolean;
+  headings?: MarkdownHeading[];
+  toc?: boolean;
+  faqs?: { q: string; a: string }[];
+  sources?: { title: string; publisher: string; url: string }[];
+  showSources?: boolean;
+  relatedKey: string;
+  schema?: Record<string, unknown>[];
+  ogType?: 'website' | 'article';
+  ctaHeading?: string;
+  ctaText?: string;
+  noindex?: boolean;
+}
+const p = Astro.props;
+const url = Astro.url.pathname;
+const faqs = p.faqs ?? [];
+const nodes = [
+  webPage({ url, name: p.title, description: p.description, crumbs: p.crumbs, dateModified: p.updated }),
+  breadcrumbs(url, p.crumbs),
+  ...(faqs.length ? [faqPage(url, faqs)] : []),
+  ...(p.schema ?? []),
+];
+const fmt = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+const tocExtra = faqs.length ? [{ slug: 'faq', text: 'Frequently asked questions' }] : [];
+---
+<BaseLayout title={p.title} description={p.description} schema={nodes} ogType={p.ogType} published={p.published} modified={p.updated} noindex={p.noindex}>
+  <div class="container">
+    <Breadcrumbs crumbs={p.crumbs} />
+    <div class="page-grid">
+      <article class="main-col">
+        <header class="page-head">
+          {p.eyebrow && <p class="label eyebrow">{p.eyebrow}</p>}
+          <h1>{p.h1}</h1>
+          {p.intro && <p class="lead" data-intro set:html={p.intro} />}
+          {p.showUpdated && p.updated && (
+            <p class="meta-row mono">
+              <span>Last updated <time datetime={p.updated.toISOString().slice(0, 10)}>{fmt(p.updated)}</time></span>
+              <span>By {`Deadbolt Nation Locksmiths`}</span>
+            </p>
+          )}
+        </header>
+        {p.keyFacts && p.keyFacts.length > 0 && <KeyFacts facts={p.keyFacts} />}
+        {p.toc && p.headings && <Toc headings={p.headings} extra={tocExtra} />}
+        <div class="prose body" data-body>
+          <slot />
+        </div>
+        {p.showSources && p.sources && <Sources sources={p.sources} />}
+        <Cta heading={p.ctaHeading} text={p.ctaText} />
+        {faqs.length > 0 && <Faq faqs={faqs} />}
+      </article>
+      <Sidebar relatedKey={p.relatedKey} />
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .main-col { min-width: 0; }
+  .eyebrow { color: var(--brass-ink); display: inline-flex; align-items: center; gap: 10px; }
+  .eyebrow::before { content: ''; width: 28px; height: 1px; background: currentColor; }
+  .body { margin-top: 36px; }
+</style>

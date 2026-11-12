@@ -1,0 +1,75 @@
+---
+/**
+ * Door preparation for a new deadbolt, to scale (1 in = 42 px):
+ * face bore 2-1/8 in, backset 2-3/8 in (2-3/4 in alternative), edge bore 1 in.
+ */
+const S = 42;
+const edgeX = 340, cy = 190;
+const bs1 = edgeX - 2.375 * S, bs2 = edgeX - 2.75 * S;
+const boreR = (2.125 * S) / 2;
+const edgeL = 452, thick = 1.75 * S, edgeR = edgeL + thick, edgeC = edgeL + thick / 2;
+---
+<svg class="dp" viewBox="0 0 720 360" role="img" aria-labelledby="dp-t dp-d">
+  <title id="dp-t">Door preparation for deadbolt lock installation</title>
+  <desc id="dp-d">Left: the face of the door with a 2-1/8 inch face bore whose center sits 2-3/8 inches from the door edge, with an alternative 2-3/4 inch backset shown dashed. Right: the door edge with a 1 inch edge bore centered on the door thickness and a shallow mortise for the bolt faceplate.</desc>
+
+  <text x="40" y="30" class="t">DOOR FACE</text>
+  <path class="door" d="M40 50H340V330H40" />
+  <path class="edge" d="M340 50V330" />
+  <circle class="bore" cx={bs1} cy={cy} r={boreR} />
+  <path class="cross" d={`M${bs1 - 10} ${cy}H${bs1 + 10}M${bs1} ${cy - 10}V${cy + 10}`} />
+  <circle class="alt" cx={bs2} cy={cy} r={boreR} />
+  <path class="cross alt-c" d={`M${bs2 - 6} ${cy - 6}L${bs2 + 6} ${cy + 6}M${bs2 + 6} ${cy - 6}L${bs2 - 6} ${cy + 6}`} />
+
+  <!-- backset dims -->
+  <g class="dim">
+    <path d={`M${bs1} 84V${cy - boreR - 4}M${edgeX} 84V98M${bs1 + 4} 92H${edgeX - 4}`} />
+    <path class="arr" d={`M${bs1} 92l7-3.5v7zM${edgeX} 92l-7-3.5v7z`} />
+    <text x={(bs1 + edgeX) / 2} y="80" class="t" text-anchor="middle">2-3/8 IN</text>
+  </g>
+  <text x={bs2 - 8} y="74" class="t sm" text-anchor="end">ALT. 2-3/4 IN</text>
+  <path class="lead" d={`M${bs2 - 6} 78L${bs2} ${cy - 8}`} />
+  <g class="dim">
+    <path d={`M${bs1 - boreR} ${cy + boreR + 6}V${cy + boreR + 24}M${bs1 + boreR} ${cy + boreR + 6}V${cy + boreR + 24}M${bs1 - boreR + 4} ${cy + boreR + 16}H${bs1 + boreR - 4}`} />
+    <path class="arr" d={`M${bs1 - boreR} ${cy + boreR + 16}l7-3.5v7zM${bs1 + boreR} ${cy + boreR + 16}l-7-3.5v7z`} />
+    <text x={bs1} y={cy + boreR + 40} class="t" text-anchor="middle">2-1/8 IN FACE BORE</text>
+  </g>
+  <text x="332" y="322" class="t sm" text-anchor="end">DOOR EDGE →</text>
+
+  <!-- edge view -->
+  <text x={edgeL} y="30" class="t">DOOR EDGE</text>
+  <rect class="door" x={edgeL} y="50" width={thick} height="280" />
+  <rect class="mortise" x={edgeC - 0.5 * S} y={cy - 1.125 * S} width={S} height={2.25 * S} rx="2" />
+  <circle class="bore" cx={edgeC} cy={cy} r={S / 2} />
+  <path class="cross" d={`M${edgeC - 8} ${cy}H${edgeC + 8}M${edgeC} ${cy - 8}V${cy + 8}`} />
+  <path class="link" d={`M${edgeX} ${cy}H${edgeL}`} />
+  <g class="dim">
+    <path d={`M${edgeL} 56V70M${edgeR} 56V70M${edgeL + 4} 63H${edgeR - 4}`} />
+    <path class="arr" d={`M${edgeL} 63l7-3.5v7zM${edgeR} 63l-7-3.5v7z`} />
+  </g>
+  <text x={edgeR + 14} y="67" class="t sm">DOOR THICKNESS</text>
+  <path class="lead" d={`M${edgeC + S / 2 + 2} ${cy + 4}L${edgeR + 28} ${cy + 40}`} />
+  <text x={edgeR + 32} y={cy + 46} class="t">1 IN EDGE BORE</text>
+  <path class="lead" d={`M${edgeC + S / 2} ${cy - 1.125 * S + 6}L${edgeR + 28} ${cy - 66}`} />
+  <text x={edgeR + 32} y={cy - 62} class="t">FACEPLATE</text>
+  <text x={edgeR + 32} y={cy - 48} class="t">MORTISE</text>
+  <text x={edgeR + 32} y={cy + 92} class="t sm">CENTERED ON</text>
+  <text x={edgeR + 32} y={cy + 106} class="t sm">DOOR THICKNESS</text>
+</svg>
+
+<style>
+  .dp { width: 100%; height: auto; }
+  .door { fill: #fffdf8; stroke: #14171c; stroke-width: 1.4; }
+  .edge { stroke: #14171c; stroke-width: 3; }
+  .bore { fill: rgba(122, 90, 28, 0.12); stroke: #7a5a1c; stroke-width: 1.8; }
+  .alt { fill: none; stroke: #6b7380; stroke-width: 1.2; stroke-dasharray: 5 4; }
+  .cross { stroke: #7a5a1c; stroke-width: 1.2; }
+  .alt-c { stroke: #6b7380; }
+  .mortise { fill: rgba(20, 23, 28, 0.06); stroke: #4a525e; stroke-width: 1.1; stroke-dasharray: 3 3; }
+  .link { stroke: #8c949f; stroke-width: 0.9; stroke-dasharray: 10 4 2 4; }
+  .dim path { stroke: #7a5a1c; stroke-width: 1; fill: none; }
+  .dim .arr { fill: #7a5a1c; stroke: none; }
+  .lead { stroke: #6b7380; stroke-width: 0.9; stroke-dasharray: 2 3; fill: none; }
+  .t { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.08em; fill: #14171c; }
+  .t.sm { fill: #4a525e; font-size: 10px; }
+</style>

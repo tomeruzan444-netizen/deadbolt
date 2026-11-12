@@ -1,0 +1,30 @@
+---
+/** Renders an entry from the `pages` collection (hubs, about, contact) with the standard layout. */
+import { getEntry, render } from 'astro:content';
+import PageLayout from '../layouts/PageLayout.astro';
+import { simpleCrumbs } from '../lib/urls';
+
+interface Props { id: string; url: string; relatedKey: string; eyebrow?: string; schema?: Record<string, unknown>[] }
+const { id, url, relatedKey, eyebrow, schema = [] } = Astro.props;
+const entry = await getEntry('pages', id);
+if (!entry) throw new Error(`Missing src/content/pages/${id}.mdx`);
+const d = entry.data;
+const { Content, headings } = await render(entry);
+---
+<PageLayout
+  title={d.metaTitle}
+  description={d.metaDescription}
+  crumbs={simpleCrumbs(d.title, url)}
+  h1={d.h1}
+  eyebrow={eyebrow}
+  intro={d.intro}
+  keyFacts={d.keyFacts}
+  updated={d.updated}
+  headings={headings}
+  toc={d.toc}
+  faqs={d.faqs}
+  relatedKey={relatedKey}
+  schema={schema}
+>
+  <Content />
+</PageLayout>

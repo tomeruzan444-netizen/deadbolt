@@ -1,0 +1,36 @@
+---
+/** Renders only the contact fields that exist in config. Renders nothing if all are empty. */
+import Icon from './Icon.astro';
+import { site, hasPhone, hasEmail, hasAddress, hasHours, telHref, mailHref } from '../config/site';
+interface Props { compact?: boolean }
+const { compact = false } = Astro.props;
+const any = hasPhone() || hasEmail() || hasAddress() || hasHours();
+const a = site.address;
+---
+{any && (
+  <ul class:list={['contact-details', { compact }]}>
+    {hasPhone() && (
+      <li><Icon name="phone" /><a href={telHref()}>{site.phoneDisplay}</a></li>
+    )}
+    {hasEmail() && (
+      <li><Icon name="mail" /><a href={mailHref()}>{site.email}</a></li>
+    )}
+    {hasAddress() && a && (
+      <li>
+        <Icon name="pin" />
+        <address>{a.streetAddress}<br />{a.addressLocality}, {a.addressRegion} {a.postalCode}</address>
+      </li>
+    )}
+    {hasHours() && (
+      <li><Icon name="clock" /><span>{site.hoursDisplay}</span></li>
+    )}
+  </ul>
+)}
+
+<style>
+  .contact-details { list-style: none; padding: 0; display: grid; gap: 12px; }
+  .contact-details li { display: grid; grid-template-columns: 22px 1fr; gap: 10px; align-items: start; line-height: 1.45; }
+  .contact-details :global(svg) { color: var(--brass); margin-top: 2px; }
+  address { font-style: normal; }
+  .compact { gap: 8px; font-size: 0.95rem; }
+</style>

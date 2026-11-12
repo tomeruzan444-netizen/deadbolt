@@ -1,0 +1,38 @@
+---
+/** Call-to-action block. Phone button only renders when a phone exists in config. */
+import Icon from './Icon.astro';
+import { site, hasPhone, telHref } from '../config/site';
+interface Props { heading?: string; text?: string }
+const {
+  heading = 'Talk to a deadbolt specialist',
+  text = 'Tell us about the door, the lock and what is going wrong. We will tell you what the job involves before any work starts.',
+} = Astro.props;
+---
+<section class="cta on-dark blueprint" aria-label="Contact us">
+  <div class="inner">
+    <p class="label">Deadbolt Nation Locksmiths</p>
+    <h2 class="cta-h">{heading}</h2>
+    <p class="cta-t">{text}</p>
+    <div class="actions">
+      {hasPhone() && (
+        <a class="btn btn-primary" href={telHref()}><Icon name="phone" /> Call {site.phoneDisplay}</a>
+      )}
+      <a class:list={['btn', hasPhone() ? 'btn-ghost' : 'btn-primary']} href="/contact/">
+        Request a visit <Icon name="arrow" />
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta { margin-top: 56px; border-radius: var(--radius-lg); padding: clamp(24px, 4vw, 40px); position: relative; overflow: hidden; max-width: var(--measure); }
+  .cta::after {
+    content: ''; position: absolute; right: 24px; top: 24px; width: 64px; height: 64px;
+    border: 1.5px solid rgba(201,160,78,0.5); border-radius: 50%;
+    box-shadow: inset 0 0 0 10px rgba(201,160,78,0.06);
+  }
+  .label { color: var(--brass); }
+  .cta-h { font-size: var(--step-2); margin-top: 8px; max-width: 20ch; }
+  .cta-t { margin-top: 10px; color: #d6d1c6; max-width: 52ch; }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
+</style>

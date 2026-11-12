@@ -1,0 +1,38 @@
+---
+interface Props { faqs: { q: string; a: string }[]; title?: string }
+const { faqs, title = 'Frequently asked questions' } = Astro.props;
+---
+<section class="faq" aria-labelledby="faq">
+  <h2 id="faq">{title}</h2>
+  <div class="items" data-faq>
+    {faqs.map((f) => (
+      <details>
+        <summary><span>{f.q}</span><span class="pm" aria-hidden="true"></span></summary>
+        <p>{f.a}</p>
+      </details>
+    ))}
+  </div>
+</section>
+
+<style>
+  .faq { margin-top: 64px; max-width: var(--measure); }
+  .faq h2::before { content: ''; display: block; width: 44px; height: 3px; background: var(--brass); margin-bottom: 0.7em; }
+  .items { margin-top: 20px; border-top: 1px solid var(--line); }
+  details { border-bottom: 1px solid var(--line); }
+  summary {
+    list-style: none; cursor: pointer; display: flex; justify-content: space-between; gap: 16px; align-items: flex-start;
+    padding: 16px 2px; font-family: var(--font-display); font-weight: 650; font-size: 1.04rem; line-height: 1.35; color: var(--ink);
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover { color: var(--brass-ink); }
+  .pm { flex: none; width: 22px; height: 22px; border: 1px solid var(--steel-400); border-radius: 50%; position: relative; margin-top: 1px; }
+  .pm::before, .pm::after { content: ''; position: absolute; left: 50%; top: 50%; width: 10px; height: 1.6px; background: currentColor; transform: translate(-50%, -50%); transition: transform 0.2s ease; }
+  .pm::after { transform: translate(-50%, -50%) rotate(90deg); }
+  details[open] .pm::after { transform: translate(-50%, -50%) rotate(0deg); }
+  details[open] summary { color: var(--brass-ink); }
+  details p { padding: 0 2px 18px; color: var(--text); max-width: 64ch; }
+  @media (prefers-reduced-motion: no-preference) {
+    details[open] p { animation: faq-in 0.2s ease; }
+  }
+  @keyframes faq-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+</style>

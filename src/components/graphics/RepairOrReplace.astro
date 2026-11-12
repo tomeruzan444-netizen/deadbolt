@@ -1,0 +1,37 @@
+---
+/** "Repair or replace?" decision flow, built as an accessible ordered list of yes/no questions. */
+interface Props {
+  nodes: { q: string; yes: string; no: string }[];
+  title: string;
+}
+const { nodes, title } = Astro.props;
+---
+<figure class="diagram flow">
+  <p class="label">{title}</p>
+  <ol>
+    {nodes.map((n, i) => (
+      <li>
+        <p class="q"><span class="qn" aria-hidden="true">Q{i + 1}</span>{n.q}</p>
+        <div class="ans">
+          <p class="yes"><span class="tag">Yes</span><span set:html={n.yes} /></p>
+          <p class="no"><span class="tag">No</span><span set:html={n.no} /></p>
+        </div>
+      </li>
+    ))}
+  </ol>
+</figure>
+
+<style>
+  .flow .label { color: var(--brass-ink); margin-bottom: 14px; }
+  .flow ol { list-style: none; padding: 0 !important; display: grid; gap: 14px; }
+  .flow li { margin: 0 !important; position: relative; }
+  .flow li:not(:last-child)::after { content: ''; position: absolute; left: 22px; bottom: -14px; height: 14px; width: 1px; background: var(--steel-400); }
+  .q { display: flex; gap: 12px; align-items: flex-start; font-family: var(--font-display); font-weight: 700; font-size: 1.02rem; line-height: 1.35; background: var(--ink); color: var(--white); padding: 12px 14px; border-radius: var(--radius); margin: 0 !important; }
+  .qn { font-family: var(--font-mono); font-size: .74rem; color: var(--brass); padding-top: 3px; flex: none; }
+  .ans { display: grid; gap: 8px; margin-top: 8px; }
+  @media (min-width: 640px) { .ans { grid-template-columns: 1fr 1fr; } }
+  .ans p { margin: 0 !important; font-size: .94rem; line-height: 1.5; padding: 10px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); display: flex; gap: 10px; }
+  .tag { font-family: var(--font-mono); font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; height: fit-content; flex: none; }
+  .yes .tag { background: var(--brass-soft); color: var(--brass-ink); }
+  .no .tag { background: var(--steel-100); color: var(--steel-700); }
+</style>

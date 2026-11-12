@@ -1,0 +1,22 @@
+---
+interface Props { sources: { title: string; publisher: string; url: string }[] }
+const { sources } = Astro.props;
+---
+{sources.length > 0 && (
+  <section class="sources" aria-labelledby="sources">
+    <h2 id="sources">Sources</h2>
+    <ol>
+      {sources.map((s) => (
+        <li><a href={s.url} rel="noopener" target="_blank">{s.title}</a> <span>({s.publisher})</span></li>
+      ))}
+    </ol>
+  </section>
+)}
+
+<style>
+  .sources { margin-top: 56px; max-width: var(--measure); font-size: 0.92rem; }
+  .sources h2 { font-size: var(--step-1); }
+  ol { margin-top: 12px; padding-left: 1.4em; display: grid; gap: 6px; line-height: 1.5; }
+  li::marker { font-family: var(--font-mono); font-size: 0.85em; color: var(--steel-500); }
+  span { color: var(--text-muted); }
+</style>

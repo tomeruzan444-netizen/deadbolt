@@ -1,0 +1,62 @@
+---
+/** Top-down comparison of single and double cylinder deadbolts through a door slab. */
+const panels = [
+  { title: 'SINGLE CYLINDER', inside: 'turn', note: 'KEY OUTSIDE, THUMB TURN INSIDE' },
+  { title: 'DOUBLE CYLINDER', inside: 'cyl', note: 'KEY NEEDED ON BOTH SIDES' },
+];
+---
+<svg class="sd" viewBox="0 0 720 270" role="img" aria-labelledby="sd-t sd-d">
+  <title id="sd-t">Single vs double cylinder deadbolt</title>
+  <desc id="sd-d">Two top-down views through a door. A single cylinder deadbolt has a keyed cylinder on the outside and a thumb turn on the inside, so anyone inside can open it without a key. A double cylinder deadbolt has a keyed cylinder on both sides, so a key is needed to open it from inside as well.</desc>
+  {panels.map((p, i) => {
+    const ox = i * 360 + 20;
+    const cx = ox + 160;
+    return (
+      <g>
+        <text x={ox} y="26" class="t">{`0${i + 1}  ${p.title}`}</text>
+        <text x={ox} y="62" class="t sm">OUTSIDE</text>
+        <text x={ox} y="222" class="t sm">INSIDE</text>
+        <rect class="slab" x={ox} y="122" width="320" height="34" />
+        <path class="axis" d={`M${cx} 70V210`} />
+        <!-- outside cylinder -->
+        <rect class="rose" x={cx - 34} y="112" width="68" height="10" rx="3" />
+        <rect class="cyl" x={cx - 24} y="86" width="48" height="26" rx="6" />
+        <path class="keyway" d={`M${cx} 90v18`} />
+        <path class="keyicon" d={`M${cx - 4} 70a6 6 0 1 0 8 0M${cx} 76v-12`} />
+        <!-- inside -->
+        <rect class="rose" x={cx - 34} y="156" width="68" height="10" rx="3" />
+        {p.inside === 'turn' ? (
+          <g>
+            <rect class="cyl" x={cx - 20} y="166" width="40" height="18" rx="5" />
+            <rect class="turn" x={cx - 5} y="184" width="10" height="24" rx="4" />
+          </g>
+        ) : (
+          <g>
+            <rect class="cyl" x={cx - 24} y="166" width="48" height="26" rx="6" />
+            <path class="keyway" d={`M${cx} 170v18`} />
+            <path class="keyicon" d={`M${cx - 4} 208a6 6 0 1 1 8 0M${cx} 202v12`} />
+          </g>
+        )}
+        <!-- bolt -->
+        <rect class="bolt" x={cx + 20} y="132" width="140" height="14" rx="2" />
+        <text x={ox} y="254" class:list={['t', i === 0 ? 'ok' : 'warn']}>{p.note}</text>
+      </g>
+    );
+  })}
+</svg>
+
+<style>
+  .sd { width: 100%; height: auto; }
+  .slab { fill: #fffdf8; stroke: #14171c; stroke-width: 1.4; }
+  .axis { stroke: #8c949f; stroke-width: 0.9; stroke-dasharray: 8 4 2 4; }
+  .rose { fill: #ece7dc; stroke: #14171c; stroke-width: 1.2; }
+  .cyl { fill: #fffdf8; stroke: #14171c; stroke-width: 1.4; }
+  .keyway { stroke: #7a5a1c; stroke-width: 2; stroke-linecap: round; }
+  .keyicon { fill: none; stroke: #7a5a1c; stroke-width: 1.4; stroke-linecap: round; }
+  .turn { fill: rgba(122, 90, 28, 0.3); stroke: #7a5a1c; stroke-width: 1.3; }
+  .bolt { fill: rgba(122, 90, 28, 0.25); stroke: #7a5a1c; stroke-width: 1.2; }
+  .t { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.08em; fill: #14171c; }
+  .t.sm { font-size: 10px; fill: #4a525e; }
+  .ok { fill: #2f6b3a; }
+  .warn { fill: #a3361f; }
+</style>
