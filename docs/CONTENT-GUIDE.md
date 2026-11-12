@@ -30,7 +30,7 @@ Contents:
 
 We sound like a senior deadbolt technician explaining something to a homeowner at their front door: calm, direct, specific, a little opinionated when experience justifies it.
 
-- Use "we" for the company and "you" for the reader.
+- **Write in the first person, as the Deadbolt Fixers team.** Use "we", "our team" and "our technicians" for the company and "you" for the reader. Never describe the company in the third person ("Deadbolt Fixers checks...", "a technician will..."). Mention the brand inside first-person sentences: "At Deadbolt Fixers, we...", "our Deadbolt Fixers technicians...". Keep generic wording only when talking about other locksmiths (for example scam warnings: "a locksmith who goes straight to drilling").
 - Short paragraphs: 1-3 sentences, max ~60 words. Vary sentence length.
 - Plain English first, then the technical term, explained once: "the backset (the distance from the door edge to the center of the bore hole)".
 - Prefer field knowledge: what we actually see, what homeowners get wrong, what to check before buying.

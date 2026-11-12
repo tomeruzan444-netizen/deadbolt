@@ -325,7 +325,7 @@ Total questions: 274
 - Do you service both homes and businesses?
 - Do you only work on deadbolts, or on other locks too?
 - Which deadbolt brands do you work with?
-- Should I supply my own deadbolt or let the technician bring one?
+- Should I supply my own deadbolt or let your technician bring one?
 - How do I prepare for a deadbolt service visit?
 - What information should I include when I request service?
 - Is there a warranty on deadbolt work?
