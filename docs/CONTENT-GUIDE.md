@@ -238,6 +238,14 @@ Where the company will later need such a detail, leave a code comment, never vis
 - Accuracy: dimensions shown must match sources (e.g. 1" throw, 2-3/8" / 2-3/4" backset, 2-1/8" bore). Never decorate with made-up specs.
 - Keep each SVG under ~8 KB where possible. No raster images unless necessary; if needed, AVIF/WebP with `srcset`, width/height and `loading="lazy"` below the fold.
 - No stock photos of people, fake technicians or fake vans.
+
+### Photos (owner rule, 2026-11-12: every photo is optimized and minified)
+- **Optimize every photo before it goes live.** Recompress the source with Pillow (JPG, quality ~82, progressive; PNG photos become JPG; long side capped at 1600px) and save it in `src/assets/photos/` with a descriptive kebab-case name.
+- **Place photos only through `src/components/Photo.astro`.** It uses `astro:assets` `<Picture>` to serve AVIF and WebP at several widths, with width/height (no layout shift) and lazy loading. Never put a raw `<img>` or a file in `public/` for content photos.
+- **QA fails** on any source photo over 300 KB.
+- Alt text describes what is actually in the photo and differs per page. The caption ties the photo to the paragraph next to it and claims nothing the photo does not show.
+- Prefer real photos of our own work. AI-generated images must not be presented as our jobs, and must not show hardware that does not exist (check for impossible details before using one).
+- If a photo comes from the web, check its license and add the required credit in the caption.
 - Planned shared infographics (in `src/components/graphics/`): deadbolt anatomy (exploded), installation steps, rekeying pin stacks before/after, single vs double cylinder, ANSI grade chart, strike plate reinforcement, repair-or-replace flowchart, service visit process.
 
 ## 10. Uniqueness: giving every page its own "color"

@@ -272,6 +272,14 @@ if (!/Sitemap: /.test(robots)) errors.push('robots.txt has no Sitemap line');
 const llms = fs.readFileSync(path.join(DIST, 'llms.txt'), 'utf8');
 for (const p of pages) if (p.kind !== 'legal' && !llms.includes(`${p.url})`)) errors.push(`llms.txt missing ${p.url}`);
 
+// Photo sources must be optimized (owner rule): nothing over 300 KB in src/assets/photos
+const photoDir = path.join(ROOT, 'src', 'assets', 'photos');
+if (fs.existsSync(photoDir)) for (const f of fs.readdirSync(photoDir)) {
+  const kb = fs.statSync(path.join(photoDir, f)).size / 1024;
+  if (kb > 300) errors.push(`photo src/assets/photos/${f} is ${Math.round(kb)} KB (max 300 KB): recompress it`);
+  if (/\.png$/i.test(f)) warnings.push(`photo src/assets/photos/${f} is a PNG: convert photos to JPG`);
+}
+
 // ---------- FAQ register ----------
 const byPage = new Map();
 for (const f of allFaqs) { if (!byPage.has(f.url)) byPage.set(f.url, []); byPage.get(f.url).push(f.q); }
