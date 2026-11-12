@@ -18,7 +18,12 @@ const year = new Date().getFullYear();
           {site.name} works on one thing: deadbolt locks. We install, repair, rekey, replace and open
           deadbolts for homes, rentals and small businesses across the United States.
         </p>
-        {hasAnyContact() && <ContactDetails />}
+        {hasAnyContact() && (
+          <div class="f-contact">
+            <h2 class="label">Contact us</h2>
+            <ContactDetails />
+          </div>
+        )}
       </div>
 
       <nav class="cols" aria-label="Footer">
@@ -65,6 +70,10 @@ const year = new Date().getFullYear();
   @media (min-width: 560px) { .cols { grid-template-columns: 1fr 1fr; } }
   .label { color: var(--brass); margin-bottom: 12px; font-family: var(--font-mono); font-size: 0.74rem; }
   .label.second { margin-top: 28px; }
+  .f-contact { padding: 18px 20px; border: 1px solid var(--graphite-2); border-radius: var(--radius-lg); background: rgba(255,255,255,0.03); max-width: 380px; }
+  .f-contact :global(.contact-details) { font-size: 1.08rem; gap: 14px; }
+  .f-contact :global(.contact-details a) { color: #f3efe6; font-weight: 600; text-decoration: none; }
+  .f-contact :global(.contact-details a:hover) { color: var(--brass-bright); text-decoration: underline; }
   ul { list-style: none; padding: 0; }
   .cols li a { display: inline-block; padding-block: 5px; color: #e9e5dc; text-decoration: none; line-height: 1.35; }
   .cols li a:hover { color: var(--brass-bright); text-decoration: underline; }
