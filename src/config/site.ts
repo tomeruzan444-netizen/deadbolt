@@ -15,23 +15,23 @@ export interface PostalAddress {
 }
 
 export const site = {
-  name: 'Deadbolt Nation Locksmiths',
-  shortName: 'Deadbolt Nation',
-  // TODO(business): registered legal entity name, e.g. "Deadbolt Nation Locksmiths LLC".
+  name: 'Deadbolt Fixers',
+  shortName: 'Deadbolt Fixers',
+  // TODO(business): registered legal entity name, e.g. "Deadbolt Fixers LLC".
   legalName: '',
   // Canonical base URL. Change here to move the whole site to another domain.
   // Can be overridden at build time with the SITE_URL environment variable
   // (used for the temporary staging domain).
-  baseUrl: (process.env.SITE_URL || 'https://deadboltnation.com').replace(/\/$/, ''),
+  baseUrl: (process.env.SITE_URL || 'https://deadboltfixers.com').replace(/\/$/, ''),
   tagline: 'The deadbolt specialists',
   description:
-    'Deadbolt Nation Locksmiths works only on deadbolt locks: installation, repair, lockouts, rekeying, replacement, smart and high security deadbolts for homes and businesses across the United States.',
+    'Deadbolt Fixers works only on deadbolt locks: installation, repair, lockouts, rekeying, replacement, smart and high security deadbolts for homes and businesses across the United States.',
 
   // TODO(business): customer phone number in E.164 format, e.g. "+15125550123".
   phone: '',
   // TODO(business): human-readable phone, e.g. "(512) 555-0123". Leave empty if phone is empty.
   phoneDisplay: '',
-  // TODO(business): public contact email, e.g. "service@deadboltnation.com".
+  // TODO(business): public contact email, e.g. "service@deadboltfixers.com".
   email: '',
   // TODO(business): fill all fields of the business address, or leave as null.
   address: null as PostalAddress | null,

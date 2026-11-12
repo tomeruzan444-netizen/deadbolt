@@ -1,8 +1,8 @@
-# Deadbolt Nation Locksmiths: website
+# Deadbolt Fixers: website
 
-Static marketing website for **Deadbolt Nation Locksmiths**, a US locksmith company that works only on deadbolt locks. Built with [Astro](https://astro.build) (static output, almost no JavaScript), MDX content collections and hand-written CSS.
+Static marketing website for **Deadbolt Fixers**, a US locksmith company that works only on deadbolt locks. Built with [Astro](https://astro.build) (static output, almost no JavaScript), MDX content collections and hand-written CSS.
 
-- Production domain (planned): `https://deadboltnation.com`
+- Production domain (planned): `https://deadboltfixers.com`
 - Staging (Hostinger temporary domain): `https://lavenderblush-alligator-506840.hostingersite.com` (built with `noindex`)
 
 ## Quick start
@@ -26,7 +26,7 @@ Everything lives in **`src/config/site.ts`**. Each empty field has a `TODO(busin
 | Field | Format | Where it appears once filled |
 |---|---|---|
 | `phone` + `phoneDisplay` | `+15125550123` and `(512) 555-0123` | Header "Call Now", mobile sticky bar, CTAs, sidebar, footer, contact page, JSON-LD `telephone` |
-| `email` | `service@deadboltnation.com` | Footer, contact page, sidebar, JSON-LD |
+| `email` | `service@deadboltfixers.com` | Footer, contact page, sidebar, JSON-LD |
 | `address` | object with street, city, state, ZIP | Footer, contact page, JSON-LD `PostalAddress` |
 | `hours` / `hoursDisplay` | `["Mo-Fr 08:00-18:00"]` / `Mon-Fri 8am-6pm` | Footer, contact block, JSON-LD `openingHours` |
 | `social` | `{ facebook: "https://..." }` | JSON-LD `sameAs` |
@@ -74,7 +74,7 @@ Navigation, footer, hub cards, sitemap, `llms.txt` and JSON-LD update automatica
 
 ### Vercel
 1. Import the GitHub repo in Vercel. Framework preset: **Astro**. Build command `npm run build`, output `dist`.
-2. Add the environment variable `SITE_URL=https://deadboltnation.com` (optional; that is the default).
+2. Add the environment variable `SITE_URL=https://deadboltfixers.com` (optional; that is the default).
 3. Add the domain in Vercel and point DNS at it. `vercel.json` sets trailing slashes and cache headers.
 
 ### Hostinger (static hosting, current staging)
@@ -87,7 +87,7 @@ Navigation, footer, hub cards, sitemap, `llms.txt` and JSON-LD update automatica
 
 ### Going live on the real domain
 - Build without `NOINDEX=1` and with `SITE_URL` set to the real domain.
-- Submit `https://deadboltnation.com/sitemap-index.xml` in Google Search Console and Bing Webmaster Tools.
+- Submit `https://deadboltfixers.com/sitemap-index.xml` in Google Search Console and Bing Webmaster Tools.
 
 ## Quality gates
 

@@ -1,0 +1,79 @@
+---
+/** Inside view of a door with a sidelight: thumb turn within reach of the glass vs double cylinder with the key stored away from the glass. No dimensions shown on purpose. */
+const panels = [
+  { title: 'THUMB TURN NEAR GLASS', turn: true, note: 'TURN REACHABLE THROUGH A BROKEN PANE' },
+  { title: 'DOUBLE CYLINDER + KEY PLAN', turn: false, note: 'NOTHING TO REACH. KEY STORED AWAY' },
+];
+---
+<svg class="dcr" viewBox="0 0 720 300" role="img" aria-labelledby="dcr-t dcr-d">
+  <title id="dcr-t">Why glass near a deadbolt matters</title>
+  <desc id="dcr-d">Two inside views of an entry door with a glass sidelight beside the lock. In the first, a thumb turn sits within reach of an arm put through a broken sidelight pane. In the second, a double cylinder deadbolt has a keyhole instead of a thumb turn, and the inside key hangs on a hook on the far side of the door, out of reach from the glass.</desc>
+  {panels.map((p, i) => {
+    const ox = i * 360 + 20;
+    const sx = ox + 20;
+    const dx = ox + 96;
+    const lx = dx + 22;
+    return (
+      <g>
+        <text x={ox} y="24" class="t">{`0${i + 1}  ${p.title}`}</text>
+        <text x={ox} y="44" class="t sm">INSIDE VIEW</text>
+        <!-- sidelight -->
+        <rect class="frame" x={sx} y="58" width="66" height="200" />
+        <rect class="glass" x={sx + 8} y="66" width="50" height="184" />
+        <path class="crack" d={`M${sx + 24} 140l10 -8l6 12l8 -6M${sx + 30} 152l6 -8`} />
+        <!-- door -->
+        <rect class="frame" x={dx} y="58" width="150" height="200" />
+        <rect class="panel" x={dx + 50} y="78" width="80" height="70" />
+        <rect class="panel" x={dx + 50} y="166" width="80" height="72" />
+        <path class="hinge" d={`M${dx + 150} 80v16M${dx + 150} 150v16M${dx + 150} 220v16`} />
+        <!-- deadbolt -->
+        <circle class="rose" cx={lx} cy="128" r="11" />
+        {p.turn ? (
+          <rect class="turn" x={lx - 3} y="117" width="6" height="22" rx="2.5" />
+        ) : (
+          <path class="keyway" d={`M${lx} 122v12`} />
+        )}
+        <!-- reach path -->
+        <path class:list={['reach', p.turn ? 'bad' : 'blocked']} d={`M${sx + 34} 146C${sx + 56} 150 ${lx - 30} 142 ${lx - 14} 130`} />
+        {p.turn ? (
+          <path class="arrow" d={`M${lx - 22} 128l8 2l-4 7`} />
+        ) : (
+          <path class="x" d={`M${lx - 32} 132l10 10M${lx - 22} 132l-10 10`} />
+        )}
+        {!p.turn && (
+          <g>
+            <path class="hook" d={`M${dx + 186} 116v10a5 5 0 0 0 10 0`} />
+            <path class="keyicon" d={`M${dx + 191} 131v26M${dx + 191} 150h6M${dx + 191} 156h4`} />
+            <circle class="keyicon" cx={dx + 191} cy="128" r="5" />
+            <text x={dx + 172} y="182" class="t xs">KEY HOOK</text>
+          </g>
+        )}
+        <text x={ox} y="284" class:list={['t', p.turn ? 'warn' : 'ok']}>{p.note}</text>
+      </g>
+    );
+  })}
+</svg>
+
+<style>
+  .dcr { width: 100%; height: auto; }
+  .frame { fill: #fffdf8; stroke: #14171c; stroke-width: 1.4; }
+  .glass { fill: rgba(140, 148, 159, 0.14); stroke: #8c949f; stroke-width: 1; }
+  .crack { fill: none; stroke: #4a525e; stroke-width: 1; }
+  .panel { fill: none; stroke: #8c949f; stroke-width: 1; }
+  .hinge { stroke: #14171c; stroke-width: 3; }
+  .rose { fill: #ece7dc; stroke: #14171c; stroke-width: 1.2; }
+  .turn { fill: rgba(122, 90, 28, 0.35); stroke: #7a5a1c; stroke-width: 1.2; }
+  .keyway { stroke: #7a5a1c; stroke-width: 2; stroke-linecap: round; }
+  .reach { fill: none; stroke-width: 1.4; stroke-dasharray: 5 4; }
+  .reach.bad { stroke: #a3361f; }
+  .reach.blocked { stroke: #8c949f; }
+  .arrow { fill: none; stroke: #a3361f; stroke-width: 1.4; stroke-linejoin: round; }
+  .x { stroke: #2f6b3a; stroke-width: 2; stroke-linecap: round; }
+  .hook { fill: none; stroke: #14171c; stroke-width: 1.4; stroke-linecap: round; }
+  .keyicon { fill: none; stroke: #7a5a1c; stroke-width: 1.4; stroke-linecap: round; }
+  .t { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.08em; fill: #14171c; }
+  .t.sm { font-size: 10px; fill: #4a525e; }
+  .t.xs { font-size: 9px; fill: #4a525e; }
+  .ok { fill: #2f6b3a; }
+  .warn { fill: #a3361f; }
+</style>

@@ -1,6 +1,6 @@
-# Content Guide: Deadbolt Nation Locksmiths
+# Content Guide: Deadbolt Fixers
 
-This is the operating manual for every word on deadboltnation.com. Anyone (human or AI) adding or editing a page must follow it. The keyword ownership table lives in [`KEYWORD-MAP.md`](./KEYWORD-MAP.md). The FAQ register is generated into [`FAQ-REGISTER.md`](./FAQ-REGISTER.md) by `npm run qa`.
+This is the operating manual for every word on deadboltfixers.com. Anyone (human or AI) adding or editing a page must follow it. The keyword ownership table lives in [`KEYWORD-MAP.md`](./KEYWORD-MAP.md). The FAQ register is generated into [`FAQ-REGISTER.md`](./FAQ-REGISTER.md) by `npm run qa`.
 
 Contents:
 1. Brand and entity basics
@@ -21,7 +21,7 @@ Contents:
 
 ## 1. Brand and entity basics
 
-- Company name, always: **Deadbolt Nation Locksmiths**. Short form "Deadbolt Nation" is allowed in navigation, the logo and the title-tag suffix only. Never "DN", "Deadbolt Nation LLC" (legal name comes from config), or "Deadbolt Nation Locksmith" (singular).
+- Company name, always: **Deadbolt Fixers** (capital D, capital F), treated as a singular company in sentences ("Deadbolt Fixers works on..."). The title-tag suffix is "| Deadbolt Fixers". Never "DF", "Deadbolt Fixers LLC" (legal name comes from config), "DeadboltFixers" or "Deadbolt Fixer" (singular).
 - What we are: a locksmith company that works on deadbolt locks only, for homes and small businesses across the United States.
 - Language: American English. US spelling (color, center, aluminum), inches written as `2-3/8"` or "2-3/8 inches", US dollars.
 - Contact details come from `src/config/site.ts`. Never type a phone number, address or email into content. If you need a call to action, use the `<CTA />` component, which hides empty fields.
@@ -101,7 +101,7 @@ Each page's main keyword is in its frontmatter `keyword` field and in `KEYWORD-M
 | Body prose | Exact match **at least 5 times**. Counted in the main article body (paragraphs, lists, tables, H2/H3), **excluding** H1, FAQ, breadcrumbs, sidebar, nav, footer and CTA. Case-insensitive; curly apostrophes normalized. |
 | First paragraph | Contains the keyword. |
 | At least one H2 | Contains the keyword. |
-| Title tag | Keyword near the start. 50-60 characters. Formula: `{Keyword in Title Case}: {Specific benefit or angle} \| Deadbolt Nation` (shorten the angle to fit). |
+| Title tag | Keyword near the start. 50-60 characters. Formula: `{Keyword in Title Case}: {Specific benefit or angle} \| Deadbolt Fixers` (shorten the angle to fit). |
 | Meta description | Contains the keyword. 140-160 characters. Formula: answer + specific + soft action. Example: "Deadbolt rekeying changes the pins so old keys stop working, without replacing the lock. See when to rekey, what it involves and how it compares." |
 | Density | Soft ceiling: no more than about 1 exact match per 120 words. If you need more, use variations. |
 
@@ -287,7 +287,7 @@ Rules:
    ---
    title: "Deadbolt Rekeying"            # display name used in nav/breadcrumbs
    h1: "Deadbolt Rekeying Without Replacing Your Lock"
-   metaTitle: "Deadbolt Rekeying: New Keys, Same Lock | Deadbolt Nation"
+   metaTitle: "Deadbolt Rekeying: New Keys, Same Lock | Deadbolt Fixers"
    metaDescription: "..."
    keyword: "deadbolt rekeying"
    secondaryKeywords: ["rekey a deadbolt", "rekey vs replace"]

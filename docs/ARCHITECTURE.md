@@ -1,4 +1,4 @@
-# Architecture: Deadbolt Nation Locksmiths
+# Architecture: Deadbolt Fixers
 
 Phase 1 plan. This covers the stack, file layout, data model, components, schema strategy, design system and QA tooling. Content rules live in `CONTENT-GUIDE.md`; keyword ownership in `KEYWORD-MAP.md`.
 

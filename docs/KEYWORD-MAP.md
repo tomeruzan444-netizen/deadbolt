@@ -1,4 +1,4 @@
-# Keyword Map: Deadbolt Nation Locksmiths
+# Keyword Map: Deadbolt Fixers
 
 This file is the single source of truth for which page owns which search query. **One page = one main keyword = one search intent.** Before creating any new page, check this map. If the new page's keyword or intent overlaps an existing row, change the angle or extend the existing page instead.
 
@@ -19,8 +19,8 @@ Columns:
 | `/services/` | deadbolt lock services | C | deadbolt services list, residential deadbolt services, commercial deadbolt services, deadbolt work a locksmith does |
 | `/deadbolt-guides/` | deadbolt guides | I | deadbolt buying advice, deadbolt how-to, deadbolt troubleshooting help |
 | `/service-areas/` | deadbolt locksmith service areas | N / T | deadbolt service coverage, deadbolt locksmith by state, nationwide deadbolt service |
-| `/about/` | deadbolt specialists | N | about Deadbolt Nation Locksmiths, deadbolt-only locksmith company |
-| `/contact/` | schedule deadbolt service | T | book a deadbolt locksmith, deadbolt service request, contact Deadbolt Nation Locksmiths |
+| `/about/` | deadbolt specialists | N | about Deadbolt Fixers, deadbolt-only locksmith company |
+| `/contact/` | schedule deadbolt service | T | book a deadbolt locksmith, deadbolt service request, contact Deadbolt Fixers |
 
 **Home vs. service pages:** the home page owns the *brand + category* query ("deadbolt locksmith") and introduces every service in one or two sentences each, linking out. It must not explain installation, repair or lockout steps in depth. That depth belongs to the service pages.
 

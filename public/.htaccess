@@ -1,4 +1,4 @@
-# Deadbolt Nation Locksmiths - Apache/LiteSpeed config for static hosting (Hostinger)
+# Deadbolt Fixers - Apache/LiteSpeed config for static hosting (Hostinger)
 Options -Indexes
 DirectoryIndex index.html
 ErrorDocument 404 /404.html

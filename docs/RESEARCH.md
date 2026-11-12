@@ -1,4 +1,4 @@
-# Research Facts: Deadbolt Nation Locksmiths
+# Research Facts: Deadbolt Fixers
 
 Compiled 2026-11-12. Every fact below was read on the page listed. "high" = official publisher, manufacturer, or government page stating it directly. "medium" = reputable secondary source, an older page, a summary page standing in for a paywalled standard, or an official page that may be out of date. Do not add facts that are not in this file. Prices and licensing rules change, so re-check them before publishing.
 

@@ -1,0 +1,97 @@
+---
+/**
+ * "How to read the label": the two ANSI/BHMA ratings printed on a residential
+ * deadbolt (example wording from the Schlage B60 product page), with callouts.
+ * Facts: docs/RESEARCH.md section 1. Light (paper) backgrounds only.
+ */
+const legend = [
+  { n: 1, code: 'A156.40', text: 'RESIDENTIAL DEADBOLTS' },
+  { n: 2, code: '-2015', text: 'EDITION (CURRENT: 2025)' },
+  { n: 3, code: 'AAA', text: 'ONE LETTER PER CATEGORY' },
+  { n: 4, code: 'A156.36', text: 'AUXILIARY LOCKS' },
+  { n: 5, code: 'GRADE 1', text: 'TOP OF GRADE 1 / 2 / 3' },
+];
+const cats = ['SECURITY', 'DURABILITY', 'FINISH'];
+---
+<svg class="gl" viewBox="0 0 800 400" role="img" aria-labelledby="gl-t gl-d">
+  <title id="gl-t">How to read the ANSI/BHMA rating on a deadbolt box</title>
+  <desc id="gl-d">A spec line reading ANSI/BHMA A156.40-2015 Grade AAA, and below it ANSI/BHMA A156.36-2010 Grade 1. Callouts explain that A156.40 is the residential deadbolt standard, 2015 is the edition (the current one is 2025), AAA gives one letter each for security, durability and finish where A is best, B better and C good, A156.36 is the auxiliary lock standard, and Grade 1 is the top of its 1, 2, 3 scale. A note says to verify the listing in the BHMA Certified Products Directory.</desc>
+
+  <!-- spec card -->
+  <rect class="card" x="30" y="40" width="500" height="200" rx="6" />
+  <text x="56" y="70" class="t sm">SPEC LINE AS PRINTED (EXAMPLE: SCHLAGE B60)</text>
+
+  <g class="hl">
+    <rect x="156" y="100" width="86" height="28" rx="3" />
+    <rect x="240" y="100" width="58" height="28" rx="3" />
+    <rect x="372" y="100" width="48" height="28" rx="3" />
+    <rect x="156" y="170" width="86" height="28" rx="3" />
+    <rect x="308" y="170" width="84" height="28" rx="3" />
+  </g>
+
+  <g class="spec">
+    <text x="56" y="120" textLength="92" lengthAdjust="spacingAndGlyphs">ANSI/BHMA</text>
+    <text x="160" y="120" textLength="78" lengthAdjust="spacingAndGlyphs">A156.40</text>
+    <text x="243" y="120" textLength="52" lengthAdjust="spacingAndGlyphs">-2015</text>
+    <text x="312" y="120" textLength="54" lengthAdjust="spacingAndGlyphs">GRADE</text>
+    <text x="376" y="120" textLength="40" lengthAdjust="spacingAndGlyphs">AAA</text>
+    <text x="56" y="190" textLength="92" lengthAdjust="spacingAndGlyphs">ANSI/BHMA</text>
+    <text x="160" y="190" textLength="78" lengthAdjust="spacingAndGlyphs">A156.36</text>
+    <text x="243" y="190" textLength="52" lengthAdjust="spacingAndGlyphs">-2010</text>
+    <text x="312" y="190" textLength="54" lengthAdjust="spacingAndGlyphs">GRADE</text>
+    <text x="374" y="190" textLength="12" lengthAdjust="spacingAndGlyphs">1</text>
+  </g>
+
+  <!-- numbered markers -->
+  <g class="mk">
+    <circle cx="199" cy="88" r="9" /><text x="199" y="92" class="n">1</text>
+    <circle cx="269" cy="88" r="9" /><text x="269" y="92" class="n">2</text>
+    <circle cx="396" cy="88" r="9" /><text x="396" y="92" class="n">3</text>
+    <circle cx="199" cy="158" r="9" /><text x="199" y="162" class="n">4</text>
+    <circle cx="350" cy="158" r="9" /><text x="350" y="162" class="n">5</text>
+  </g>
+
+  <!-- legend -->
+  {legend.map((l, i) => (
+    <g>
+      <circle class="lc" cx="572" cy={56 + i * 46} r="9" />
+      <text x="572" y={60 + i * 46} class="n">{l.n}</text>
+      <text x="590" y={56 + i * 46} class="t">{l.code}</text>
+      <text x="590" y={70 + i * 46} class="t sm">{l.text}</text>
+    </g>
+  ))}
+
+  <!-- AAA breakdown -->
+  <path class="lead" d="M420 114H452V262H115V280M285 262V280M455 262V280" />
+  {cats.map((c, i) => (
+    <g>
+      <rect class="cat" x={40 + i * 170} y="280" width="150" height="66" rx="4" />
+      <text x={115 + i * 170} y="314" class="big">A</text>
+      <text x={115 + i * 170} y="334" class="t sm mid">{c}</text>
+    </g>
+  ))}
+  <text x="40" y="374" class="t">EACH LETTER IS EARNED SEPARATELY:  C = GOOD   B = BETTER   A = BEST</text>
+
+  <!-- verify -->
+  <rect class="ver" x="560" y="300" width="220" height="74" rx="4" />
+  <text x="574" y="324" class="t acc">VERIFY THE LISTING</text>
+  <text x="574" y="344" class="t sm">BHMA CERTIFIED PRODUCTS</text>
+  <text x="574" y="360" class="t sm">DIRECTORY, BY BRAND OR STANDARD</text>
+</svg>
+
+<style>
+  .gl { width: 100%; height: auto; }
+  .card { fill: #fffdf8; stroke: #14171c; stroke-width: 1.4; }
+  .hl rect { fill: rgba(122, 90, 28, 0.12); stroke: #7a5a1c; stroke-width: 1; }
+  .spec text { font-family: var(--font-mono); font-size: 17px; fill: #14171c; }
+  .mk circle, .lc { fill: #fffdf8; stroke: #7a5a1c; stroke-width: 1.3; }
+  .n { font-family: var(--font-mono); font-size: 11px; fill: #7a5a1c; text-anchor: middle; }
+  .lead { fill: none; stroke: #8c949f; stroke-width: 1; stroke-dasharray: 3 3; }
+  .cat { fill: #fffdf8; stroke: #14171c; stroke-width: 1.2; }
+  .ver { fill: rgba(122, 90, 28, 0.06); stroke: #7a5a1c; stroke-width: 1.2; stroke-dasharray: 5 3; }
+  .big { font-family: var(--font-mono); font-size: 26px; fill: #7a5a1c; text-anchor: middle; }
+  .t { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.06em; fill: #14171c; }
+  .t.sm { font-size: 10px; fill: #4a525e; }
+  .t.mid { text-anchor: middle; }
+  .t.acc { fill: #7a5a1c; }
+</style>

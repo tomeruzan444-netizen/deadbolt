@@ -3,7 +3,7 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import rehypeTableWrap from './src/lib/rehype-table-wrap.mjs';
 
-const SITE = (process.env.SITE_URL || 'https://deadboltnation.com').replace(/\/$/, '');
+const SITE = (process.env.SITE_URL || 'https://deadboltfixers.com').replace(/\/$/, '');
 
 export default defineConfig({
   site: SITE,

@@ -1,5 +1,5 @@
 /**
- * Content + SEO QA for Deadbolt Nation Locksmiths. Run after `npm run build`.
+ * Content + SEO QA for Deadbolt Fixers. Run after `npm run build`.
  *   npm run qa            -> report, exit 1 on errors
  * Rules come from docs/CONTENT-GUIDE.md. Also regenerates docs/FAQ-REGISTER.md.
  */
