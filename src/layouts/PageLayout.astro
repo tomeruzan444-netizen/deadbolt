@@ -54,7 +54,7 @@ const fmt = (d: Date) => d.toLocaleDateString('en-US', { year: 'numeric', month:
 const tocExtra = faqs.length ? [{ slug: 'faq', text: 'Frequently asked questions' }] : [];
 ---
 <BaseLayout title={p.title} description={p.description} schema={nodes} ogType={p.ogType} published={p.published} modified={p.updated} noindex={p.noindex}>
-  <header class="page-hero on-dark blueprint">
+  <header class="page-hero on-dark blueprint hero-surface">
     <div class="container">
       <Breadcrumbs crumbs={p.crumbs} tone="dark" />
       <div class="hero-copy">

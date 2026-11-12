@@ -12,7 +12,7 @@ const crumbs = simpleCrumbs(title, url);
 const fmt = updated.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
 ---
 <BaseLayout title={metaTitle} description={description} schema={[webPage({ url, name: metaTitle, description, crumbs, dateModified: updated }), breadcrumbs(url, crumbs)]}>
-  <header class="page-hero on-dark blueprint">
+  <header class="page-hero on-dark blueprint hero-surface">
     <div class="container">
       <Breadcrumbs crumbs={crumbs} tone="dark" />
       <div class="hero-copy">

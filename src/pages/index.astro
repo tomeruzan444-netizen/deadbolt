@@ -15,7 +15,7 @@ const { Content } = await render(entry);
 const schema = [webPage({ url: '/', name: d.metaTitle, description: d.metaDescription, dateModified: d.updated }), faqPage('/', d.faqs)];
 ---
 <BaseLayout title={d.metaTitle} description={d.metaDescription} schema={schema}>
-  <section class="hero on-dark blueprint">
+  <section class="hero on-dark blueprint hero-surface">
     <div class="container hero-grid">
       <div class="hero-copy">
         <p class="label eyebrow">Deadbolt locks only · Nationwide, USA</p>

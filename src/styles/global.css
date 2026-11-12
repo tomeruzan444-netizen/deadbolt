@@ -221,14 +221,15 @@ figure.diagram svg { width: 100%; height: auto; color: var(--ink); }
 .on-dark h1, .on-dark h2, .on-dark h3 { color: var(--white); }
 .on-dark a:not(.btn) { color: var(--brass-bright); }
 .on-dark a:not(.btn):hover { color: var(--white); }
+/* Dark "machined graphite" surface: soft brass and steel glows over a fine grain. */
 .blueprint {
   background-color: var(--ink);
   background-image:
-    linear-gradient(to right, rgba(201, 160, 78, 0.07) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(201, 160, 78, 0.07) 1px, transparent 1px),
-    linear-gradient(to right, rgba(201, 160, 78, 0.035) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(201, 160, 78, 0.035) 1px, transparent 1px);
-  background-size: 96px 96px, 96px 96px, 24px 24px, 24px 24px;
+    radial-gradient(ellipse 70% 60% at 85% 0%, rgba(226, 176, 74, 0.10), transparent 70%),
+    radial-gradient(ellipse 60% 70% at 0% 100%, rgba(140, 148, 159, 0.08), transparent 70%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    linear-gradient(180deg, #171a20 0%, #121418 100%);
+  background-size: auto, auto, 160px 160px, auto;
 }
 
 /* ---------- Page header (inner pages) ---------- */
@@ -255,3 +256,25 @@ figure.diagram svg { width: 100%; height: auto; color: var(--ink); }
 
 /* Card grid */
 .card-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); }
+
+/* ---------- Top band ornament (home hero, page heroes, 404) ----------
+   Concentric "cylinder face" rings with a measurement scale, faded out with a mask.
+   Purely decorative: pointer-events none, hidden from assistive tech (CSS only). */
+.hero-surface { position: relative; overflow: hidden; isolation: isolate; }
+.hero-surface::before {
+  content: '';
+  position: absolute; z-index: -1; pointer-events: none;
+  width: min(980px, 120vw); aspect-ratio: 1;
+  right: max(-320px, -22vw); top: 42%; transform: translateY(-50%);
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 640 640' fill='none' stroke='%23C9A04E'%3E%3Ccircle cx='320' cy='320' r='300' stroke-opacity='.35' stroke-width='1' stroke-dasharray='1 7.85'/%3E%3Ccircle cx='320' cy='320' r='300' stroke-opacity='.5' stroke-width='6' stroke-dasharray='1.2 46'/%3E%3Ccircle cx='320' cy='320' r='280' stroke-opacity='.28'/%3E%3Ccircle cx='320' cy='320' r='230' stroke-opacity='.18' stroke-dasharray='4 6'/%3E%3Ccircle cx='320' cy='320' r='180' stroke-opacity='.26'/%3E%3Ccircle cx='320' cy='320' r='120' stroke-opacity='.2'/%3E%3Ccircle cx='320' cy='320' r='64' stroke-opacity='.32'/%3E%3Cpath d='M320 20v600M20 320h600' stroke-opacity='.12' stroke-dasharray='2 6'/%3E%3Crect x='308' y='262' width='24' height='92' rx='10' stroke-opacity='.4'/%3E%3C/svg%3E") center / contain no-repeat;
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 0%, #000 38%, transparent 70%);
+          mask-image: radial-gradient(circle at 50% 50%, #000 0%, #000 38%, transparent 70%);
+  opacity: 0.9;
+}
+.hero-surface::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; z-index: -1;
+  background: linear-gradient(90deg, transparent, rgba(226, 176, 74, 0.55) 30%, rgba(226, 176, 74, 0.55) 70%, transparent);
+}
+@media (max-width: 760px) {
+  .hero-surface::before { width: 640px; right: -360px; top: 0; transform: none; opacity: 0.55; }
+}
