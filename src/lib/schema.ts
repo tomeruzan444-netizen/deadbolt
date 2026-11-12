@@ -28,6 +28,8 @@ export function organization(): Json {
     url: `${site.baseUrl}/`,
     logo: { '@type': 'ImageObject', url: absUrl('/logo.png'), width: 512, height: 512 },
     description: site.description,
+    founder: site.founders.map((f) => ({ '@type': 'Person', name: f.name, jobTitle: f.role, worksFor: { '@id': ORG_ID } })),
+    knowsAbout: ['Deadbolt locks', 'Deadbolt installation', 'Deadbolt repair', 'Deadbolt rekeying', 'ANSI/BHMA A156.40', 'UL 437'],
     ...(sameAs.length ? { sameAs } : {}),
     ...contactProps(),
   };

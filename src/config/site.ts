@@ -25,7 +25,7 @@ export const site = {
   baseUrl: (process.env.SITE_URL || 'https://deadboltfixers.com').replace(/\/$/, ''),
   tagline: 'The deadbolt specialists',
   description:
-    'Deadbolt Fixers works only on deadbolt locks: installation, repair, lockouts, rekeying, replacement, smart and high security deadbolts for homes and businesses across the United States.',
+    'Deadbolt Fixers is a deadbolt-only locksmith company founded by certified deadbolt locksmiths, with teams working across the United States on installation, repair, lockouts, rekeying, replacement, smart and high security deadbolts for homes and businesses.',
 
   // TODO(business): customer phone number in E.164 format, e.g. "+15125550123".
   phone: '',
@@ -44,6 +44,15 @@ export const site = {
   // TODO(business): form backend URL (Formspree, Basin, a serverless function...).
   // While empty, the contact form validates but explains that online booking is not live yet.
   formEndpoint: '',
+
+  // Founders (first names as provided by the business).
+  // TODO(business): add surnames, years of experience and the certifying body for each founder
+  // (for example an ALOA certification) once confirmed, then mention them on the About page.
+  founders: [
+    { name: 'Dan', role: 'Co-founder, certified deadbolt locksmith' },
+    { name: 'Ron', role: 'Co-founder, certified deadbolt locksmith' },
+    { name: 'Jack', role: 'Co-founder, certified deadbolt locksmith' },
+  ],
 
   locale: 'en-US',
   country: 'United States',

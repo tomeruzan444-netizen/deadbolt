@@ -1,0 +1,32 @@
+---
+/**
+ * Founder cards for the About page. Data comes from site.founders in src/config/site.ts.
+ * TODO(business): add a headshot (AVIF/WebP, 320x320) and a one-line bio per founder when available.
+ */
+import { site } from '../config/site';
+---
+<ul class="founders" aria-label="Founders of Deadbolt Fixers">
+  {site.founders.map((f) => (
+    <li class="card">
+      <span class="mono-ring" aria-hidden="true">{f.name.charAt(0)}</span>
+      <div>
+        <p class="name">{f.name}</p>
+        <p class="role">{f.role.split(', ')[0]}</p>
+        {f.role.split(', ')[1] && <p class="cert">{f.role.split(', ')[1]}</p>}
+      </div>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .founders { list-style: none; padding: 0 !important; display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); margin-block: 1.6em !important; max-width: none; }
+  .card { margin: 0 !important; display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-lg); }
+  .mono-ring {
+    flex: none; width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center;
+    font-family: var(--font-display); font-weight: 800; font-size: 1.4rem; color: var(--brass-ink);
+    border: 1.5px solid var(--brass); box-shadow: inset 0 0 0 5px var(--brass-soft);
+  }
+  .name { font-family: var(--font-display); font-weight: 750; font-size: 1.15rem; line-height: 1.2; margin: 0 !important; }
+  .cert { font-family: var(--font-mono); font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--brass-ink); line-height: 1.35; margin: 4px 0 0 !important; }
+  .role { font-size: 0.9rem; color: var(--text-muted); line-height: 1.35; margin: 2px 0 0 !important; }
+</style>

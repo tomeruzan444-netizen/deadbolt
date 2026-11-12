@@ -16,7 +16,7 @@ export const GET: APIRoute = async () => {
     '',
     `> ${site.description}`,
     '',
-    `${site.name} is a US locksmith company that works exclusively on deadbolt locks. It serves homeowners, renters, landlords, property managers and small businesses across the United States. Content on this site explains deadbolt standards (ANSI/BHMA A156.40 grades, UL 437), installation dimensions, egress code considerations for double cylinder locks, and how to hire a locksmith safely.`,
+    `${site.name} is a US locksmith company that works exclusively on deadbolt locks. It was founded by ${site.founders.map((f) => f.name).join(', ').replace(/, ([^,]*)$/, ' and $1')}, certified deadbolt locksmiths with many years of experience, and operates with many teams across US states. It serves homeowners, renters, landlords, property managers and small businesses across the United States. Content on this site explains deadbolt standards (ANSI/BHMA A156.40 grades, UL 437), installation dimensions, egress code considerations for double cylinder locks, and how to hire a locksmith safely.`,
     '',
     '## Main pages',
   ];
