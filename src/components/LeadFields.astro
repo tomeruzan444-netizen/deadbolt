@@ -16,6 +16,7 @@ interface Props { form: string }
 const { form } = Astro.props;
 const names = ['page_url', 'page_title', 'landing_page', 'referrer', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'fbclid', 'submitted_at'];
 ---
+<input type="hidden" name="_subject" value={`New Deadbolt Fixers lead (${form})`} />
 <input type="hidden" name="form_name" value={form} />
 <input type="hidden" name="page_path" value={Astro.url.pathname} />
 {names.map((n) => <input type="hidden" name={n} value="" data-lead={n} />)}

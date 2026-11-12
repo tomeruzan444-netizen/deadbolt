@@ -43,7 +43,7 @@ export const site = {
   social: {} as Record<string, string>,
   // TODO(business): form backend URL (Formspree, Basin, a serverless function...).
   // While empty, the contact form validates but explains that online booking is not live yet.
-  formEndpoint: '',
+  formEndpoint: 'https://formspree.io/f/xgvzndnj',
 
   // Founders (first names as provided by the business).
   // TODO(business): add surnames, years of experience and the certifying body for each founder
