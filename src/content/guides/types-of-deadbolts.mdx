@@ -115,6 +115,8 @@ import DeadboltExploded from '../../components/graphics/DeadboltExploded.astro';
 import Figure from '../../components/Figure.astro';
 import Callout from '../../components/Callout.astro';
 import Steps from '../../components/Steps.astro';
+import Photo from '../../components/Photo.astro';
+import steelDoor from '../../assets/photos/steel-door-deadbolt-knob.jpg';
 
 ## Three questions that sort every deadbolt
 
@@ -255,6 +257,8 @@ The type tells you how a lock works. The rating tells you how well it was tested
 ## How to identify the deadbolt on your door
 
 You can name your lock in under a minute without taking anything apart. Work through these checks with the door open.
+
+<Photo src={steelDoor} alt="Outside face of a gray steel door showing a round keyed deadbolt above a keyed doorknob" caption="From outside, most deadbolts look alike: a keyed cylinder above the knob. The inside face is what tells you the type, a thumb turn for single cylinder or a second keyhole for double cylinder." />
 
 <Steps label="Identify your deadbolt type" steps={[
   { title: 'Look at the inside face', text: 'A thumb turn means single cylinder. A second keyhole means double cylinder. A battery cover or motor housing means keypad or smart.' },
