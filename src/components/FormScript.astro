@@ -57,11 +57,28 @@
         try {
           const res = await fetch(endpoint, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
           if (!res.ok) throw new Error(String(res.status));
-          const via = new FormData(form).get('contact_method');
+          const data = new FormData(form);
+          const via = data.get('contact_method');
+          const first = String(data.get('name') || '').trim().split(/\s+/)[0];
           form.reset();
-          show('success', via === 'WhatsApp'
-            ? 'Thank you. Your request was sent. We will message you on WhatsApp as soon as we can.'
-            : 'Thank you. Your request was sent. We will call you back as soon as we can.');
+          // Same-window thank-you: hide the fields and show a panel in place of the form.
+          status.hidden = false;
+          status.className = 'status success thanks';
+          status.innerHTML = '';
+          const h = document.createElement('p'); h.className = 'thanks-title';
+          h.textContent = first ? 'Thank you, ' + first + '!' : 'Thank you!';
+          const p = document.createElement('p'); p.className = 'thanks-text';
+          p.textContent = via === 'WhatsApp'
+            ? 'Your request was sent to the Deadbolt Fixers team. We will message you on WhatsApp as soon as we can.'
+            : 'Your request was sent to the Deadbolt Fixers team. We will call you back as soon as we can.';
+          const again = document.createElement('button'); again.type = 'button'; again.className = 'thanks-again';
+          again.textContent = 'Send another request';
+          again.addEventListener('click', () => { form.classList.remove('is-sent'); status.hidden = true; status.innerHTML = ''; });
+          status.append(h, p, again);
+          form.classList.add('is-sent');
+          status.focus();
+          if (typeof window.gtag === 'function') window.gtag('event', 'generate_lead', { form_name: data.get('form_name'), contact_method: via });
+          if (Array.isArray(window.dataLayer)) window.dataLayer.push({ event: 'generate_lead', form_name: data.get('form_name'), contact_method: via });
         } catch (err) {
           show('error', 'Sorry, something went wrong and your request was not sent. Please try again in a moment.');
         } finally { btn.disabled = false; }

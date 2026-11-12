@@ -278,3 +278,10 @@ figure.diagram svg { width: 100%; height: auto; color: var(--ink); }
 @media (max-width: 760px) {
   .hero-surface::before { width: 640px; right: -360px; top: 0; transform: none; opacity: 0.55; }
 }
+
+/* Form thank-you state (same window, set by FormScript.astro after a successful send) */
+form[data-form].is-sent > :not([data-status]) { display: none !important; }
+form[data-form].is-sent .thanks { display: grid; gap: 8px; justify-items: start; padding: 22px 22px 20px; border-radius: var(--radius-lg); font-size: 1rem; }
+.thanks .thanks-title { margin: 0 !important; font-family: var(--font-display); font-weight: 800; font-size: 1.35rem; line-height: 1.2; color: var(--ok); }
+.thanks .thanks-text { margin: 0 !important; color: var(--ink); line-height: 1.5; }
+.thanks .thanks-again { margin-top: 6px; background: none; border: 0; padding: 0; font: inherit; font-size: 0.92rem; color: var(--brass-ink); text-decoration: underline; cursor: pointer; }
