@@ -16,7 +16,7 @@ const page = Astro.url.pathname;
 <form class:list={['qform', tone]} novalidate data-form data-endpoint={site.formEndpoint} action={site.formEndpoint || undefined} method="post" aria-labelledby="qf-title">
   <div class="qf-head">
     <p class="qf-title" id="qf-title">{heading}</p>
-    <p class="qf-sub">Tell us the problem. We reply with the likely fix and a price before anything is booked.</p>
+    <p class="qf-sub">Tell Deadbolt Fixers what the lock is doing. We reply with the likely fix and a price before anything is booked.</p>
   </div>
   <input type="hidden" name="page" value={page} />
   <div class="qf-grid">

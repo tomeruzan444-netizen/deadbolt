@@ -4,13 +4,13 @@ import Icon from './Icon.astro';
 import { site, hasPhone, telHref } from '../config/site';
 interface Props { heading?: string; text?: string }
 const {
-  heading = 'Talk to a deadbolt specialist',
+  heading = 'Talk to a Deadbolt Fixers specialist',
   text = 'Tell us about the door, the lock and what is going wrong. We will tell you what the job involves before any work starts.',
 } = Astro.props;
 ---
 <section class="cta on-dark blueprint" aria-label="Contact us">
   <div class="inner">
-    <p class="label">Deadbolt Fixers</p>
+    <p class="label">Next step</p>
     <h2 class="cta-h">{heading}</h2>
     <p class="cta-t">{text}</p>
     <div class="actions">
