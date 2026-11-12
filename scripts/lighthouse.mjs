@@ -5,6 +5,8 @@
  * Fails (exit 1) if any category is under 95. Reports saved to lighthouse-reports/.
  */
 import fs from 'node:fs';
+// Lighthouse's canonical audit uses URL.parse (Node 22+); polyfill for Node 20.
+if (typeof URL.parse !== 'function') URL.parse = (u, b) => { try { return new URL(u, b); } catch { return null; } };
 import lighthouse from 'lighthouse';
 import * as chromeLauncher from 'chrome-launcher';
 
