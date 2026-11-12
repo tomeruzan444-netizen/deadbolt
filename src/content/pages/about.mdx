@@ -1,7 +1,7 @@
 ---
 title: "About"
 h1: "About Deadbolt Nation Locksmiths, the Deadbolt Specialists"
-metaTitle: "About Us: Why We Became Deadbolt Specialists | Deadbolt Nation"
+metaTitle: "About Us: Why We Are Deadbolt Specialists | Deadbolt Nation"
 metaDescription: "Why Deadbolt Nation Locksmiths chose to be deadbolt specialists, how we work on every job, and the standards behind our advice, quotes and installs."
 keyword: "deadbolt specialists"
 secondaryKeywords: ["about Deadbolt Nation Locksmiths", "deadbolt-only locksmith company"]
@@ -34,6 +34,7 @@ faqs:
   - q: "How can I give feedback about a job?"
     a: "Use the contact page and include the job address and date. Feedback about technicians, pricing or communication goes straight to the people who can act on it."
 ---
+import ProcessStrip from '../../components/graphics/ProcessStrip.astro';
 
 {/*
   TODO(business): add verified company facts when available, as visible copy:
@@ -61,11 +62,13 @@ Narrow focus is not a slogan. It changes what happens at your door.
 
 ## How a job runs, from message to final test
 
-1. **You describe the problem.** A short message with the city, door type and symptoms, and a photo if you can.
-2. **We explain the likely fix and the price range.** Before anything is booked, you know what the job probably involves.
-3. **The technician verifies access.** For any job that opens or rekeys a lock, we confirm you have the right to access the property.
-4. **We diagnose, then quote in writing.** If the job turns out different from the description, the quote changes before the work does.
-5. **We test with the door closed.** Every deadbolt we touch must throw fully and smoothly with the door shut, by key and by thumb turn, before we leave.
+<ProcessStrip label="How a deadbolt job runs" steps={[
+  { title: 'You describe the problem', text: 'A short message with the city, door type and symptoms, plus a photo if you can.' },
+  { title: 'We explain the likely fix', text: 'Before anything is booked, you know what the job probably involves and the price range.' },
+  { title: 'We verify access', text: 'For any job that opens or rekeys a lock, we confirm you have the right to access the property.' },
+  { title: 'Diagnosis, then a written quote', text: 'If the job differs from the description, the quote changes before the work does.' },
+  { title: 'Tested with the door closed', text: 'The bolt must throw fully and smoothly by key and by thumb turn before we leave.' },
+]} />
 
 ## Our standards
 
