@@ -83,10 +83,9 @@ The sidebar (related services, helpful guides, contact card) is added by the lay
 - 400-900 words of genuinely useful framing (e.g. "which service do I need?" decision table on the services hub).
 - FAQ 10-15, about choosing between children, not repeating children's FAQs.
 
-### Service area: state or city (future)
-- Only publish with real local substance: state licensing status verified from the official state source, local code office link, housing/door types common in the area, areas served.
-- Main keyword pattern from `KEYWORD-MAP.md`. No city-name swaps of another page: different angle, headings, examples and FAQs every time.
-- Schema: `Service` with `areaServed` set to the state/city + `BreadcrumbList` + `FAQPage`.
+### Service area: state or city (on hold, owner decision 2026-11-14)
+- Not being built or drafted for now. If it resumes, URLs stay flat like every other page (for example `/illinois/` or `/chicago-il/`, never `/service-areas/illinois/chicago/`).
+- Only publish with real local substance: state licensing status verified from the official state source, local code office link, housing/door types common in the area, areas served. No city-name swaps of another page.
 
 ### Legal pages (privacy, accessibility)
 No keyword rules, no FAQ, no sidebar CTA requirements. Plain, accurate language. Privacy policy carries a code comment recommending legal review.
@@ -314,8 +313,8 @@ Rules:
 1. **Claim the keyword**: add a row to `docs/KEYWORD-MAP.md` (keyword, intent, secondary terms, FAQ territory, neighbors).
 2. **Create the content file** in the right collection:
    - Service: `src/content/services/{slug}.mdx` (URL becomes `/{slug}/`)
-   - Guide: `src/content/guides/{slug}.mdx` (URL becomes `/deadbolt-guides/{slug}/`)
-   - Service area: `src/content/areas/{state}/{city}.mdx` (URL becomes `/service-areas/{state}/{city}/`)
+   - Guide: `src/content/guides/{slug}.mdx` (URL becomes `/{slug}/`)
+   - **URL rule (owner, 2026-11-14):** every page sits directly after the domain, no subfolders. Keep slugs short, built from the main keyword, and unique across all collections. Hierarchy lives in breadcrumbs and internal links, not in the URL.
 3. **Fill the frontmatter** (validated by the schema in `src/content.config.ts`; the build fails on missing fields):
 
    ```yaml

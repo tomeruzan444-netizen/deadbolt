@@ -44,10 +44,9 @@ URL config: `trailingSlash: 'always'`, `build.format: 'directory'`, `site` read 
    ├─ content.config.ts          (collection schemas)
    ├─ content/
    │  ├─ services/*.mdx          (12 files -> /{slug}/)
-   │  ├─ guides/*.mdx            (5 files -> /deadbolt-guides/{slug}/)
+   │  ├─ guides/*.mdx            (5 files -> /{slug}/, flat like services)
    │  ├─ pages/*.mdx             (home, services hub, guides hub, service-areas hub, about, contact copy)
    │  ├─ legal/*.mdx             (privacy-policy, accessibility-statement)
-   │  └─ areas/                  (empty; {state}/{city}.mdx later)
    ├─ data/
    │  ├─ related.ts              (curated sidebar relationships)
    │  └─ nav.ts                  (menu order; services list is derived from the collection)
@@ -97,12 +96,10 @@ URL config: `trailingSlash: 'always'`, `build.format: 'directory'`, `site` read 
    │  └─ utilities.css
    └─ pages/
       ├─ index.astro
-      ├─ [service].astro         (getStaticPaths over services collection -> /{slug}/)
+      ├─ [slug].astro            (services + guides -> /{slug}/; all content pages sit directly under the domain)
       ├─ services/index.astro
       ├─ deadbolt-guides/index.astro
-      ├─ deadbolt-guides/[guide].astro
       ├─ service-areas/index.astro
-      ├─ service-areas/[state]/[city].astro   (renders nothing until areas exist)
       ├─ about.astro
       ├─ contact.astro
       ├─ privacy-policy.astro
@@ -114,7 +111,7 @@ URL config: `trailingSlash: 'always'`, `build.format: 'directory'`, `site` read 
 
 ## Content model
 
-Shared frontmatter for `services`, `guides`, `pages`, `areas`:
+Shared frontmatter for `services`, `guides`, `pages`:
 
 | Field | Type | Notes |
 |---|---|---|

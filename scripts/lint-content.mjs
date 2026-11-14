@@ -10,7 +10,7 @@ import YAML from 'yaml';
 
 const args = process.argv.slice(2);
 const CONTENT = 'src/content';
-const allFiles = ['services', 'guides', 'pages', 'areas']
+const allFiles = ['services', 'guides', 'pages']
   .flatMap((d) => (fs.existsSync(path.join(CONTENT, d)) ? fs.readdirSync(path.join(CONTENT, d), { recursive: true }).map((f) => path.join(CONTENT, d, String(f))) : []))
   .filter((f) => f.endsWith('.mdx')).map((f) => path.normalize(f));
 const files = args.includes('--all') ? allFiles : args.map((f) => path.normalize(f));

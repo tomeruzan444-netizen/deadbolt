@@ -11,7 +11,7 @@ const SITE = (process.env.SITE_URL || 'https://deadboltfixers.com').replace(/\/$
 /** Map every content URL to its frontmatter `updated` date, for sitemap <lastmod>. */
 function lastmodMap() {
   const map = new Map();
-  const dirs = { services: (s) => `/${s}/`, guides: (s) => `/deadbolt-guides/${s}/`, pages: (s) => (s === 'home' ? '/' : `/${s}/`), legal: (s) => `/${s}/`, areas: (s) => `/service-areas/${s}/` };
+  const dirs = { services: (s) => `/${s}/`, guides: (s) => `/${s}/`, pages: (s) => (s === 'home' ? '/' : `/${s}/`), legal: (s) => `/${s}/` };
   for (const [dir, toUrl] of Object.entries(dirs)) {
     const base = path.join('src', 'content', dir);
     if (!fs.existsSync(base)) continue;

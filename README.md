@@ -64,7 +64,7 @@ docs/                    Content guide, keyword map, research, FAQ register, arc
 public/                  Fonts (self-hosted WOFF2), favicon, OG image, .htaccess
 scripts/                 qa.mjs, lint-content.mjs, lighthouse.mjs, shot.mjs, make-images.mjs
 src/config/site.ts       Company config (contact details live here)
-src/content/             MDX pages: services/, guides/, pages/, legal/, areas/
+src/content/             MDX pages: services/, guides/, pages/, legal/ (all served at /{slug}/)
 src/content.config.ts    Frontmatter schemas (build fails on missing SEO fields)
 src/data/related.ts      Curated sidebar relationships
 src/components/          Header, Footer, Sidebar, Faq, Cta, ContactForm, graphics/ (SVG diagrams)
@@ -80,8 +80,8 @@ Read **`docs/CONTENT-GUIDE.md`** first (voice, structure, keyword rules, banned 
 1. Claim the keyword in `docs/KEYWORD-MAP.md`.
 2. Create the MDX file:
    - Service: `src/content/services/{slug}.mdx` → `/{slug}/`
-   - Guide: `src/content/guides/{slug}.mdx` → `/deadbolt-guides/{slug}/`
-   - City page: `src/content/areas/{state}/{city}.mdx` → `/service-areas/{state}/{city}/`
+   - Guide: `src/content/guides/{slug}.mdx` → `/{slug}/`
+   - All pages sit directly after the domain (no subfolders); slugs must be unique across collections.
 3. Fill in the frontmatter (copy an existing page; the schema in `src/content.config.ts` validates it, including 10-15 FAQs and the keyword in the H1).
 4. Add the page to `src/data/related.ts` (its own entry and reciprocal entries).
 5. Link to it from 2-4 related pages.

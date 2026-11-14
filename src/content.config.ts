@@ -52,12 +52,6 @@ const pages = defineCollection({
   schema: seoPage,
 });
 
-/** Future: src/content/areas/{state}/{city}.mdx */
-const areas = defineCollection({
-  loader: glob({ pattern: '**/*.mdx', base: './src/content/areas' }),
-  schema: seoPage,
-});
-
 const legal = defineCollection({
   loader: glob({ pattern: '**/*.mdx', base: './src/content/legal' }),
   schema: z.object({
@@ -68,4 +62,4 @@ const legal = defineCollection({
   }),
 });
 
-export const collections = { services, guides, pages, areas, legal };
+export const collections = { services, guides, pages, legal };

@@ -11,7 +11,7 @@ import lighthouse from 'lighthouse';
 import * as chromeLauncher from 'chrome-launcher';
 
 const base = (process.argv[2] || 'http://localhost:4321').replace(/\/$/, '');
-const pages = ['/', '/deadbolt-lock-installation/', '/deadbolt-guides/deadbolt-grades-ansi-bhma/'];
+const pages = ['/', '/deadbolt-lock-installation/', '/deadbolt-grades-ansi-bhma/'];
 const chrome = await chromeLauncher.launch({ chromeFlags: ['--headless=new', '--no-sandbox'] });
 fs.mkdirSync('lighthouse-reports', { recursive: true });
 let fail = false;

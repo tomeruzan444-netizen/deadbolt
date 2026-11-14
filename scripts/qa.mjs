@@ -37,9 +37,8 @@ const add = (dir, kind, toUrl) => {
   }
 };
 add('services', 'service', (s) => `/${s}/`);
-add('guides', 'guide', (s) => `/deadbolt-guides/${s}/`);
+add('guides', 'guide', (s) => `/${s}/`);
 add('pages', 'page', (s) => (s === 'home' ? '/' : `/${s}/`));
-add('areas', 'area', (s) => `/service-areas/${s}/`);
 add('legal', 'legal', (s) => `/${s}/`);
 
 // ---------- Helpers ----------
@@ -244,6 +243,17 @@ for (const a of ctxAnchors) {
   const aw = topicSet(a.text), tw = topicSet(topic);
   if (![...aw].some((w) => tw.has(w))) errors.push(`${a.url}: anchor "${a.text}" does not describe its target ${a.href}`);
 }
+
+// Flat URLs (owner rule 2026-11-14): every content page sits directly after the domain, slugs unique.
+const urlSeen = new Map();
+for (const p of pages) {
+  if (p.url.split('/').filter(Boolean).length > 1) errors.push(`${p.url}: nested URL; every page must sit directly after the domain`);
+  if (urlSeen.has(p.url)) errors.push(`slug collision: ${p.url} is produced by two content files`);
+  urlSeen.set(p.url, true);
+}
+// Moved guides must keep their 301 from the old /deadbolt-guides/{slug}/ address.
+const htaccess = fs.readFileSync(path.join(DIST, '.htaccess'), 'utf8');
+for (const p of pages.filter((x) => x.kind === 'guide')) if (!htaccess.includes(p.slug)) errors.push(`.htaccess has no 301 from /deadbolt-guides/${p.slug}/ to ${p.url}`);
 
 // Unique keywords
 const kwSeen = new Map();

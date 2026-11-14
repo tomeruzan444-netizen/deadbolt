@@ -78,20 +78,7 @@ Total questions: 276
 - Can I request a specific day or time?
 - What should I do if the form doesn't work?
 
-## /deadbolt-guides/
-
-- Which deadbolt guide should I read first?
-- Are your guides written by locksmiths?
-- How often are the guides updated?
-- Can I follow a guide to install a deadbolt myself?
-- Do the guides recommend specific brands?
-- Where do the cost figures in your guides come from?
-- Do you cover building code questions in the guides?
-- Will you add guides on other deadbolt topics?
-- Can I share or quote your guides?
-- What if a guide doesn't answer my question?
-
-## /deadbolt-guides/deadbolt-grades-ansi-bhma/
+## /deadbolt-grades-ansi-bhma/
 
 - What is the best deadbolt grade for a home?
 - Is Grade 1 better than AAA?
@@ -107,7 +94,20 @@ Total questions: 276
 - Do smart deadbolts get ANSI/BHMA grades?
 - Can the cylinder type change a deadbolt's grade?
 
-## /deadbolt-guides/deadbolt-installation-cost/
+## /deadbolt-guides/
+
+- Which deadbolt guide should I read first?
+- Are your guides written by locksmiths?
+- How often are the guides updated?
+- Can I follow a guide to install a deadbolt myself?
+- Do the guides recommend specific brands?
+- Where do the cost figures in your guides come from?
+- Do you cover building code questions in the guides?
+- Will you add guides on other deadbolt topics?
+- Can I share or quote your guides?
+- What if a guide doesn't answer my question?
+
+## /deadbolt-installation-cost/
 
 - Is it cheaper to put a new deadbolt in existing holes than to add one to a bare door?
 - Does a smart deadbolt cost more to install than a mechanical one?
@@ -122,53 +122,6 @@ Total questions: 276
 - Why do cost websites show different prices for the same lock job?
 - Is reinforcing the strike plate expensive when installing a deadbolt?
 - How much does deadbolt replacement cost compared with a standard lockset?
-
-## /deadbolt-guides/deadbolt-wont-lock/
-
-- Why does my deadbolt only lock when I push or pull on the door?
-- Can humid or cold weather stop a deadbolt from locking?
-- How deep should the hole behind the strike plate be?
-- How do I find where my deadbolt is hitting the strike plate?
-- Can loose hinge screws stop a deadbolt from locking?
-- Is powdered graphite safe to use in a deadbolt?
-- What lubricant does Schlage use in its lock cylinders?
-- What does Lock Jammed mean on a smart deadbolt?
-- Will a low battery stop a smart deadbolt from locking?
-- Why is my key suddenly hard to turn in the deadbolt?
-- How do I get a deadbolt unstuck when the bolt is out and the door is open?
-- Should I file the strike plate opening or move the strike?
-- When is a deadbolt that won't lock a job for a locksmith?
-
-## /deadbolt-guides/single-vs-double-cylinder-deadbolt/
-
-- Is a single or double cylinder deadbolt more secure?
-- Are double cylinder deadbolts illegal?
-- Which deadbolt is better for a home with young children?
-- Is a double cylinder deadbolt a good idea for an older adult living alone?
-- Can a landlord put double cylinder deadbolts on rental units?
-- Does a door with a glass window need a double cylinder deadbolt?
-- Are double cylinder deadbolts made to the same grades as single cylinder ones?
-- Why do people worry about single cylinder deadbolts next to glass?
-- What is the biggest downside of a double cylinder deadbolt?
-- How can I tell if my deadbolt is single or double cylinder?
-- Should every exterior door have the same type of deadbolt?
-- Does a double cylinder deadbolt make sense on a vacation home?
-
-## /deadbolt-guides/types-of-deadbolts/
-
-- What is the most common type of deadbolt on a house?
-- What is the difference between a deadbolt and a spring latch?
-- What is a rim deadbolt?
-- Where are mortise deadbolts used?
-- Is a tubular deadbolt the same as a bored deadbolt?
-- Do keypad deadbolts still have a keyhole?
-- Can a smart lock be added to my existing deadbolt?
-- What is an interconnected lock?
-- Can a mortise deadbolt go on a fire-rated door?
-- How can I tell what type of deadbolt I have?
-- What is the difference between a motorized deadbolt and a manual keypad deadbolt?
-- Is a keyless deadbolt the same as a smart deadbolt?
-- What is an interchangeable core deadbolt?
 
 ## /deadbolt-lock-installation/
 
@@ -260,6 +213,22 @@ Total questions: 276
 - Can I reinforce a strike plate without replacing my deadbolt?
 - How do I know if my strike plate screws are too short?
 
+## /deadbolt-wont-lock/
+
+- Why does my deadbolt only lock when I push or pull on the door?
+- Can humid or cold weather stop a deadbolt from locking?
+- How deep should the hole behind the strike plate be?
+- How do I find where my deadbolt is hitting the strike plate?
+- Can loose hinge screws stop a deadbolt from locking?
+- Is powdered graphite safe to use in a deadbolt?
+- What lubricant does Schlage use in its lock cylinders?
+- What does Lock Jammed mean on a smart deadbolt?
+- Will a low battery stop a smart deadbolt from locking?
+- Why is my key suddenly hard to turn in the deadbolt?
+- How do I get a deadbolt unstuck when the bolt is out and the door is open?
+- Should I file the strike plate opening or move the strike?
+- When is a deadbolt that won't lock a job for a locksmith?
+
 ## /double-cylinder-deadbolt-installation/
 
 - Will you install a double cylinder deadbolt on my only exterior door?
@@ -333,6 +302,21 @@ Total questions: 276
 - Is there a warranty on deadbolt work?
 - Can you match new deadbolts to the finish of my existing door hardware?
 
+## /single-vs-double-cylinder-deadbolt/
+
+- Is a single or double cylinder deadbolt more secure?
+- Are double cylinder deadbolts illegal?
+- Which deadbolt is better for a home with young children?
+- Is a double cylinder deadbolt a good idea for an older adult living alone?
+- Can a landlord put double cylinder deadbolts on rental units?
+- Does a door with a glass window need a double cylinder deadbolt?
+- Are double cylinder deadbolts made to the same grades as single cylinder ones?
+- Why do people worry about single cylinder deadbolts next to glass?
+- What is the biggest downside of a double cylinder deadbolt?
+- How can I tell if my deadbolt is single or double cylinder?
+- Should every exterior door have the same type of deadbolt?
+- Does a double cylinder deadbolt make sense on a vacation home?
+
 ## /smart-deadbolt-installation/
 
 - Do smart deadbolts need Wi-Fi to work?
@@ -348,4 +332,20 @@ Total questions: 276
 - Are smart locks easier to kick in than regular deadbolts?
 - Can I keep my current house key with a smart lock?
 - Why were some keypad deadbolts made with a manual bolt instead of a motor?
+
+## /types-of-deadbolts/
+
+- What is the most common type of deadbolt on a house?
+- What is the difference between a deadbolt and a spring latch?
+- What is a rim deadbolt?
+- Where are mortise deadbolts used?
+- Is a tubular deadbolt the same as a bored deadbolt?
+- Do keypad deadbolts still have a keyhole?
+- Can a smart lock be added to my existing deadbolt?
+- What is an interconnected lock?
+- Can a mortise deadbolt go on a fire-rated door?
+- How can I tell what type of deadbolt I have?
+- What is the difference between a motorized deadbolt and a manual keypad deadbolt?
+- Is a keyless deadbolt the same as a smart deadbolt?
+- What is an interchangeable core deadbolt?
 

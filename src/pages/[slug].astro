@@ -1,0 +1,52 @@
+---
+/**
+ * Every service and guide page lives directly under the domain: /{slug}/.
+ * Short, flat URLs (owner decision 2026-11-14). The logical hierarchy is kept in the
+ * breadcrumbs (Home > Services > X, Home > Deadbolt Guides > X) and BreadcrumbList schema.
+ * Slugs must be unique across services, guides, pages and legal (QA checks this).
+ */
+import { getCollection, render } from 'astro:content';
+import PageLayout from '../layouts/PageLayout.astro';
+import { serviceCrumbs, serviceUrl, guideCrumbs, guideUrl } from '../lib/urls';
+import { service, article } from '../lib/schema';
+
+export async function getStaticPaths() {
+  const services = await getCollection('services');
+  const guides = await getCollection('guides');
+  return [
+    ...services.map((entry) => ({ params: { slug: entry.id }, props: { entry, kind: 'service' as const } })),
+    ...guides.map((entry) => ({ params: { slug: entry.id }, props: { entry, kind: 'guide' as const } })),
+  ];
+}
+
+const { entry, kind } = Astro.props;
+const d = entry.data;
+const { Content, headings } = await render(entry);
+const isGuide = kind === 'guide';
+const crumbs = isGuide ? guideCrumbs(d.title, entry.id) : serviceCrumbs(d.title, entry.id);
+const schema = isGuide
+  ? [article({ url: guideUrl(entry.id), headline: d.h1, description: d.metaDescription, published: d.published, modified: d.updated })]
+  : [service({ url: serviceUrl(entry.id), name: d.title, description: d.metaDescription })];
+---
+<PageLayout
+  title={d.metaTitle}
+  description={d.metaDescription}
+  crumbs={crumbs}
+  h1={d.h1}
+  eyebrow={isGuide ? 'Deadbolt guide' : 'Deadbolt service'}
+  intro={d.intro}
+  keyFacts={d.keyFacts}
+  updated={d.updated}
+  published={d.published}
+  showUpdated
+  headings={headings}
+  toc={d.toc}
+  faqs={d.faqs}
+  sources={isGuide ? d.sources : undefined}
+  showSources={isGuide}
+  relatedKey={entry.id}
+  ogType={isGuide ? 'article' : undefined}
+  schema={schema}
+>
+  <Content />
+</PageLayout>
