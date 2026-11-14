@@ -3,6 +3,7 @@
 This is the operating manual for every word on deadboltfixers.com. Anyone (human or AI) adding or editing a page must follow it. The keyword ownership table lives in [`KEYWORD-MAP.md`](./KEYWORD-MAP.md). The FAQ register is generated into [`FAQ-REGISTER.md`](./FAQ-REGISTER.md) by `npm run qa`.
 
 Contents:
+0. New pages: rules from 14.11.2026 (read first)
 1. Brand and entity basics
 2. Voice and tone (with good vs bad examples)
 3. Page structure templates
@@ -16,6 +17,45 @@ Contents:
 11. Pre-publish checklist
 12. How to add a new page
 13. Rule precedence (brief vs global writing guidelines)
+
+---
+
+## New pages: rules from 14.11.2026
+
+This section applies to every new page published from today. Existing pages are not rewritten because of it. When another rule in this guide contradicts this section, this section wins on a new page.
+
+### 1. No template: every page is built differently
+
+- There is no fixed skeleton. The structure of each page comes from the question the reader arrives with: what they need to know first and what comes after. The order, number and type of sections change from page to page.
+- Section lists that appear in this guide are lists of possible components, not a required order.
+- H2 headings are written from the content of the specific page. Do not copy a heading from another page or from this guide.
+- No two pages open with the same sentence structure or the same first three words.
+- Before writing, open 2-3 related existing pages and check that the new structure differs from them.
+- The structure also makes sense to a search engine: one H1, a heading hierarchy with no skipped levels, and the answer to the main question appears early on the page.
+
+### 2. An infographic on every new page
+
+- Every new page includes at least one original infographic built for its topic: a process diagram, timeline, comparison, price factors, decision tree, cross-section or layers, and so on.
+- It explains something or adds information. It is not decoration.
+- Do not use the same infographic, or the same type of chart, on two closely related pages.
+- It is designed in the site's visual language and readable on mobile.
+- Alt text (alt, or title and desc in SVG) describes what the infographic shows, not a keyword.
+- Every data point in the infographic comes from an approved source, like any other fact on the page.
+
+### 3. Internal links: 2 to 5
+
+- Between 2 and 5 internal links in the body text. Menu, footer and CTA buttons do not count.
+- Each link comes out of a sentence about the topic of the target page, with anchor text that describes the target.
+- One link per target on a page.
+- Reciprocity: when a new page goes live, add a link to it from 1 to 3 relevant existing pages, in a sentence that fits their context.
+
+### 4. Banned AI tells
+
+- Opening with a rhetorical question, such as "Looking for X in <city>?" or "Need...?". Not at the start of the page and not at the start of a section.
+- A spaced hyphen (" - ") as a pause inside a sentence, and also an em or en dash (— –). Use a period, comma or colon instead. A hyphen inside a word or in a number range (450-650) is fine.
+- The "**Bolded term.** Explanation" pattern at the start of bullets.
+- "Not only... but" (and "not only... but also").
+- Headings that start with a number, such as "Three ways..." or "5 mistakes...".
 
 ---
 
@@ -48,7 +88,7 @@ We sound like a senior deadbolt technician explaining something to a homeowner a
 
 ## 3. Page structure templates
 
-All non-legal pages, in this order:
+All non-legal pages, in this order (for new pages, this is a list of components, not a required order; see New pages. Parts the layout renders automatically stay where the layout puts them):
 
 1. Breadcrumbs (component, automatic)
 2. H1 containing the main keyword exactly
@@ -56,7 +96,7 @@ All non-legal pages, in this order:
 4. Optional key-facts box (3-5 bullets of hard specifics)
 5. Table of contents (automatic on pages with `toc: true`; required for guides and service pages over ~1,200 words)
 6. Body sections (H2/H3, no skipped levels). Each H2 section must make sense if quoted alone.
-7. At least one visual: SVG infographic, diagram, comparison table, step graphic or checklist
+7. At least one visual: SVG infographic, diagram, comparison table, step graphic or checklist (new pages: at least one original infographic; see New pages)
 8. Contextual internal links throughout the body (see §7)
 9. CTA block (`<CTA />`)
 10. FAQ: 10-15 questions (see §6)
@@ -66,7 +106,7 @@ The sidebar (related services, helpful guides, contact card) is added by the lay
 
 ### Service page (1,000-1,800 words)
 - Intro answers: what the service is, who needs it, what the visit involves.
-- Typical H2 set (vary the wording and order per page, see §10): signs you need it / when it makes sense; what we check first; how the job is done (numbered steps or process graphic); options and hardware choices; mistakes we see; cost factors (short, link to the cost guide); related services in passing.
+- Typical H2 set (vary the wording and order per page, see §10; on new pages these are possible topics only, and H2s are written from the page's own content, see New pages): signs you need it / when it makes sense; what we check first; how the job is done (numbered steps or process graphic); options and hardware choices; mistakes we see; cost factors (short, link to the cost guide); related services in passing.
 - "Last updated" date visible (from `updated` frontmatter).
 - Schema: `Service` + `BreadcrumbList` + `FAQPage` (automatic from frontmatter).
 
@@ -131,8 +171,8 @@ The QA script (`npm run qa`) scans for these. Any hit fails the build check.
 - peace of mind: **maximum once on the entire site** (QA counts site-wide)
 
 **Patterns**
-- Em dashes (—). Use commas, periods or a simple hyphen. En dashes (–) are also replaced: use "to" for ranges ("$50 to $90") or a hyphen.
-- Stacked rhetorical questions (two or more questions in a row in body prose).
+- Em dashes (—). Use commas, periods or a simple hyphen (on new pages, never a spaced hyphen as a pause; see New pages). En dashes (–) are also replaced: use "to" for ranges ("$50 to $90") or a hyphen.
+- Stacked rhetorical questions (two or more questions in a row in body prose). On new pages, a single rhetorical question is also banned at the start of the page or a section (see New pages).
 - Intro paragraphs that restate the title.
 - Three-adjective lists ("fast, reliable and affordable").
 - Ending every section with a summary sentence. A section ends when its last useful point is made.
@@ -150,7 +190,7 @@ The QA script (`npm run qa`) scans for these. Any hit fails the build check.
 
 ## 7. Internal linking rules
 
-- **Maximum 5 contextual internal links per page** (owner rule, 2026-11-12). Aim for 3-5. Count every link inside the body text; links in the nav, header, footer, sidebar, breadcrumbs, service/guide card grids, forms and CTA boxes do not count.
+- **Maximum 5 contextual internal links per page** (owner rule, 2026-11-12). Aim for 3-5. New pages: 2-5 (see New pages). Count every link inside the body text; links in the nav, header, footer, sidebar, breadcrumbs, service/guide card grids, forms and CTA boxes do not count.
 - **Every link must point to a different, genuinely relevant page.** Never link the same page twice in one body, and never link just to fill a quota.
 - **Every link must come out of a sentence where it makes sense.** Link only when the surrounding sentence is actually about the target's topic, at the point where the reader would want that page.
 - **The anchor text must be a phrase about the target page.** It contains the target's topic words (for example "rekeying the existing cylinders" -> `/deadbolt-rekeying/`, "high security deadbolt" -> `/high-security-deadbolt/`, "contact us" -> `/contact/`). A phrase that does not describe the target ("swapping in a certified deadbolt" -> replacement, "tell us about it" -> contact) is not allowed.
@@ -245,7 +285,7 @@ Where the company will later need such a detail, leave a code comment, never vis
 - Alt text describes what is actually in the photo and differs per page. The caption ties the photo to the paragraph next to it and claims nothing the photo does not show.
 - Prefer real photos of our own work. AI-generated images must not be presented as our jobs, and must not show hardware that does not exist (check for impossible details before using one).
 - If a photo comes from the web, check its license and add the required credit in the caption.
-- Planned shared infographics (in `src/components/graphics/`): deadbolt anatomy (exploded), installation steps, rekeying pin stacks before/after, single vs double cylinder, ANSI grade chart, strike plate reinforcement, repair-or-replace flowchart, service visit process.
+- Planned shared infographics (in `src/components/graphics/`; on a new page they do not replace the original infographic that page needs, see New pages): deadbolt anatomy (exploded), installation steps, rekeying pin stacks before/after, single vs double cylinder, ANSI grade chart, strike plate reinforcement, repair-or-replace flowchart, service visit process.
 
 ## 10. Uniqueness: giving every page its own "color"
 
@@ -298,9 +338,10 @@ Rules:
 - [ ] Title 50-60 chars, keyword near start; meta description 140-160 chars with keyword
 - [ ] Answer-first intro, 2-4 sentences, does not restate the title
 - [ ] Word count within range for the page type
-- [ ] Max 5 contextual internal links in body, each to a different relevant page, from a sentence about that topic, with an anchor that describes the target; trailing slashes
+- [ ] Max 5 contextual internal links in body (new pages: 2-5), each to a different relevant page, from a sentence about that topic, with an anchor that describes the target; trailing slashes
 - [ ] `related.ts` entry added and reciprocal links added
-- [ ] At least one visual with `<title>`/`<desc>`/text equivalent
+- [ ] At least one visual with `<title>`/`<desc>`/text equivalent (new pages: an original infographic)
+- [ ] New page: follows New pages (structure from the reader's question, an original infographic, 2-5 body links, no banned AI tells)
 - [ ] 10-15 FAQs, none in `FAQ-REGISTER.md` already
 - [ ] Banned words/patterns: zero hits; no em dashes
 - [ ] Every fact traceable to a `sources` entry; nothing from the "never invent" list
@@ -344,7 +385,7 @@ Rules:
    ```
 4. **Write the body** in MDX following §2-§10. Import graphics from `src/components/graphics/`.
 5. **Update `src/data/related.ts`** (own entry + reciprocal entries).
-6. **Add body links** from 2-4 existing related pages to the new page.
+6. **Add body links** from 1-3 existing related pages to the new page (see New pages).
 7. **Run** `npm run build && npm run qa`. Sitemap, `llms.txt`, nav dropdown (services), hub cards and schema update automatically.
 8. **Commit and push** to `main`; Vercel deploys.
 
@@ -356,7 +397,7 @@ The owner's general article guidelines (used across projects) differ from this s
 |---|---|---|
 | Keyword in H1/title | Title must NOT contain the keyword | H1 and title tag MUST contain the exact keyword |
 | Length | 700-1,000 words | Services 1,000-1,800; guides 1,500-2,500 |
-| Internal links | Max 2-3 | Max 5 contextual links per page, anchors describe the target |
+| Internal links | Max 2-3 | Max 5 contextual links per page (new pages: 2-5), anchors describe the target |
 | FAQ | Optional, 3-4 | Required, 10-15, site-wide unique |
 | Banned "unlock" | Banned | Figurative use banned; literal lock use allowed |
 
