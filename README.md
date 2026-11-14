@@ -120,3 +120,10 @@ All technical facts come from `docs/RESEARCH.md` (standards bodies, codes, manuf
 
 - Bing Webmaster Tools: import the site from Google Search Console, or paste Bing's `msvalidate.01` code into `bingSiteVerification` in `src/config/site.ts` and redeploy.
 - IndexNow (Bing, Yandex, Seznam, Naver) is set up. The key file is `public/56f8a12f7dfcdc3f1d2e49b0a8cdf240.txt`. After every production deploy run `npm run indexnow` to submit all sitemap URLs. The script refuses to run on a staging build.
+
+## State and city pages (gradual rollout)
+
+- State pages live in `src/content/areas/{state}.mdx`, city pages in `src/content/areas/{state}/{city}.mdx`. The rules for writing them are in `docs/CONTENT-GUIDE.md`, §3 "Service area pages".
+- Every page starts as `draft: true`. Preview drafts locally with `AREAS_PREVIEW=1 npm run build && npm run preview`. These pages are noindex and stay out of the sitemap.
+- To publish a page, set `draft: false` and `publishOn: YYYY-MM-DD`. It goes live on the first build and deploy on or after that date. `npm run areas` lists draft, scheduled and live pages.
+- After each batch goes live, run `npm run build`, then `npm run qa`, then deploy, then `npm run indexnow`.

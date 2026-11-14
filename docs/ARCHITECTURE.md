@@ -47,11 +47,13 @@ URL config: `trailingSlash: 'always'`, `build.format: 'directory'`, `site` read 
    │  ├─ guides/*.mdx            (5 files -> /deadbolt-guides/{slug}/)
    │  ├─ pages/*.mdx             (home, services hub, guides hub, service-areas hub, about, contact copy)
    │  ├─ legal/*.mdx             (privacy-policy, accessibility-statement)
-   │  └─ areas/                  (empty; {state}/{city}.mdx later)
+   │  └─ areas/                  ({state}.mdx state pages, {state}/{city}.mdx city pages; gated by draft/publishOn)
    ├─ data/
    │  ├─ related.ts              (curated sidebar relationships)
    │  └─ nav.ts                  (menu order; services list is derived from the collection)
    ├─ lib/
+   │  ├─ area-gate.mjs           (publishing gate for area pages: draft + publishOn; shared by routes, sitemap, QA)
+   │  ├─ areas.ts                (built states/cities, parent checks, noindex for previews)
    │  ├─ schema.ts               (JSON-LD builders: org, website, locksmith, service, article, breadcrumbs, faq)
    │  ├─ seo.ts                  (title/meta/canonical helpers)
    │  └─ urls.ts                 (single place that maps collection entries to URLs)
@@ -102,7 +104,8 @@ URL config: `trailingSlash: 'always'`, `build.format: 'directory'`, `site` read 
       ├─ deadbolt-guides/index.astro
       ├─ deadbolt-guides/[guide].astro
       ├─ service-areas/index.astro
-      ├─ service-areas/[state]/[city].astro   (renders nothing until areas exist)
+      ├─ service-areas/[state]/index.astro    (state pages; lists the state's live cities)
+      ├─ service-areas/[state]/[city].astro   (city pages; state must be live first)
       ├─ about.astro
       ├─ contact.astro
       ├─ privacy-policy.astro

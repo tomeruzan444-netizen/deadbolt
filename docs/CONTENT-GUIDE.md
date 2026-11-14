@@ -83,10 +83,57 @@ The sidebar (related services, helpful guides, contact card) is added by the lay
 - 400-900 words of genuinely useful framing (e.g. "which service do I need?" decision table on the services hub).
 - FAQ 10-15, about choosing between children, not repeating children's FAQs.
 
-### Service area: state or city (future)
-- Only publish with real local substance: state licensing status verified from the official state source, local code office link, housing/door types common in the area, areas served.
-- Main keyword pattern from `KEYWORD-MAP.md`. No city-name swaps of another page: different angle, headings, examples and FAQs every time.
-- Schema: `Service` with `areaServed` set to the state/city + `BreadcrumbList` + `FAQPage`.
+### Service area pages: state and city (owner decision, 2026-11-14)
+
+The site will get a page for every state and for the cities in each state, published gradually. Every page must have focused, unique, high-quality content. Google treats near-identical location pages as doorway pages and scaled content abuse, and that penalty can hit the whole domain, not only the location pages. So the rules below are strict, and QA enforces the measurable ones.
+
+**Files and URLs**
+- State: `src/content/areas/{state}.mdx` -> `/service-areas/{state}/` (slug = full state name, lowercase, hyphens: `new-york`).
+- City: `src/content/areas/{state}/{city}.mdx` -> `/service-areas/{state}/{city}/`.
+- A city can only go live after its state page (the build fails otherwise).
+- The service areas hub lists live states automatically. Each state page lists its live cities automatically. These lists are navigation and do not count toward the 5 contextual links.
+
+**What makes an area page unique (required)**
+A page is built around facts that are true for that place and not for the next one. Each page needs at least 4 `localFacts` in frontmatter (topic, fact, source URL, date checked), and the body must use them. Good material, by topic:
+
+| Topic | State page | City page |
+|---|---|---|
+| `licensing` | Does the state license locksmiths? Board name, how to verify a license | City or county license rules, if any |
+| `building-code` | Which IRC/IBC edition the state adopted; egress rules affecting double cylinder deadbolts | Local amendments; the city building department and its contact page |
+| `rental-law` | Landlord duties: deadbolt required? rekey between tenants? deadline? | City ordinances that go further (some large cities do) |
+| `climate` | Humidity, freeze-thaw, coastal salt air and what each does to deadbolts and doors | The local version, tied to what our team sees |
+| `housing` | Housing stock age, common door and frame types | Neighborhoods with older frames, high-rises, typical door materials |
+| `consumer-protection` | Attorney general guidance on locksmith scams | Local consumer office, if it publishes anything useful |
+
+Plus business facts that only the owner can supply: areas the local team covers (`coverage`), typical arrival time, common jobs in that area. Never invent these.
+
+**Research rules (stricter than §8 for legal facts)**
+- Laws and codes come only from the official source: the state legislature's statute page, the state licensing board, the city or county building department, the attorney general. No locksmith blogs, no SEO sites, no AI summaries as sources.
+- Quote the statute or code section number in the body when you state a legal duty, and link the source in `sources`.
+- Record the date you checked each fact in `checked`. QA warns when a fact is over a year old.
+- If you cannot verify something, leave it out. A shorter true page beats a longer guessed one.
+
+**Writing rules**
+- Main keyword pattern: `deadbolt locksmith in {State}` / `deadbolt locksmith in {City}`. If a city name exists in more than one state we publish, add the state code: `deadbolt locksmith in Springfield, IL`. All §4 keyword rules apply.
+- Choose a fresh `angle` per page from its strongest local facts (for example "a rental-heavy city where the rekey law drives most calls", or "freeze-thaw country where strikes drift every winter"). The angle decides the H2 set. Do not reuse one H2 structure across area pages.
+- Write each page from scratch. Do not copy another area page and swap the names, not even as a starting draft.
+- A city page links to its state page in the body (QA enforces this) and to the 2-4 services its local facts point to. For example, an egress rule links to double cylinder installation, and a rekey law links to rekeying.
+- FAQs come from that place's facts (for example "Does Illinois require a locksmith license?"), never generic questions with the name swapped in.
+- Length: state 1,200-2,200 words, city 900-1,800 words.
+- No fake local signals: no invented street address, no "local office" that does not exist, no reviews, no stock photos of the city skyline presented as our team.
+
+**Publishing gradually (the gate)**
+- New pages start with `draft: true`. They build only in preview mode, with noindex and outside the sitemap: `AREAS_PREVIEW=1 npm run build`.
+- When a page is approved, set `draft: false` and a `publishOn` date. The page goes live on the first build and deploy on or after that date.
+- Publish in batches, for example one state plus 3-5 cities, every week or two. Watch indexing and impressions in Search Console before speeding up.
+- `npm run areas` shows every page as draft, scheduled or live, plus the next scheduled date.
+- After each batch goes live: deploy, then run `npm run indexnow`, then submit the sitemap in Search Console if the change is large.
+
+**QA gates for area pages (`npm run qa`)**
+- Whole-body similarity with every other area page: an error above 0.06 and a warning above 0.04 (4-word shingle Jaccard). For reference, the existing service and guide pages score at most 0.024 against each other, and a city-name swap scores about 0.7.
+- Paragraph-level duplicate checks and FAQ duplicate checks, as for all pages.
+- City body must link to its state page; at least 4 `localFacts` and 3 `sources`; `keyword` must contain the place name.
+- Schema: `Service` with `areaServed` set to the `State` or `City` (city includes `containedInPlace` state), plus `BreadcrumbList` and `FAQPage`. This is automatic.
 
 ### Legal pages (privacy, accessibility)
 No keyword rules, no FAQ, no sidebar CTA requirements. Plain, accurate language. Privacy policy carries a code comment recommending legal review.
@@ -308,6 +355,7 @@ Rules:
 - [ ] `updated` date set; `published` set for new pages
 - [ ] `angle` recorded and added to the color register
 - [ ] `npm run build && npm run qa` passes (schema, links, sitemap, duplicates)
+- [ ] Area pages only: 4+ `localFacts` from official sources with `checked` dates, owner-confirmed `coverage`, written from scratch (no name swaps), previewed with `AREAS_PREVIEW=1`, then `draft: false` + `publishOn`
 
 ## 12. How to add a new page
 
@@ -315,7 +363,9 @@ Rules:
 2. **Create the content file** in the right collection:
    - Service: `src/content/services/{slug}.mdx` (URL becomes `/{slug}/`)
    - Guide: `src/content/guides/{slug}.mdx` (URL becomes `/deadbolt-guides/{slug}/`)
-   - Service area: `src/content/areas/{state}/{city}.mdx` (URL becomes `/service-areas/{state}/{city}/`)
+   - State page: `src/content/areas/{state}.mdx` (URL becomes `/service-areas/{state}/`)
+   - City page: `src/content/areas/{state}/{city}.mdx` (URL becomes `/service-areas/{state}/{city}/`)
+   - Area pages carry extra required fields (`kind`, `place`, `draft`, `publishOn`, `localFacts`, `coverage`): see "Service area pages" in §3.
 3. **Fill the frontmatter** (validated by the schema in `src/content.config.ts`; the build fails on missing fields):
 
    ```yaml
