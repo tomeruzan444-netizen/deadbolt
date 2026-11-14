@@ -10,8 +10,7 @@
     "check": "astro check",
     "qa": "node scripts/qa.mjs",
     "lighthouse": "node scripts/lighthouse.mjs",
-    "indexnow": "node scripts/indexnow.mjs",
-    "areas": "node scripts/areas-status.mjs"
+    "indexnow": "node scripts/indexnow.mjs"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.14",

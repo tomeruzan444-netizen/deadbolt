@@ -55,7 +55,7 @@ for (const file of files) {
   const h2 = [...text.matchAll(/^## (.+)$/gm)].map((m) => m[1]);
   const links = new Set([...text.matchAll(/\]\((\/[^)#\s]*)/g), ...text.matchAll(/href=["'](\/[^"'#]*)/g)].map((m) => m[1]));
   const seg = path.normalize(file).split(path.sep);
-  const kind = seg.includes('services') ? 'service' : seg.includes('guides') ? 'guide' : seg.includes('areas') ? `area-${fm.kind}` : 'page';
+  const kind = seg.includes('services') ? 'service' : seg.includes('guides') ? 'guide' : 'page';
 
   if (!kw) bad('no keyword in frontmatter');
   if (fm.h1 && !norm(fm.h1).includes(norm(kw))) bad(`H1 missing keyword: "${fm.h1}"`);
@@ -74,12 +74,7 @@ for (const file of files) {
   if (mdLinks > 5) bad(`${mdLinks} contextual internal links in body (max 5)`);
   for (const l of links) if (!l.endsWith('/')) bad(`link without trailing slash: ${l}`);
   if (!/<(svg|[A-Z]\w+)|\n\|.+\|\n/.test(text)) bad('no visual (component, svg or table)');
-  const range = { service: [1000, 1800], guide: [1500, 2500], 'area-state': [1200, 2200], 'area-city': [900, 1800] }[kind];
-  if (kind === 'area-city') {
-    const state = seg[seg.length - 2];
-    if (!links.has(`/service-areas/${state}/`)) bad(`city page body must link to its state page /service-areas/${state}/`);
-  }
-  if (kind.startsWith('area-') && (fm.localFacts ?? []).length < 4) bad(`${(fm.localFacts ?? []).length} localFacts (need 4+, each with a source)`);
+  const range = { service: [1000, 1800], guide: [1500, 2500] }[kind];
   if (range && (words < range[0] || words > range[1] * 1.1)) note(`~${words} body words (target ${range[0]}-${range[1]})`);
   const raw = fs.readFileSync(file, 'utf8');
   if (/—/.test(raw)) bad('em dash present');

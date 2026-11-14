@@ -92,11 +92,6 @@ export const related: Record<string, RelatedEntry> = {
     services: ['deadbolt-lockout-service', 'deadbolt-lock-installation', 'deadbolt-rekeying', 'commercial-deadbolt-locks'],
     guides: ['deadbolt-installation-cost', 'types-of-deadbolts'],
   },
-  /** Default sidebar for state and city pages (override per page with frontmatter relatedKey). */
-  'area-page': {
-    services: ['deadbolt-lockout-service', 'deadbolt-lock-installation', 'deadbolt-rekeying', 'deadbolt-lock-repair', 'deadbolt-strike-plate-reinforcement'],
-    guides: ['deadbolt-installation-cost', 'single-vs-double-cylinder-deadbolt'],
-  },
   about: {
     services: ['deadbolt-lock-installation', 'deadbolt-lock-repair', 'deadbolt-lockout-service', 'high-security-deadbolt'],
     guides: ['deadbolt-grades-ansi-bhma', 'types-of-deadbolts'],

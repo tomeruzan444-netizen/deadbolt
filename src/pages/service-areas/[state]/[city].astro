@@ -1,52 +1,46 @@
 ---
 /**
- * City pages: src/content/areas/{state}/{city}.mdx -> /service-areas/{state}/{city}/.
- * Only pages that pass the publishing gate (src/lib/area-gate.mjs) are generated, and a
- * city can only go live after its state page (enforced in src/lib/areas.ts).
+ * Future city pages: add src/content/areas/{state}/{city}.mdx and this route
+ * generates /service-areas/{state}/{city}/. Renders nothing until such files exist.
+ * Add the page's slug ("{state}/{city}") to src/data/related.ts as well.
  */
-import { render } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import PageLayout from '../../../layouts/PageLayout.astro';
 import { HOME, AREAS_HUB, areaUrl } from '../../../lib/urls';
 import { service } from '../../../lib/schema';
-import { builtAreas, areaNoindex } from '../../../lib/areas';
 
 export async function getStaticPaths() {
-  const all = await builtAreas();
-  return all
-    .filter((a) => a.data.kind === 'city')
+  const areas = await getCollection('areas');
+  return areas
+    .filter((a) => a.id.includes('/'))
     .map((entry) => {
       const [state, city] = entry.id.split('/');
-      const parent = all.find((s) => s.id === state)!;
-      return { params: { state, city }, props: { entry, parent } };
+      return { params: { state, city }, props: { entry } };
     });
 }
 
-const { entry, parent } = Astro.props;
+const { entry } = Astro.props;
 const [state, city] = entry.id.split('/');
 const d = entry.data;
 const { Content, headings } = await render(entry);
-const url = areaUrl(state, city);
-const crumbs = [HOME, AREAS_HUB, { name: parent.data.place.name, url: areaUrl(state) }, { name: d.place.name, url }];
+const stateName = state.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase());
+const crumbs = [HOME, AREAS_HUB, { name: stateName, url: areaUrl(state) }, { name: d.title, url: areaUrl(state, city) }];
 ---
 <PageLayout
   title={d.metaTitle}
   description={d.metaDescription}
   crumbs={crumbs}
   h1={d.h1}
-  eyebrow={`Service area · ${d.place.name}, ${d.place.stateCode}`}
+  eyebrow="Service area"
   intro={d.intro}
   keyFacts={d.keyFacts}
   updated={d.updated}
-  published={d.published}
   showUpdated
   headings={headings}
   toc={d.toc}
   faqs={d.faqs}
-  sources={d.sources}
-  showSources
-  relatedKey={d.relatedKey ?? 'area-page'}
-  noindex={areaNoindex(entry)}
-  schema={[service({ url, name: d.h1, description: d.metaDescription, areaServed: { '@type': 'City', name: d.place.name, containedInPlace: { '@type': 'State', name: d.place.stateName } } })]}
+  relatedKey={entry.id}
+  schema={[service({ url: areaUrl(state, city), name: d.title, description: d.metaDescription, areaServed: { '@type': 'City', name: d.title } })]}
 >
   <Content />
 </PageLayout>

@@ -1,9 +1,7 @@
 import type { APIRoute } from 'astro';
 import { getCollection, getEntry } from 'astro:content';
 import { site, absUrl } from '../config/site';
-import { serviceUrl, guideUrl, areaUrl } from '../lib/urls';
-import { builtAreas } from '../lib/areas';
-import { isLive } from '../lib/area-gate.mjs';
+import { serviceUrl, guideUrl } from '../lib/urls';
 
 export const GET: APIRoute = async () => {
   const services = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
@@ -30,14 +28,6 @@ export const GET: APIRoute = async () => {
   for (const s of services) lines.push(`- [${s.data.title}](${absUrl(serviceUrl(s.id))}): ${s.data.cardBlurb}`);
   lines.push('', '## Deadbolt guides');
   for (const g of guides) lines.push(`- [${g.data.title}](${absUrl(guideUrl(g.id))}): ${g.data.cardBlurb}`);
-  const areas = (await builtAreas()).filter((a) => isLive(a.data)).sort((a, b) => a.id.localeCompare(b.id));
-  if (areas.length) {
-    lines.push('', '## Service areas');
-    for (const a of areas) {
-      const [state, city] = a.id.split('/');
-      lines.push(`- [${a.data.title}](${absUrl(areaUrl(state, city))}): ${a.data.cardBlurb}`);
-    }
-  }
   lines.push(
     '',
     '## Policies',

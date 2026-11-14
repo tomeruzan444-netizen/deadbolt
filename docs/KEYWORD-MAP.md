@@ -67,8 +67,8 @@ Columns:
 
 | URL pattern | Main keyword pattern | Intent | Rules |
 |---|---|---|---|
-| `/service-areas/{state}/` | `deadbolt locksmith in {State}` | T / N | One per state, published gradually. Built on at least 4 verified local facts (licensing, adopted code edition, landlord deadbolt/rekey law, climate, housing stock). Rules: CONTENT-GUIDE §3 "Service area pages". |
-| `/service-areas/{state}/{city}/` | `deadbolt locksmith in {City}` (add `, {ST}` when the city name exists in another published state) | T | One per city, only after its state page is live. Own angle from local facts (city code office, local ordinances, housing stock, neighborhoods the team covers). QA blocks pages over 0.06 body similarity with any other area page. |
+| `/service-areas/{state}/` | `deadbolt locksmith {State}` | T / N | Only create when there is real local information to add. Must include state-specific licensing status (verified from the state's official source) and genuinely unique content. |
+| `/service-areas/{state}/{city}/` | `deadbolt locksmith {City}` or `deadbolt lock installation {City}` (pick one per city, never both) | T | No city-swap templates. Each city page needs its own angle (housing stock, common door types, local code office link, neighborhoods served). |
 | `/deadbolt-guides/{topic}/` | informational query | I | Check the "Owns" column above first; never create a guide whose answer already lives in a service page FAQ. |
 
 ## Cross-link pairs (always link both ways)

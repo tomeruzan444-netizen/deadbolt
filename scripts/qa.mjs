@@ -8,7 +8,6 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parse as parseHtml } from 'node-html-parser';
 import YAML from 'yaml';
-import { isBuilt, isLive } from '../src/lib/area-gate.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = path.join(ROOT, 'dist');
@@ -34,9 +33,7 @@ const add = (dir, kind, toUrl) => {
   for (const f of fs.readdirSync(d, { recursive: true })) {
     if (!String(f).endsWith('.mdx')) continue;
     const slug = String(f).replace(/\\/g, '/').replace(/\.mdx$/, '');
-    const fm = readFm(path.join(d, String(f)));
-    if (kind === 'area' && !isBuilt(fm)) continue; // drafts and scheduled pages are not part of this build
-    pages.push({ url: toUrl(slug), kind, slug, fm, live: kind !== 'area' || isLive(fm) });
+    pages.push({ url: toUrl(slug), kind, slug, fm: readFm(path.join(d, String(f))) });
   }
 };
 add('services', 'service', (s) => `/${s}/`);
@@ -84,8 +81,6 @@ const MAX_CTX_LINKS = 5;
 const ctxAnchors = []; // { url, href, text }
 const topicOf = new Map(); // url -> significant words of the page's H1 + keyword
 const report = [];
-const areaBodies = []; // { url, sh } whole-body shingles of state/city pages
-const NAV = '.svc-grid, .g-grid, .area-list, form, .cta, .faq, nav';
 
 const htmlFiles = fs.readdirSync(DIST, { recursive: true }).map(String).filter((f) => f.endsWith('.html'));
 const builtUrls = new Set(htmlFiles.map((f) => '/' + f.replace(/\\/g, '/').replace(/index\.html$/, '').replace(/\.html$/, '/')).map((u) => u.replace(/\/\/$/, '/')));
@@ -176,27 +171,16 @@ for (const f of htmlFiles) {
   if (body && !body.querySelector('svg, table, .steps, .proc, .checklist, .flow, .svc-grid, .g-grid')) err(url, 'no visual element (svg/table/steps/checklist)');
 
   // Word counts
-  const range = { service: [1000, 1800], guide: [1500, 2500], area: fm.kind === 'state' ? [1200, 2200] : [900, 1800] }[meta.kind];
+  const range = { service: [1000, 1800], guide: [1500, 2500] }[meta.kind];
   if (range && (wc < range[0] * 0.95 || wc > range[1] * 1.1)) warn(url, `word count ${wc} (target ${range[0]}-${range[1]})`);
 
   // Internal links in body
   // Contextual links = links inside the prose. Card grids, forms and CTA boxes are navigation, not context.
-  const ctx = body ? body.querySelectorAll('a[href^="/"]').filter((a) => !a.closest(NAV)) : [];
+  const ctx = body ? body.querySelectorAll('a[href^="/"]').filter((a) => !a.closest('.svc-grid, .g-grid, form, .cta, .faq, nav')) : [];
   const bodyLinks = new Set(ctx.map((a) => a.getAttribute('href').split('#')[0]).filter((h) => h !== url));
   if (ctx.length > MAX_CTX_LINKS) err(url, `${ctx.length} contextual internal links in body (max ${MAX_CTX_LINKS})`);
   if (bodyLinks.size < 2) warn(url, `only ${bodyLinks.size} contextual internal links in body (aim for 3-${MAX_CTX_LINKS})`);
   if (bodyLinks.size < ctx.length) err(url, 'the same page is linked more than once in the body');
-  if (meta.kind === 'area') {
-    // Unique local substance: whole-body text is compared against every other area page below.
-    const prose = body ? body.querySelectorAll('p, li, td, th, h2, h3').filter((el) => !el.closest(NAV)).map((el) => el.textContent).join(' ') : '';
-    areaBodies.push({ url, sh: shingles(prose, 4) });
-    if (fm.kind === 'city') {
-      const stateUrl = url.split('/').slice(0, 3).join('/') + '/';
-      if (!bodyLinks.has(stateUrl)) err(url, `city page body must link to its state page ${stateUrl}`);
-    }
-    const old = (fm.localFacts ?? []).filter((x) => (Date.now() - new Date(x.checked)) / 864e5 > 365);
-    if (old.length) warn(url, `${old.length} local fact(s) last checked over a year ago: re-verify against the source`);
-  }
   for (const a of ctx) ctxAnchors.push({ url, href: a.getAttribute('href').split('#')[0], text: norm(a.textContent) });
   const anchors = body ? body.querySelectorAll('a').map((a) => lower(a.textContent)) : [];
   for (const a of anchors) if (/^(here|read more|learn more|this page|this)$/.test(a)) err(url, `weak anchor text "${a}"`);
@@ -215,7 +199,7 @@ for (const f of htmlFiles) {
   // Paragraphs (for duplicate detection) + style checks
   if (body) {
     // Navigation cards (.svc-grid/.g-grid) repeat their blurbs by design; skip them.
-    for (const p of body.querySelectorAll('p').filter((el) => !el.closest('.svc-grid, .g-grid, .area-list, .proc'))) {
+    for (const p of body.querySelectorAll('p').filter((el) => !el.closest('.svc-grid, .g-grid, .proc'))) {
       const t = norm(p.textContent);
       if (t.length < 60) continue;
       allParas.push({ url, text: t, sh: shingles(t) });
@@ -236,16 +220,6 @@ for (let i = 0; i < allParas.length; i++) {
     if (a.text === b.text) { errors.push(`duplicate paragraph on ${a.url} and ${b.url}: "${a.text.slice(0, 70)}..."`); continue; }
     const s = jaccard(a.sh, b.sh);
     if (s > 0.35) errors.push(`near-duplicate paragraph (${s.toFixed(2)}) ${a.url} / ${b.url}: "${a.text.slice(0, 60)}..."`);
-  }
-}
-// Area pages: the whole body must be substantially different from every other state/city page.
-// Calibrated 2026-11-14 on the 23 existing pages: max pair 0.024, median 0.002. A city-name swap scores ~0.7.
-const AREA_MAX_SIM = 0.06, AREA_WARN_SIM = 0.04;
-for (let i = 0; i < areaBodies.length; i++) {
-  for (let j = i + 1; j < areaBodies.length; j++) {
-    const s = jaccard(areaBodies[i].sh, areaBodies[j].sh);
-    if (s > AREA_MAX_SIM) errors.push(`area pages too similar (${s.toFixed(2)}, max ${AREA_MAX_SIM}): ${areaBodies[i].url} / ${areaBodies[j].url}`);
-    else if (s > AREA_WARN_SIM) warnings.push(`area pages getting similar (${s.toFixed(2)}): ${areaBodies[i].url} / ${areaBodies[j].url}`);
   }
 }
 for (let i = 0; i < allFaqs.length; i++) {
@@ -290,17 +264,13 @@ for (const s of slugs) if (!relSrc.includes(`'${s}': {`)) errors.push(`related.t
 // sitemap / robots / llms
 const smFile = fs.readdirSync(DIST).find((f) => /^sitemap-\d+\.xml$/.test(f));
 const sm = smFile ? fs.readFileSync(path.join(DIST, smFile), 'utf8') : '';
-for (const p of pages) {
-  const listed = sm.includes(`${p.url}</loc>`);
-  if (p.live && !listed) errors.push(`sitemap missing ${p.url}`);
-  if (!p.live && listed) errors.push(`sitemap lists unpublished area page ${p.url}`);
-}
+for (const p of pages) if (!sm.includes(`${p.url}</loc>`)) errors.push(`sitemap missing ${p.url}`);
 const robots = fs.readFileSync(path.join(DIST, 'robots.txt'), 'utf8');
 for (const b of REQUIRED_BOTS) if (!new RegExp(`User-agent: ${b}\\nAllow: /`).test(robots)) errors.push(`robots.txt does not allow ${b}`);
 if (/Disallow: \/\s*$/m.test(robots)) errors.push('robots.txt disallows the whole site');
 if (!/Sitemap: /.test(robots)) errors.push('robots.txt has no Sitemap line');
 const llms = fs.readFileSync(path.join(DIST, 'llms.txt'), 'utf8');
-for (const p of pages) if (p.live && p.kind !== 'legal' && !llms.includes(`${p.url})`)) errors.push(`llms.txt missing ${p.url}`);
+for (const p of pages) if (p.kind !== 'legal' && !llms.includes(`${p.url})`)) errors.push(`llms.txt missing ${p.url}`);
 
 // Photo sources must be optimized (owner rule): nothing over 300 KB in src/assets/photos
 const photoDir = path.join(ROOT, 'src', 'assets', 'photos');

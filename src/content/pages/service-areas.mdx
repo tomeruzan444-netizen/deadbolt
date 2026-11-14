@@ -35,7 +35,6 @@ faqs:
     a: "Use the contact form with your address and a short description of the problem. If a phone number is shown on this site, calling is fastest for lockouts."
 ---
 import ServiceGrid from '../../components/ServiceGrid.astro';
-import AreaList from '../../components/AreaList.astro';
 
 ## How our deadbolt locksmith service areas work
 
@@ -76,8 +75,7 @@ Every service below is offered wherever we can reach you. Availability for after
 
 As our deadbolt locksmith service areas grow, we add pages for individual states and cities. Each one will carry details that matter locally, such as licensing rules, the local code office and the door types common in that area. Until your area has its own page, the [full list of deadbolt services](/services/) and the [contact page](/contact/) cover everything.
 
-{/* Lists published state pages automatically (renders nothing until the first one goes live). */}
-<AreaList />
+{/* TODO(business): when state/city pages are published, add a linked list of states here, e.g. <AreaList /> built from src/content/areas. */}
 
 ## Requesting service in your area
 
