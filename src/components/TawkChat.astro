@@ -1,0 +1,38 @@
+---
+/**
+ * Tawk.to live chat (owner request 2026-11-15). Rendered once, from BaseLayout, on every page.
+ *
+ * The official snippet is loaded lazily: on the visitor's first interaction (scroll, tap,
+ * mouse move, key) or 6 seconds after the page has loaded, whichever comes first. The widget
+ * is heavy, and loading it up front would hurt LCP/TBT on mobile. The chat bubble is lifted
+ * on small screens so it does not cover the sticky MobileCtaBar.
+ * Production builds only, so local dev does not open chat sessions.
+ * The privacy policy names tawk.to; keep it in sync if this changes.
+ */
+const enabled = import.meta.env.PROD;
+---
+{enabled && (
+  <script is:inline>
+    (() => {
+      var loaded = false;
+      var events = ['scroll', 'pointerdown', 'pointermove', 'keydown', 'touchstart'];
+      function load() {
+        if (loaded) return;
+        loaded = true;
+        events.forEach(function (e) { window.removeEventListener(e, load); });
+        var Tawk_API = (window.Tawk_API = window.Tawk_API || {});
+        window.Tawk_LoadStart = new Date();
+        Tawk_API.customStyle = { visibility: { mobile: { position: 'br', xOffset: 12, yOffset: 88 } } };
+        var s1 = document.createElement('script');
+        var s0 = document.getElementsByTagName('script')[0];
+        s1.async = true;
+        s1.src = 'https://embed.tawk.to/67189f2a4304e3196ad650c1/1ias2rfo5';
+        s1.charset = 'UTF-8';
+        s1.setAttribute('crossorigin', '*');
+        s0.parentNode.insertBefore(s1, s0);
+      }
+      events.forEach(function (e) { window.addEventListener(e, load, { once: true, passive: true }); });
+      window.addEventListener('load', function () { setTimeout(load, 6000); });
+    })();
+  </script>
+)}
