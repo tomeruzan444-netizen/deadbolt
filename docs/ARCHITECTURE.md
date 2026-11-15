@@ -117,8 +117,8 @@ Shared frontmatter for `services`, `guides`, `pages`:
 |---|---|---|
 | `title` | string | Short name for nav, cards, breadcrumbs |
 | `h1` | string | Validated at build: must contain `keyword` (case-insensitive) |
-| `metaTitle` | string | 50-60 chars warned in QA |
-| `metaDescription` | string | 140-160 chars warned in QA |
+| `metaTitle` | string | max 60 (error), 55-60 target (warn) in QA |
+| `metaDescription` | string | about 140: 135-145 target (warn), outside 130-150 errors in QA |
 | `keyword` | string | Must be unique across the site (build fails on duplicates) |
 | `secondaryKeywords` | string[] | |
 | `intent` | enum | transactional / commercial / informational / navigational |
@@ -214,7 +214,7 @@ Motion: hover/focus transitions under 200 ms, FAQ chevron rotation, header shrin
 - Exact keyword count in body prose ≥ 5 (scope per `CONTENT-GUIDE.md` §4), in first paragraph, in an H2
 - FAQ count 10-15; FAQ duplicates (exact + near-duplicate via token similarity) across pages; writes `docs/FAQ-REGISTER.md`
 - Body contextual internal links ≤ 5 (grids, forms and CTA boxes excluded), no target linked twice, every anchor shares a topic word with its target page; broken internal links (every href resolves to a file in `dist/`)
-- Title 50-60, meta description 140-160
+- Title max 60 (aim 55-60), meta description about 140 (135-145)
 - Heading levels never skip
 - Banned words/patterns, em/en dashes, site-wide "peace of mind" ≤ 1
 - Duplicate paragraphs across pages (normalized hash + similarity)

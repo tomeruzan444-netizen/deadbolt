@@ -132,10 +132,12 @@ for (const f of htmlFiles) {
   const fm = meta.fm;
 
   // Title/meta lengths
-  if (title.length < 30 || title.length > 65) (meta.kind === 'legal' ? warn : err)(url, `title length ${title.length} (target 50-60): "${title}"`);
-  else if (title.length < 50 || title.length > 60) warn(url, `title length ${title.length} (target 50-60)`);
-  if (desc.length < 130 || desc.length > 165) err(url, `meta description length ${desc.length} (target 140-160)`);
-  else if (desc.length < 140 || desc.length > 160) warn(url, `meta description length ${desc.length} (target 140-160)`);
+  // Owner rule 2026-11-15: titles fill the SERP up to 60 characters; descriptions about 140.
+  if (title.length > 60) err(url, `title length ${title.length} (max 60): "${title}"`);
+  else if (title.length < 30) (meta.kind === 'legal' ? warn : err)(url, `title length ${title.length} (target 55-60): "${title}"`);
+  else if (title.length < 55) warn(url, `title length ${title.length} (target 55-60)`);
+  if (desc.length < 130 || desc.length > 150) err(url, `meta description length ${desc.length} (target about 140: 135-145)`);
+  else if (desc.length < 135 || desc.length > 145) warn(url, `meta description length ${desc.length} (target about 140: 135-145)`);
 
   // Headings
   const h1s = root.querySelectorAll('h1');

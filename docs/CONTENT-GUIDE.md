@@ -140,8 +140,8 @@ Each page's main keyword is in its frontmatter `keyword` field and in `KEYWORD-M
 | Body prose | Exact match **at least 5 times**. Counted in the main article body (paragraphs, lists, tables, H2/H3), **excluding** H1, FAQ, breadcrumbs, sidebar, nav, footer and CTA. Case-insensitive; curly apostrophes normalized. |
 | First paragraph | Contains the keyword. |
 | At least one H2 | Contains the keyword. |
-| Title tag | Keyword near the start. 50-60 characters. Formula: `{Keyword in Title Case}: {Specific benefit or angle} \| Deadbolt Fixers` (shorten the angle to fit). |
-| Meta description | Contains the keyword. 140-160 characters. Formula: answer + specific + soft action. Example: "Deadbolt rekeying changes the pins so old keys stop working, without replacing the lock. See when to rekey, what it involves and how it compares." |
+| Title tag | Keyword near the start. **Max 60 characters, aim for 55-60** so the SERP title is used in full without being cut (owner rule, 2026-11-15). Formula: `{Keyword in Title Case}: {Specific benefit or angle} \| Deadbolt Fixers` (shorten the angle to fit). |
+| Meta description | Contains the keyword. **About 140 characters (135-145)**: enough words to fill the snippet, short enough that Google does not cut it (owner rule, 2026-11-15). Formula: answer + specific + soft action. Example: "Deadbolt rekeying changes the pins so old keys stop working, without replacing the lock. See when to rekey, what it involves and how it compares." |
 | Density | Soft ceiling: no more than about 1 exact match per 120 words. If you need more, use variations. |
 
 If a sentence sounds forced with the keyword, **rewrite the sentence**, do not drop the keyword. Mix in semantic variations from the secondary keywords column.
@@ -335,7 +335,7 @@ Rules:
 - [ ] Keyword is in `KEYWORD-MAP.md` and owned by no other page
 - [ ] H1 contains the exact keyword; only one H1
 - [ ] Exact keyword 5+ times in body (QA count), in first paragraph and in one H2
-- [ ] Title 50-60 chars, keyword near start; meta description 140-160 chars with keyword
+- [ ] Title max 60 chars (aim 55-60), keyword near start; meta description about 140 chars (135-145) with keyword
 - [ ] Answer-first intro, 2-4 sentences, does not restate the title
 - [ ] Word count within range for the page type
 - [ ] Max 5 contextual internal links in body (new pages: 2-5), each to a different relevant page, from a sentence about that topic, with an anchor that describes the target; trailing slashes
@@ -387,7 +387,7 @@ Rules:
 5. **Update `src/data/related.ts`** (own entry + reciprocal entries).
 6. **Add body links** from 1-3 existing related pages to the new page (see New pages).
 7. **Run** `npm run build && npm run qa`. Sitemap, `llms.txt`, nav dropdown (services), hub cards and schema update automatically.
-8. **Commit and push** to `main`; Vercel deploys.
+8. **Commit and push** to `main`, then deploy the `dist/` build to Hostinger (no automatic deploy from Git).
 
 ## 13. Rule precedence (brief vs global writing guidelines)
 

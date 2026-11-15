@@ -65,8 +65,8 @@ for (const file of files) {
   if (!h2.some((h) => countExact(h, kw) > 0)) bad('keyword missing from all H2s');
   if (!fm.metaTitle || countExact(fm.metaTitle, kw) < 1) bad('keyword missing from metaTitle');
   if (!fm.metaDescription || countExact(fm.metaDescription, kw) < 1) bad('keyword missing from metaDescription');
-  if (fm.metaTitle && (fm.metaTitle.length < 50 || fm.metaTitle.length > 60)) bad(`metaTitle ${fm.metaTitle.length} chars (50-60)`);
-  if (fm.metaDescription && (fm.metaDescription.length < 140 || fm.metaDescription.length > 160)) bad(`metaDescription ${fm.metaDescription.length} chars (140-160)`);
+  if (fm.metaTitle && (fm.metaTitle.length < 55 || fm.metaTitle.length > 60)) bad(`metaTitle ${fm.metaTitle.length} chars (55-60, max 60)`);
+  if (fm.metaDescription && (fm.metaDescription.length < 135 || fm.metaDescription.length > 145)) bad(`metaDescription ${fm.metaDescription.length} chars (about 140: 135-145)`);
   const nf = (fm.faqs ?? []).length;
   if (nf < 10 || nf > 15) bad(`${nf} FAQs (need 10-15)`);
   for (const f of fm.faqs ?? []) if (f.a.split(/(?<=[.!?])\s+/).length > 3) note(`FAQ answer over 3 sentences: "${f.q}"`);
