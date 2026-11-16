@@ -69,6 +69,26 @@ const BANNED = [
   [/\bultimately\b/i, 'ultimately'], [/rest assured/i, 'rest assured'], [/game[- ]changer/i, 'game-changer'],
   [/comprehensive guide/i, 'comprehensive guide'], [/when it comes to/i, 'when it comes to'], [/\bclick here\b/i, 'click here'],
 ];
+// AI tells (owner rule 2026-11-16, CONTENT-GUIDE section 4a). Clear-cut phrases only; literal-use words stay manual.
+const AI_TELLS = [
+  [/\b(tapestry|realm|multifaceted|pivotal|groundbreaking|cutting[- ]edge|innovative|intricate|nuanced|supercharg\w*|utiliz\w*|synerg\w*|garner\w*|transformative|empower\w*|top[- ]notch|second to none)\b/i, 'AI vocabulary'],
+  [/\b(harness(es|ed|ing)?|foster(s|ed|ing)?|streamlin\w*|underscor\w*)\b/i, 'AI vocabulary'],
+  [/it'?s (worth noting|crucial to understand)/i, "it's worth noting"], [/ever[- ]evolving/i, 'ever-evolving'], [/digital landscape/i, 'digital landscape'],
+  [/we'?ve all been there/i, "we've all been there"], [/here are (the )?(\d+ |three |four |five )?key (insights|takeaways)/i, 'here are the key takeaways'],
+  [/let'?s dive|no fluff|at its core/i, 'announcing phrase'], [/ever wondered|most people get this wrong|here'?s something most people/i, 'bait opener'],
+  [/\b(the (result|best part|worst part|catch|kicker|truth)|and honestly|why does this matter)\?/i, 'self-answered question'],
+  [/hope this helps|feel free to|let me know if you have|great question|we'?re here to help|happy to assist/i, 'chatbot/customer-service phrase'],
+  [/as an ai\b|ai language model|i cannot provide|you'?re absolutely right|\[insert/i, 'chatbot leftover'],
+  [/(^|[.!?]\s)(moreover|furthermore),/i, 'stock transition'], [/this matters because|a shift in\b/i, 'filler phrase'],
+  [/\b(it'?s|it is|this is|that'?s|that is)n?'?t? not (just |only )?(about )?[^.!?]{1,50}[,;.]\s+(it'?s|it is)\b/i, "It's not X, it's Y"],
+  [/\b(isn'?t|is not) (just |only )?(about )?[^.!?]{1,50}[,;.]\s+(it'?s|it is)\b/i, "It's not X, it's Y"],
+];
+const AI_SOFT = (text) => {
+  const out = [];
+  const m = (text.match(/\bmatters\b/gi) || []).length; if (m > 1) out.push(`"matters" used ${m} times (max 1)`);
+  const p = (text.match(/, (ensuring|making|allowing|providing|highlighting|enabling|resulting|offering|creating)\b/gi) || []).length; if (p > 2) out.push(`${p} trailing participle clauses (max 2)`);
+  return out;
+};
 const REQUIRED_BOTS = ['Googlebot', 'Bingbot', 'GPTBot', 'OAI-SearchBot', 'ChatGPT-User', 'ClaudeBot', 'Claude-SearchBot', 'PerplexityBot', 'Google-Extended', 'Applebot'];
 
 // ---------- Per-page checks ----------
@@ -107,6 +127,8 @@ for (const f of htmlFiles) {
   if (/[—]/.test(scan)) err(url, 'em dash found');
   if (/[–]/.test(scan)) err(url, 'en dash found');
   for (const [re, name] of BANNED) if (re.test(scan)) err(url, `banned phrase: "${name}" -> ${scan.match(re)[0]}`);
+  for (const [re, name] of AI_TELLS) if (re.test(scan)) err(url, `AI tell: "${name}" -> ${scan.match(re)[0]}`);
+  for (const w of AI_SOFT(mainText)) warn(url, `AI tell: ${w}`);
   peaceCount += (lower(scan).match(/peace of mind/g) || []).length;
 
   // JSON-LD

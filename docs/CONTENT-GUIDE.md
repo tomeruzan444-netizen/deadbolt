@@ -57,6 +57,63 @@ This section applies to every new page published from today. Existing pages are 
 - "Not only... but" (and "not only... but also").
 - Headings that start with a number, such as "Three ways..." or "5 mistakes...".
 
+### 4a. Extended list: what gives away AI-written text (from 16.11.2026)
+
+One sign alone proves nothing. Three on the same page read as machine text, to readers and to Google. This list applies to every new page and every passage that gets rewritten, on top of section 4.
+
+**Banned phrases**
+- The "It's not X, it's Y" flip: "It's not about price, it's about quality", "This isn't a setback, it's a setup". Same family as "not only... but".
+- Generic openers: "In today's fast-paced world", "In today's digital landscape", "In an ever-evolving world", "We've all been there".
+- "It's important to note that", "It's worth noting that", "It's crucial to understand", "Keep in mind that".
+- Announcing instead of saying: "Here are X key insights", "Here are the key takeaways", "Let's dive in", "No fluff", "At its core".
+- A short question answered right away: "The result?", "And honestly?", "The best part?", "The catch?", "Why does this matter?".
+- Bait openers: "Ever wondered why", "Most people get this wrong", "Here's something most people don't realize", "Mind-blowing fact".
+- Empty polite closers: "Hope this helps!", "Feel free to reach out", "Let me know if you have any questions", "Great question!". A call to action says what happens when they call, not just that they should.
+- Chatbot leftovers: "As an AI language model", "I cannot provide", "Certainly!", "Sure, here's", "You're absolutely right", "[insert ...]". One of these on a live page proves nobody read it before publishing.
+- Customer-service tone: "We're here to help!", "Our friendly team", "We'd be happy to assist". We sound like a technician at the door, not a help desk.
+
+**Words that give AI away**
+delve, tapestry, landscape, realm, multifaceted, robust, pivotal, groundbreaking, cutting-edge, innovative, intricate, nuanced, harness, leverage, supercharge, utilize, foster, streamline, seamlessly, synergy, testament, illuminate, underscore, garnered, profound, transformative, elevate, empower, unlock, game-changer, "quietly" (quietly building), "a shift in", "this matters because", peace of mind, top-notch, second to none.
+Two or three of these in one paragraph: rewrite it. Say the thing itself instead: what, how much, how long, which part.
+- "matters" at most once per page ("the order matters", "why it matters", "what matters is"). It was the most repeated filler word on the site. Say what happens instead: "do it in this order or the bolt binds".
+- Literal uses are fine where the word is the plain description: a door that has shifted, a lever's leverage on a bolt, an illuminated keypad.
+
+**Structure and rhythm**
+- Uniform cadence: when every sentence in a paragraph is the same length, it sounds mechanical. Mix in a short one. Then a longer one that carries one real detail.
+- Triplets: not every list has three items, and no three adjectives in a row ("fast, reliable and professional"). A list is as long as it is: two, four, six.
+- Too-perfect structure: not every section opens with a topic sentence and closes with a line that sums it up. No closing paragraph that repeats what was already said.
+- Stock transitions: "Moreover", "Furthermore", "Additionally", "Now that we've covered", "In conclusion". Write without them; the sentence itself should carry the turn.
+- Trailing participle clauses: "..., ensuring that", "..., making it", "..., allowing you to". Cut into two sentences.
+- Ending on a question to the reader ("What do you think?") or a generic call that fits any site.
+- Repetition: a paragraph that restates the previous one, an FAQ answer copied from the body, an intro that rephrases the H1.
+- Over-neutrality: "Some argue... on the other hand..." with no position. Say what we recommend and why.
+- A hedge in every sentence: "typically", "may", "in some cases", "depending on". One hedge where it is actually needed.
+- Matching blocks: sections, steps or bullets that are all about the same length and each end on a hook or a one-line punch. Real sections run long where there is more to say and stop short where there isn't.
+
+**What AI text lacks**
+- Real specifics: numbers, models, parts, neighborhoods, times, what we saw on the job. Only real ones, from approved sources or the owner. Never invent a detail to sound human.
+- A clear opinion.
+- A voice that fits this business and not any business in the field.
+- The swap test: if you can swap the business name, city or service and the sentence is still true, delete it or rewrite it with a specific.
+
+**Formatting**
+- No decorative emoji in body text.
+- No stacks of bold in one paragraph.
+- One style of quotes and apostrophes per page (no mixing straight and curly).
+- Clean grammar and punctuation are fine. Never add typos on purpose to look human.
+
+**Publishing patterns** (what bot behavior looks like on a website)
+- No batches of pages going live on the same day with the same skeleton, the same length and the same section order. Publish gradually.
+- No near-identical paragraphs, FAQ answers or intros across pages with only the keyword or place name swapped (QA checks paragraph similarity and FAQ duplicates).
+- Don't bump the `updated` date without a real change to the content.
+
+**Enforced by QA** (`npm run qa` fails on a hit): the clear-cut phrases and words above, including the chatbot leftovers, the "It's not X, it's Y" flip, the short self-answered questions, the stock transitions "Moreover" and "Furthermore", and the trailing words tapestry, realm, multifaceted, pivotal, groundbreaking, cutting-edge, innovative, intricate, nuanced, harness, supercharge, utilize, foster, streamline, synergy, underscore, garnered, transformative, empower, top-notch and second to none. QA also warns when "matters" appears more than once on a page, or a page has more than two trailing ", ensuring / making / allowing ..." clauses. Words with common literal uses on this site (shift, leverage, illuminate, landscape, quietly, profound) stay a manual check.
+
+**Before publishing**
+1. Search the text for the phrases and words above (editor search or grep). Fix every hit.
+2. Read it aloud. If it flows too smoothly, like a sales brochure, add a detail, break the rhythm, drop an adjective.
+3. Three or more signs in one passage: rewrite the whole passage, don't just swap a word.
+
 ---
 
 ## 1. Brand and entity basics
@@ -149,6 +206,8 @@ If a sentence sounds forced with the keyword, **rewrite the sentence**, do not d
 ## 5. Banned words and patterns
 
 The QA script (`npm run qa`) scans for these. Any hit fails the build check.
+
+The extended AI-tell list in New pages, section 4a, is enforced the same way; see "Enforced by QA" there.
 
 **Words and phrases**
 - delve
@@ -342,6 +401,7 @@ Rules:
 - [ ] `related.ts` entry added and reciprocal links added
 - [ ] At least one visual with `<title>`/`<desc>`/text equivalent (new pages: an original infographic)
 - [ ] New page: follows New pages (structure from the reader's question, an original infographic, 2-5 body links, no banned AI tells)
+- [ ] AI-tell pass (section 4a): grep for the listed words and phrases, read the page aloud, apply the swap test, "matters" at most once
 - [ ] 10-15 FAQs, none in `FAQ-REGISTER.md` already
 - [ ] Banned words/patterns: zero hits; no em dashes
 - [ ] Every fact traceable to a `sources` entry; nothing from the "never invent" list
