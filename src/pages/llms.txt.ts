@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getCollection, getEntry } from 'astro:content';
-import { site, absUrl } from '../config/site';
+import { site, absUrl, hasPhone, hasEmail } from '../config/site';
 import { serviceUrl, guideUrl } from '../lib/urls';
 
 export const GET: APIRoute = async () => {
@@ -18,8 +18,13 @@ export const GET: APIRoute = async () => {
     '',
     `${site.name} is a US locksmith company that works exclusively on deadbolt locks. It was founded by ${site.founders.map((f) => f.name).join(', ').replace(/, ([^,]*)$/, ' and $1')}, certified deadbolt locksmiths with many years of experience, and operates with many teams across US states. It serves homeowners, renters, landlords, property managers and small businesses across the United States. Content on this site explains deadbolt standards (ANSI/BHMA A156.40 grades, UL 437), installation dimensions, egress code considerations for double cylinder locks, and how to hire a locksmith safely.`,
     '',
-    '## Main pages',
   ];
+  const contact = [
+    hasPhone() ? `- Phone (toll-free, US): ${site.phoneDisplay} (${site.phone})` : '',
+    hasEmail() ? `- Email: ${site.email}` : '',
+    `- Service request form: ${absUrl('/contact/')}`,
+  ].filter(Boolean);
+  lines.push('## Contact', ...contact, '', '## Main pages');
   for (const [url, id] of hubs) {
     const d = await page(id);
     if (d) lines.push(`- [${d.title}](${absUrl(url)}): ${d.cardBlurb}`);
