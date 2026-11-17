@@ -41,7 +41,10 @@ export const site = {
   hoursDisplay: '',
   // TODO(business): full profile URLs, e.g. { facebook: "https://facebook.com/..." }.
   social: {} as Record<string, string>,
-  // TODO(business): form backend URL (Formspree, Basin, a serverless function...).
+  // Form backend (Formspree). Both forms (ContactForm, QuickForm) post here.
+  // Owner rule 2026-11-17: every form submission must be delivered to ben3n4456@gmail.com.
+  // The recipient is set in the Formspree dashboard (form settings > Target Email), not in code.
+  // If the endpoint changes, the new form must deliver to that address too.
   // While empty, the contact form validates but explains that online booking is not live yet.
   formEndpoint: 'https://formspree.io/f/xgvzndnj',
 
