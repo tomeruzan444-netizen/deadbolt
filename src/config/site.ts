@@ -39,8 +39,9 @@ export const site = {
   hours: [] as string[],
   // TODO(business): human-readable hours line for the footer, e.g. "Mon-Fri 8am-6pm".
   hoursDisplay: '',
-  // TODO(business): full profile URLs, e.g. { facebook: "https://facebook.com/..." }.
-  social: {} as Record<string, string>,
+  // Official profiles (full URLs). Shown in ContactDetails and emitted as schema sameAs.
+  // Facebook page added by owner 2026-11-27. Add more as they go live, e.g. instagram, yelp.
+  social: { facebook: 'https://www.facebook.com/deadboltfixers' } as Record<string, string>,
   // Form backend (Formspree). Both forms (ContactForm, QuickForm) post here.
   // Owner rule 2026-11-17: every form submission must be delivered to ben3n4456@gmail.com.
   // The recipient is set in the Formspree dashboard (form settings > Target Email), not in code.
@@ -75,6 +76,7 @@ export const hasAddress = () =>
   !!site.address &&
   Object.values(site.address).every((v) => typeof v === 'string' && v.trim() !== '');
 export const hasHours = () => site.hoursDisplay.trim() !== '';
+export const socialLinks = () => Object.entries(site.social).filter(([, url]) => url.trim() !== '');
 export const hasAnyContact = () => hasPhone() || hasEmail() || hasAddress();
 export const telHref = () => `tel:${site.phone}`;
 export const mailHref = () => `mailto:${site.email}`;

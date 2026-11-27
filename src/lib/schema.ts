@@ -64,6 +64,7 @@ export function locksmith(): Json {
       'High security deadbolts',
       'ANSI/BHMA A156.40',
     ],
+    ...(Object.values(site.social).some(Boolean) ? { sameAs: Object.values(site.social).filter(Boolean) } : {}),
     ...contactProps(),
   };
   if (site.hours.length) node.openingHours = site.hours;

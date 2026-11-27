@@ -1,7 +1,8 @@
 ---
 /** Renders only the contact fields that exist in config. Renders nothing if all are empty. */
 import Icon from './Icon.astro';
-import { site, hasPhone, hasEmail, hasAddress, hasHours, telHref, mailHref } from '../config/site';
+import { site, hasPhone, hasEmail, hasAddress, hasHours, telHref, mailHref, socialLinks } from '../config/site';
+const SOCIAL_LABELS: Record<string, string> = { facebook: 'Facebook' };
 interface Props { compact?: boolean }
 const { compact = false } = Astro.props;
 const any = hasPhone() || hasEmail() || hasAddress() || hasHours();
@@ -24,6 +25,9 @@ const a = site.address;
     {hasHours() && (
       <li><Icon name="clock" /><span>{site.hoursDisplay}</span></li>
     )}
+    {socialLinks().map(([key, url]) => (
+      <li><Icon name={key} /><a href={url} rel="me noopener" target="_blank">{SOCIAL_LABELS[key] ?? key}<span class="visually-hidden"> (opens in a new tab)</span></a></li>
+    ))}
   </ul>
 )}
 

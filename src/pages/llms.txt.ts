@@ -23,6 +23,7 @@ export const GET: APIRoute = async () => {
     hasPhone() ? `- Phone (toll-free, US): ${site.phoneDisplay} (${site.phone})` : '',
     hasEmail() ? `- Email: ${site.email}` : '',
     `- Service request form: ${absUrl('/contact/')}`,
+    ...Object.entries(site.social).filter(([, u]) => u).map(([k, u]) => `- ${k[0].toUpperCase()}${k.slice(1)}: ${u}`),
   ].filter(Boolean);
   lines.push('## Contact', ...contact, '', '## Main pages');
   for (const [url, id] of hubs) {
